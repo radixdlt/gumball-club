@@ -36,6 +36,7 @@ mod gumball_machine {
 
             let gumball_token_manager = 
                 ResourceBuilder::new_fungible(owner_role.clone())
+                .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
                         "name" => "Gumball".to_owned(), locked;
@@ -88,21 +89,14 @@ mod gumball_machine {
                 self.collected_tokens.resource_address()
             );
             
-            // take our price in XRD out of the payment
-            // if the caller has sent too few, or sent something other than XRD, they'll get a runtime error
-            let our_share = payment.take(self.price_per_gumball);
-
-            let amount = our_share.amount() / self.get_price();
+            let total_gumball_amount = payment.amount() / self.price_per_gumball;
+            let total_gumball_price = total_gumball_amount * self.price_per_gumball;
+            let our_share = payment.take(total_gumball_price);
 
             self.collected_tokens.put(our_share);
-            
-
-            // we could have simplified the above into a single line, like so:
-            // self.collected_xrd.put(payment.take(self.price));
 
             // return a tuple containing a gumball, plus whatever change is left on the input payment (if any)
-            // if we're out of gumballs to give, we'll see a runtime error when we try to grab one
-            (self.gumball_token_manager.mint(amount), payment)
+            (self.gumball_token_manager.mint(total_gumball_amount), payment)
         }
 
         pub fn buy_gumball_with_member_card(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
@@ -113,14 +107,13 @@ mod gumball_machine {
                 self.collected_tokens.resource_address()
             );
             
-            // take our price in XRD out of the payment
-            // if the caller has sent too few, or sent something other than XRD, they'll get a runtime error
-
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let price_of_gumball = self.price_per_gumball * discount_percent;
-            let our_share = payment.take(price_of_gumball);
+            let discounted_price_per_gumball = self.price_per_gumball * discount_percent;
 
-            let amount = our_share.amount() / price_of_gumball;
+            let total_gumball_amount = payment.amount() / discounted_price_per_gumball;
+            let total_gumball_price = total_gumball_amount * discounted_price_per_gumball;
+
+            let our_share = payment.take(total_gumball_price);
 
             self.collected_tokens.put(our_share);
             
@@ -129,7 +122,7 @@ mod gumball_machine {
 
             // return a tuple containing a gumball, plus whatever change is left on the input payment (if any)
             // if we're out of gumballs to give, we'll see a runtime error when we try to grab one
-            (self.gumball_token_manager.mint(amount), payment)
+            (self.gumball_token_manager.mint(total_gumball_amount), payment)
 
         }
 

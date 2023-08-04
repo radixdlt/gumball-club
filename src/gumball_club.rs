@@ -14,14 +14,13 @@ mod gumball_club {
         member_card_manager: ResourceManager,
         collected_gc_vault: Vault,
         price_per_card: Decimal,
-        gumball_club_member_counter: u8,
+        gumball_club_member_counter: u64,
     }
 
     impl GumballClub {
-
         pub fn instantiate_gumball_club(
+            owner_role: OwnerRole,
             price_per_card: Decimal,
-            // owner_role: OwnerRole,
             price_per_gumball: Decimal,
         ) -> (
             Global<GumballClub>, 
@@ -30,12 +29,11 @@ mod gumball_club {
         ) {
 
             let (address_reservation, component_address) =
-                Runtime::allocate_component_address(Runtime::blueprint_id());
-
-            let owner_role = OwnerRole::None;            
+                Runtime::allocate_component_address(Runtime::blueprint_id());       
             
             let gumball_club_token_manager: ResourceManager = 
                 ResourceBuilder::new_fungible(owner_role.clone())
+                .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
                         "name" => "Gumball Club Tokens", locked;
@@ -48,9 +46,8 @@ mod gumball_club {
                 })
                 .create_with_no_initial_supply();
 
-
             let member_card_manager: ResourceManager = 
-                ResourceBuilder::new_ruid_non_fungible::<GumballClubMember>(owner_role.clone())
+                ResourceBuilder::new_integer_non_fungible::<GumballClubMember>(owner_role.clone())
                 .metadata(metadata! {
                     init {
                         "name" => "Gumball Club Member Card", locked;
@@ -83,7 +80,7 @@ mod gumball_club {
                 member_card_manager: member_card_manager,
                 collected_gc_vault: Vault::new(gumball_club_token_manager.address()),
                 price_per_card: price_per_card,
-                gumball_club_member_counter: 1,
+                gumball_club_member_counter: 0,
             }
             .instantiate()
             .prepare_to_globalize(owner_role)
@@ -124,17 +121,13 @@ mod gumball_club {
 
             self.collected_gc_vault.put(actual_payment);
 
-            let member_number = self.gumball_club_member_counter.to_string();
-
-            let member_id = "Gumball Club Member #".to_string();
+            self.gumball_club_member_counter += 1;
 
             let member_card = self.member_card_manager
-                // Using RUID for now, need to figure out how to use StringNonFungibleId
-                .mint_ruid_non_fungible(
+                .mint_non_fungible(
+                    &NonFungibleLocalId::integer(self.gumball_club_member_counter),
                     GumballClubMember {}
                 );
-
-            self.gumball_club_member_counter += 1;
 
             return (member_card, payment)
         }

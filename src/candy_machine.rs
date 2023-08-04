@@ -43,6 +43,7 @@ mod candy_machine {
             
             let candy_token_manager = 
                 ResourceBuilder::new_fungible(owner_role.clone())
+                .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
                         "name" => "Candy Token".to_owned(), locked;
@@ -113,10 +114,10 @@ mod candy_machine {
             );
             
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let price_of_gumball = self.price_per_candy.unwrap() * discount_percent;
-            let our_share = payment.take(price_of_gumball);
+            let price_of_candy = self.price_per_candy.unwrap() * discount_percent;
+            let our_share = payment.take(price_of_candy);
 
-            let amount = our_share.amount() / price_of_gumball;
+            let amount = our_share.amount() / price_of_candy;
 
             self.collected_tokens.put(our_share);
             
