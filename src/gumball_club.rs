@@ -50,7 +50,7 @@ mod gumball_club {
 
 
             let member_card_manager: ResourceManager = 
-                ResourceBuilder::new_string_non_fungible::<GumballClubMember>(owner_role.clone())
+                ResourceBuilder::new_ruid_non_fungible::<GumballClubMember>(owner_role.clone())
                 .metadata(metadata! {
                     init {
                         "name" => "Gumball Club Member Card", locked;
@@ -126,11 +126,11 @@ mod gumball_club {
 
             let member_number = self.gumball_club_member_counter.to_string();
 
-            let member_id = "Gumball Club Member #".to_string() + &member_number;
+            let member_id = "Gumball Club Member #".to_string();
 
             let member_card = self.member_card_manager
-                .mint_non_fungible(
-                    &NonFungibleLocalId::string(member_id).unwrap(), 
+                // Using RUID for now, need to figure out how to use StringNonFungibleId
+                .mint_ruid_non_fungible(
                     GumballClubMember {}
                 );
 
