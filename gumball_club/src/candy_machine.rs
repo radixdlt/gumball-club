@@ -26,7 +26,6 @@ mod candy_machine {
         candy_token_manager: ResourceManager,
         collected_tokens: Vault,
         discount_amount: Decimal,
-        price_per_candy: Option<Decimal>,
         last_updated: Instant
     }
 
@@ -62,7 +61,6 @@ mod candy_machine {
                 candy_token_manager: candy_token_manager,
                 collected_tokens: Vault::new(payment_token_address),
                 discount_amount: dec!(50),
-                price_per_candy: None,
                 last_updated: Clock::current_time_rounded_to_minutes(),
             }
             .instantiate()
@@ -79,6 +77,7 @@ mod candy_machine {
                 },
                 init {
                     "name" => "CandyMachine Component", locked;
+                    "description" => "Use this component to purchase sweet candies!", locked;
                 }
             ))
             .with_address(address_reservation)
@@ -93,16 +92,14 @@ mod candy_machine {
                 self.collected_tokens.resource_address()
             );
             
-            let our_share = payment.take(self.price_per_candy.unwrap());
-
-            let amount = our_share.amount() / self.price_per_candy.unwrap();
+            let price_per_candy = self.get_price();
+            let total_candy_amount = payment.amount() / price_per_candy;
+            let total_candy_price = total_candy_amount * price_per_candy;
+            let our_share = payment.take(total_candy_price);
 
             self.collected_tokens.put(our_share);
 
-            let candy_tokens = self.candy_token_manager.mint(amount);
-
-
-            return (candy_tokens, payment)
+            return (self.candy_token_manager.mint(total_candy_price), payment)
         }
 
         pub fn buy_candy_with_member_card(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
@@ -113,18 +110,18 @@ mod candy_machine {
                 self.collected_tokens.resource_address()
             );
             
+            let price_per_candy = self.get_price();
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let price_of_candy = self.price_per_candy.unwrap() * discount_percent;
-            let our_share = payment.take(price_of_candy);
+            let discounted_price_per_gumball = price_per_candy * discount_percent;
 
-            let amount = our_share.amount() / price_of_candy;
+            let total_candy_amount = payment.amount() / discounted_price_per_gumball;
+            let total_candy_price = total_candy_amount * discounted_price_per_gumball;
+
+            let our_share = payment.take(total_candy_price);
 
             self.collected_tokens.put(our_share);
-            
 
-            let candy_tokens = self.candy_token_manager.mint(amount);
-
-            (candy_tokens, payment)
+            (self.candy_token_manager.mint(total_candy_amount), payment)
 
         }
 
@@ -153,8 +150,6 @@ mod candy_machine {
                 // Linear fall for the second half (30 minutes)
                 10 - ((normalized_time - half_period) * 10 / half_period)
             };
-
-            self.price_per_candy = Some(Decimal::from(price));
 
             self.last_updated = Clock::current_time_rounded_to_minutes();
 

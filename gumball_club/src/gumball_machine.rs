@@ -71,6 +71,7 @@ mod gumball_machine {
                 },
                 init {
                     "name" => "GumballMachine Component", locked;
+                    "description" => "Use this component to purchase delicious gumballs!", locked;
                 }
             ))
             .with_address(address_reservation)
@@ -117,8 +118,6 @@ mod gumball_machine {
 
             self.collected_tokens.put(our_share);
             
-            // we could have simplified the above into a single line, like so:
-            // self.collected_xrd.put(payment.take(self.price));
 
             // return a tuple containing a gumball, plus whatever change is left on the input payment (if any)
             // if we're out of gumballs to give, we'll see a runtime error when we try to grab one
