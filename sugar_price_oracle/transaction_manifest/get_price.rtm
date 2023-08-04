@@ -1,0 +1,4 @@
+CALL_METHOD
+    Address("component_sim1cpnkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yg0h825")
+    "get_price"
+;
