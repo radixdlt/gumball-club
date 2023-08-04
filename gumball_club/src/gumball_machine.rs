@@ -71,6 +71,7 @@ mod gumball_machine {
                 },
                 init {
                     "name" => "GumballMachine Component", locked;
+                    "description" => "Use this component to purchase delicious gumballs!", locked;
                 }
             ))
             .with_address(address_reservation)

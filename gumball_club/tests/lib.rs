@@ -212,7 +212,6 @@ fn dispense_gc_tokens() {
 }
 
 #[test]
-
 fn buy_member_card() {
     let mut test_environment = TestEnvironment::instantiate_test();
     test_environment.dispense_gc_tokens();
@@ -243,7 +242,7 @@ fn buy_member_card() {
     let receipt = test_environment.execute_manifest_ignoring_fee(
         manifest.object_names(), 
         manifest.build(), 
-        "dispense_gc_tokens", 
+        "buy_member_card", 
         &NetworkDefinition::simulator()
     );
 
@@ -284,7 +283,7 @@ fn gm_get_price() {
     let receipt = test_environment.execute_manifest_ignoring_fee(
         manifest.object_names(), 
         manifest.build(), 
-        "dispense_gc_tokens", 
+        "gm_get_price", 
         &NetworkDefinition::simulator()
     );
 
@@ -441,7 +440,7 @@ fn gm_change_price() {
     test_environment.execute_manifest_ignoring_fee(
         manifest.object_names(), 
         manifest.build(), 
-        "buy_gumball_with_member_card", 
+        "gm_change_price", 
         &NetworkDefinition::simulator()
     ).expect_commit_success();
 }

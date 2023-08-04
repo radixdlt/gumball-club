@@ -77,6 +77,7 @@ mod candy_machine {
                 },
                 init {
                     "name" => "CandyMachine Component", locked;
+                    "description" => "Use this component to purchase sweet candies!", locked;
                 }
             ))
             .with_address(address_reservation)

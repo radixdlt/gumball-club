@@ -1,24 +1,16 @@
 CALL_METHOD
     Address("account_sim1cyfhfs4a94n7kp7k47s55yx685lgwvp2kc6k6tm9kev8qpnlgjea7f")
-    "create_proof_of_non_fungibles"
-    Address("resource_sim1nfym9uewhhkfd8hr2nq0vrz2w9gnzy3rdkhkhwc8xnejw3sgenk6gm")
-    Array<NonFungibleLocalId>(
-        NonFungibleLocalId("#1#")
-    )
-;
-CALL_METHOD
-    Address("account_sim1cyfhfs4a94n7kp7k47s55yx685lgwvp2kc6k6tm9kev8qpnlgjea7f")
     "withdraw"
     Address("resource_sim1thj2q395ynwe7aaruzv4l8ye0tspjk0f8p6mmyswpm92hquag7mqkw")
-    Decimal("1")
+    Decimal("5")
 ;
 TAKE_ALL_FROM_WORKTOP
     Address("resource_sim1thj2q395ynwe7aaruzv4l8ye0tspjk0f8p6mmyswpm92hquag7mqkw")
     Bucket("gumball_club_token_bucket")
 ;
 CALL_METHOD
-    Address("component_sim1crraag59w0wvm4pk2llxxrhv7f5zcmqkvrdc0zzhrj7h28uy4t6nj6")
-    "buy_gumball_with_member_card"
+    Address("component_sim1czjxt2hcg483frrsgq58lh4f9zs84ck3zn6mf6pch32c3744ezhnfa")
+    "buy_member_card"
     Bucket("gumball_club_token_bucket")
 ;
 CALL_METHOD

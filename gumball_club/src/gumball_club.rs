@@ -51,7 +51,8 @@ mod gumball_club {
                 .metadata(metadata! {
                     init {
                         "name" => "Gumball Club Member Card", locked;
-                        "Description" => "Use this Gumball Club Member Card to get 50% discount on the sweet machines", locked;
+                        "description" => "Use this Gumball Club Member Card to get 50% discount on our sweet machines", locked;
+                        "tags" => vec!["badge"], locked;
                     }
                 })
                 .mint_roles(mint_roles!(
@@ -93,6 +94,7 @@ mod gumball_club {
                 },
                 init {
                     "name" => "GumballClub Component", locked;
+                    "description" => "Use this component to dispense Gumball Club tokens and buy membership cards!", locked;
                 }
             ))
             .with_address(address_reservation)
