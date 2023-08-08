@@ -1,15 +1,29 @@
 use scrypto::prelude::*;
 
+/// WARNING: This component can't dispense candies until the SugarPriceOracle package is set up and 
+/// hardcoded correctly.
+
 #[blueprint]
+/// Would we rather want to store this in the struct?
+/// I think this would mean that we may need to store it as Global<AnyComponent>
+/// This would give customizeability to allow the OWNER to change oracles, but maybe not
+/// every oracle will be a Global<SugarPriceOracle>?
+/// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
-    // extern_blueprint! (
-    //     "",
-    //     SugarPriceOracle {
-    //         fn get_price(&mut self) -> Decimal;
-    //     }
+    extern_blueprint!(
+        "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
+        SugarPriceOracle {
+            fn instantiate_sugar_price_oracle() -> Global<SugarPriceOracle>;
+            fn get_price(&mut self) -> Decimal;
+            fn get_last_updated(&self) -> Instant;
+        }
+    );
 
-    // );
-
+    const SUGARPRICEORACLE: Global<SugarPriceOracle> = global_component!(
+        SugarPriceOracle,
+        // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
+        "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+    );
 
     enable_method_auth! {
         roles {
@@ -22,15 +36,16 @@ mod candy_machine {
             change_discount => restrict_to: [OWNER];
         }
     }
+
     struct CandyMachine {
         candy_token_manager: ResourceManager,
         collected_tokens: Vault,
         discount_amount: Decimal,
-        last_updated: Instant
+        last_updated: Instant,
     }
 
     impl CandyMachine {
-        
+
         pub fn instantiate_candy_machine(
             owner_role: OwnerRole,
             payment_token_address: ResourceAddress, 
@@ -55,8 +70,7 @@ mod candy_machine {
                     minter_updater => rule!(deny_all);
                 })
                 .create_with_no_initial_supply();
-            
-            info!("time: {:?}", Clock::current_time_rounded_to_minutes().seconds_since_unix_epoch);
+
             Self {
                 candy_token_manager: candy_token_manager,
                 collected_tokens: Vault::new(payment_token_address),
@@ -85,7 +99,7 @@ mod candy_machine {
         }
 
         pub fn buy_candy(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
-            
+
             assert_eq!(
                 payment.resource_address(), self.collected_tokens.resource_address(),
                 "[CandyMachine]: Only {:?} tokens are accepted as payments!", 
@@ -93,6 +107,7 @@ mod candy_machine {
             );
             
             let price_per_candy = self.get_price();
+            // let price_per_candy = dec!(1);
             let total_candy_amount = payment.amount() / price_per_candy;
             let total_candy_price = total_candy_amount * price_per_candy;
             let our_share = payment.take(total_candy_price);
@@ -135,25 +150,7 @@ mod candy_machine {
         }
 
         pub fn get_price(&mut self) -> Decimal {
-            let last_updated_in_seconds = self.last_updated.seconds_since_unix_epoch;
-            let current_time_in_seconds = Clock::current_time_rounded_to_minutes().seconds_since_unix_epoch;
-            let time = current_time_in_seconds - last_updated_in_seconds;
-
-            let half_period = 1800;
-            
-            let normalized_time = time % (2 * half_period);
-        
-            let price = if normalized_time < half_period {
-                // Linear rise for the first half (30 minutes)
-                normalized_time * 10 / half_period
-            } else {
-                // Linear fall for the second half (30 minutes)
-                10 - ((normalized_time - half_period) * 10 / half_period)
-            };
-
-            self.last_updated = Clock::current_time_rounded_to_minutes();
-
-            return Decimal::from(price);
+            SUGARPRICEORACLE.get_price()
         }
     }
 }

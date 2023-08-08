@@ -1,11 +1,11 @@
-use scrypto::{prelude::*, blueprints::consensus_manager::ConsensusManagerConfig};
+use scrypto::prelude::*;
 use scrypto_unit::*;
 use transaction::builder::ManifestBuilder;
-use scrypto::blueprints::consensus_manager::TimePrecision;
 use chrono::{DateTime, Utc, TimeZone, ParseError};
 use transaction::manifest::decompiler::ManifestObjectNames;
 use transaction::prelude::TransactionManifestV1;
 use radix_engine::transaction::TransactionReceipt;
+use scrypto::blueprints::consensus_manager::TimePrecision::{Minute, self};
 
 
 pub struct Account {
@@ -106,7 +106,7 @@ impl TestEnvironment {
         let manifest = ManifestBuilder::new()
             .call_method(
                 self.sugar_price_oracle_component, 
-                "get_last_updated", 
+                "get_times", 
                 manifest_args!()
             );
         
@@ -123,18 +123,34 @@ impl TestEnvironment {
 #[test]
 fn get_price() {
     let mut test_environment = TestEnvironment::instantiate_test();
+
+    let final_time_ms: i64 = 7200000;
+    let mut proposer_timestamp_ms: i64 = 0;
+    let incremental_proposer_timestamp_ms: i64 = 600000;
+    let mut round: u64 = 2;
+    let incremental_round: u64 = 1;
+
+    let mut price_vec: Vec<Decimal> = Vec::new();
     
-    // 1
-    let iso_string = "2011-12-03T11:30:00Z";
-    let iso_seconds = test_environment.to_seconds(iso_string).unwrap();
-    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(3), iso_seconds);
+    while proposer_timestamp_ms <= final_time_ms {
+    
+        test_environment.test_runner.advance_to_round_at_timestamp(Round::of(round), proposer_timestamp_ms);
+        let time_minutes = test_environment.test_runner.get_current_time(TimePrecision::Minute);
+        let time_seconds = test_environment.test_runner.get_current_proposer_timestamp_ms();
 
-    let receipt = test_environment.get_price();
+        //
+        let receipt = test_environment.get_price();
+        println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        let price: Decimal = receipt.expect_commit_success().output(1);
+        price_vec.push(price);
 
-    // println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        //
+        println!("Time Minutes: {:?}", time_minutes);
+        println!("Time Second: {:?}", time_seconds);
 
-    let price1: Decimal = receipt.expect_commit_success().output(1);
+        proposer_timestamp_ms += incremental_proposer_timestamp_ms;
+        round += incremental_round;
+    }
 
-    print!("Price1: {:?}", price1);
-
+    println!("Price Vec: {:?}", price_vec);
 }
