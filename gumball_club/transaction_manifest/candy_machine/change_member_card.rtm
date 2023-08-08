@@ -1,0 +1,11 @@
+CALL_METHOD
+    Address("account_sim1cyfhfs4a94n7kp7k47s55yx685lgwvp2kc6k6tm9kev8qpnlgjea7f")
+    "create_proof_of_amount"
+    Address("resource_sim1thrc5s709vrvv7m3769tsx4qqj5w4zsgaaeuan46qt3nqkwhxyge02")
+    Decimal("1")
+;
+CALL_METHOD
+    Address("component_sim1cq632lktf4ahc8t5ell0tlveuyw802slf7jv535ede6df4eg005jxw")
+    "change_member_card"
+    Address("resource_sim1t52gf0ls4dn5k0jzm8vev7wxaur4t0fxersg8ugeypuqm4ea3h9jyz")
+;

@@ -197,7 +197,6 @@ impl TestEnvironment {
             "buy_gumball", 
             &NetworkDefinition::simulator()
         )
-
     }
 
     pub fn buy_gumball_with_member_card(&mut self, gc_token_amount: Decimal) -> TransactionReceipt {
@@ -256,7 +255,50 @@ impl TestEnvironment {
             "change_price", 
             &NetworkDefinition::simulator()
         )
+    }
 
+    pub fn change_discount(&mut self, new_discount: Decimal) -> TransactionReceipt {
+
+        let manifest = ManifestBuilder::new()
+            .create_proof_from_account_of_non_fungibles(
+                self.account.account_address, 
+                self.member_card_badge, 
+                &btreeset!(NonFungibleLocalId::integer(1)
+            ))
+            .call_method(
+                self.gumball_machine_component, 
+                "change_discount", 
+                manifest_args!(new_discount)
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "change_discount",
+            &NetworkDefinition::simulator(),
+        )
+    }
+
+    pub fn change_member_card(&mut self, new_member_card: ResourceAddress) -> TransactionReceipt {
+        
+        let manifest = ManifestBuilder::new()
+            .create_proof_from_account_of_non_fungibles(
+                self.account.account_address, 
+                self.member_card_badge, 
+                &btreeset!(NonFungibleLocalId::integer(1)
+            ))
+            .call_method(
+                self.gumball_machine_component, 
+                "change_discount", 
+                manifest_args!(new_member_card)
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "new_member_card",
+            &NetworkDefinition::simulator(),
+        )
     }
 
     pub fn inspect_account(&mut self, resource_address: ResourceAddress) -> Decimal {

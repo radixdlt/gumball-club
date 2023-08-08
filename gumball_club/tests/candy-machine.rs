@@ -4,6 +4,7 @@ use scrypto_unit::*;
 use transaction::{builder::ManifestBuilder, manifest::decompiler::ManifestObjectNames, prelude::TransactionManifestV1};
 use radix_engine::transaction::TransactionReceipt;
 use radix_engine::transaction::BalanceChange;
+use scrypto::api::ObjectModuleId;
 
 pub struct Account {
     public_key: Secp256k1PublicKey,
@@ -13,9 +14,10 @@ pub struct Account {
 pub struct TestEnvironment {
     test_runner: TestRunner,
     account: Account,
+    owner_badge: ResourceAddress,
     candy_machine_component: ComponentAddress,
     gumball_club_token: ResourceAddress,
-    _member_card_badge: ResourceAddress,
+    member_card_badge: ResourceAddress,
     candy_token: ResourceAddress,
 }
 
@@ -82,7 +84,7 @@ impl TestEnvironment {
         let gumball_club_component = commit_success.new_component_addresses()[0];
         let candy_machine_component = commit_success.new_component_addresses()[2];
         let gumball_club_token = commit_success.new_resource_addresses()[0];
-        let _member_card_badge = commit_success.new_resource_addresses()[1];
+        let member_card_badge = commit_success.new_resource_addresses()[1];
         let candy_token = commit_success.new_resource_addresses()[3];
 
         let manifest = ManifestBuilder::new()
@@ -123,12 +125,14 @@ impl TestEnvironment {
             manifest, 
             vec![NonFungibleGlobalId::from_public_key(&public_key)], 
         ).expect_commit_success();
+        
         Self {
             test_runner,
             account,
+            owner_badge,
             candy_machine_component,
             gumball_club_token,
-            _member_card_badge,
+            member_card_badge,
             candy_token,
         }
     }
@@ -181,6 +185,84 @@ impl TestEnvironment {
             manifest.object_names(),
             manifest.build(),
             "buy_candy",
+            &NetworkDefinition::simulator(),
+        )
+    }
+
+    pub fn buy_candy_with_member_card(&mut self, amount: Decimal) -> TransactionReceipt {
+
+        let manifest = ManifestBuilder::new()
+            .create_proof_from_account_of_non_fungibles(
+                self.account.account_address, 
+                self.member_card_badge, 
+                &btreeset!(NonFungibleLocalId::integer(1)
+            ))
+            .withdraw_from_account(
+                self.account.account_address, 
+                self.gumball_club_token, 
+                amount
+            )
+            .take_all_from_worktop(
+                self.gumball_club_token, 
+                "gumball_club_token_bucket"
+            )
+            .call_method_with_name_lookup(
+                self.candy_machine_component, 
+                "buy_candy_with_member_card", 
+                |lookup| (
+                    lookup.bucket("gumball_club_token_bucket"),
+                )
+            )
+            .deposit_batch(self.account.account_address);
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "buy_candy_with_member_card",
+            &NetworkDefinition::simulator(),
+        )
+    }
+
+    pub fn change_discount(&mut self, new_discount: Decimal) -> TransactionReceipt {
+
+        let manifest = ManifestBuilder::new()
+            .create_proof_from_account_of_amount(
+                self.account.account_address, 
+                self.owner_badge, 
+                dec!(1)
+            )
+            .call_method(
+                self.candy_machine_component, 
+                "change_discount", 
+                manifest_args!(new_discount)
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "change_discount",
+            &NetworkDefinition::simulator(),
+        )
+    }
+
+    pub fn change_member_card(&mut self, new_member_card: ResourceAddress) -> TransactionReceipt {
+        
+        let manifest = ManifestBuilder::new()
+            .create_proof_from_account_of_amount(
+                self.account.account_address, 
+                self.owner_badge, 
+                dec!(1)
+            )
+            .call_method(
+                self.candy_machine_component, 
+                "change_member_card", 
+                manifest_args!(new_member_card)
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "change_member_card",
             &NetworkDefinition::simulator(),
         )
     }
@@ -245,13 +327,12 @@ fn get_price() {
 }
 
 #[test]
-
 pub fn buy_candy() {
     let mut test_environment = TestEnvironment::instantiate_test();
 
-    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(2), 3600000);
+    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(2), 1800000);
 
-    let receipt = test_environment.buy_candy(dec!(1));
+    let receipt = test_environment.buy_candy(dec!(5));
 
     println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
 
@@ -266,13 +347,93 @@ pub fn buy_candy() {
                 XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
             ),
             test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-1")),
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-4.25")),
                 test_environment.candy_token => BalanceChange::Fungible(dec!("1"))
             ),
             test_environment.candy_machine_component.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("1"))
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("4.25"))
             )
         )
     );
+}
+
+#[test]
+pub fn buy_candy_with_member_card() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+
+    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(2), 1800000);
+
+    let receipt = test_environment.buy_candy_with_member_card(dec!(5));
+
+    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+
+    let commit = receipt.expect_commit_success();
+
+    assert_eq!(
+        commit.balance_changes(),
+        &indexmap!(
+            CONSENSUS_MANAGER.into() => indexmap!(
+                XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
+            test_environment.test_runner.faucet_component().into() => indexmap!(
+                XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
+            ),
+            test_environment.account.account_address.into() => indexmap!(
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-4.25")),
+                test_environment.candy_token => BalanceChange::Fungible(dec!("2"))
+            ),
+            test_environment.candy_machine_component.into() => indexmap!(
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("4.25"))
+            )
+        )
+    );
+}
+
+#[test]
+fn change_discount() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+
+    let receipt = test_environment.change_discount(dec!(20));
+
+    receipt.expect_commit_success();
+
+    // Need to figure out how to query component state.
+}
+
+#[test]
+fn change_member_card() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let candy_machine_component = test_environment.candy_machine_component;
+
+    let new_member_card = 
+        test_environment.test_runner
+        .create_fungible_resource(
+            dec!(1), 
+            0u8, 
+            test_environment.account.account_address
+        );
+
+    let receipt = test_environment.change_member_card(new_member_card);
+
+    receipt.expect_commit_success();
+
+    let manifest = ManifestBuilder::new()
+        .get_role(
+            candy_machine_component, 
+            ObjectModuleId::Main, 
+            RoleKey::from("member")
+        )
+        .build();
+
+    let receipt = test_environment.test_runner.execute_manifest_ignoring_fee(manifest, 
+        vec![NonFungibleGlobalId::from_public_key(&test_environment.account.public_key)]
+    );
+
+    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+
+    let output = &receipt.expect_commit_success();
+    println!("Output: {:?}", output);
+
+    // Need to figure out how to compare changes to AuthorityModule
+
 }
 
