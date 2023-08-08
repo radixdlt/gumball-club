@@ -1,0 +1,9 @@
+CALL_METHOD
+    Address("component_sim1cql6fnp5y2cdw4k4arwzwnhdf0prg2xpxuxqahx27rk40qlrnh0dlm")
+    "dispense_gc_tokens"
+;
+CALL_METHOD
+    Address("account_sim1cyfhfs4a94n7kp7k47s55yx685lgwvp2kc6k6tm9kev8qpnlgjea7f")
+    "deposit_batch"
+    Expression("ENTIRE_WORKTOP")
+;

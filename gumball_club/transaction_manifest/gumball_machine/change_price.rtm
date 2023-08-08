@@ -5,7 +5,7 @@ CALL_METHOD
     Decimal("1")
 ;
 CALL_METHOD
-    Address("component_sim1crraag59w0wvm4pk2llxxrhv7f5zcmqkvrdc0zzhrj7h28uy4t6nj6")
+    Address("component_sim1cq5yy6256rj6wxxwgzrcfv6yrwtew9ehs7w4he6x87j86d6xuwcvxj")
     "change_price"
     Decimal("2")
 ;

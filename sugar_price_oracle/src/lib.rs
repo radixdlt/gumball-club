@@ -4,14 +4,12 @@ use scrypto::prelude::*;
 mod sugar_price_oracle {
     struct SugarPriceOracle {
         starting_time: Instant,
-        last_updated: Instant,
     }
     impl SugarPriceOracle {
         pub fn instantiate_sugar_price_oracle() -> Global<SugarPriceOracle> {
             
             Self {
                 starting_time: Clock::current_time_rounded_to_minutes(),
-                last_updated: Clock::current_time_rounded_to_minutes(),
             }
             .instantiate()
             .prepare_to_globalize(OwnerRole::None)
@@ -19,9 +17,10 @@ mod sugar_price_oracle {
         }
 
         pub fn get_price(&mut self) -> Decimal {
-            let last_updated_in_seconds = self.last_updated.seconds_since_unix_epoch;
+            
             let current_time_in_seconds = Clock::current_time_rounded_to_minutes().seconds_since_unix_epoch;
-            let time = current_time_in_seconds - last_updated_in_seconds;
+    
+            let time = current_time_in_seconds - self.starting_time.seconds_since_unix_epoch;
 
             let half_period = 1800;
             
@@ -35,13 +34,9 @@ mod sugar_price_oracle {
                 5 - ((normalized_time - half_period) * 5 / half_period)
             };
 
-            self.last_updated = Clock::current_time_rounded_to_minutes();
+            info!("Price: {:?}", price.to_string());
 
             return Decimal::from(price);
-        }
-
-        pub fn get_last_updated(&self) -> Instant {
-            self.last_updated
         }
     }
 }
