@@ -33,7 +33,7 @@ mod gumball_club {
             
             let gumball_club_token_manager: ResourceManager = 
                 ResourceBuilder::new_fungible(owner_role.clone())
-                .divisibility(DIVISIBILITY_NONE)
+                .divisibility(DIVISIBILITY_MAXIMUM)
                 .metadata(metadata!(
                     init {
                         "name" => "Gumball Club Tokens", locked;

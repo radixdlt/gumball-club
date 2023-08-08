@@ -13,9 +13,7 @@ mod candy_machine {
     extern_blueprint!(
         "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
         SugarPriceOracle {
-            fn instantiate_sugar_price_oracle() -> Global<SugarPriceOracle>;
             fn get_price(&mut self) -> Decimal;
-            fn get_last_updated(&self) -> Instant;
         }
     );
 
@@ -27,13 +25,14 @@ mod candy_machine {
 
     enable_method_auth! {
         roles {
-            member => updatable_by: [];
+            member => updatable_by: [SELF];
         },
         methods {
             buy_candy => PUBLIC;
             get_price => PUBLIC;
             buy_candy_with_member_card => restrict_to: [member];
             change_discount => restrict_to: [OWNER];
+            change_member_card => restrict_to: [OWNER];
         }
     }
 
@@ -107,14 +106,18 @@ mod candy_machine {
             );
             
             let price_per_candy = self.get_price();
-            // let price_per_candy = dec!(1);
-            let total_candy_amount = payment.amount() / price_per_candy;
+             
+            let total_candy_amount = 
+                (payment.amount() / price_per_candy).round(0, RoundingMode::ToZero);
+
+            info!("Total Candy: {:?}", total_candy_amount);
+
             let total_candy_price = total_candy_amount * price_per_candy;
             let our_share = payment.take(total_candy_price);
 
             self.collected_tokens.put(our_share);
 
-            return (self.candy_token_manager.mint(total_candy_price), payment)
+            return (self.candy_token_manager.mint(total_candy_amount), payment)
         }
 
         pub fn buy_candy_with_member_card(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
@@ -129,7 +132,8 @@ mod candy_machine {
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
             let discounted_price_per_gumball = price_per_candy * discount_percent;
 
-            let total_candy_amount = payment.amount() / discounted_price_per_gumball;
+            let total_candy_amount = 
+            (payment.amount() / discounted_price_per_gumball).round(0, RoundingMode::ToZero);
             let total_candy_price = total_candy_amount * discounted_price_per_gumball;
 
             let our_share = payment.take(total_candy_price);
@@ -147,6 +151,10 @@ mod candy_machine {
             );
 
             self.discount_amount = new_discount_amount;
+        }
+
+        pub fn change_member_card(&mut self, new_member_card: ResourceAddress) {
+            Runtime::global_component().set_role("member", rule!(require(new_member_card)));
         }
 
         pub fn get_price(&mut self) -> Decimal {
