@@ -4,7 +4,7 @@ use scrypto::prelude::*;
 mod gumball_machine {
     enable_method_auth! {
         roles {
-            member => updatable_by: [SELF];
+            member => updatable_by: [SELF, OWNER];
         },
         methods {
             buy_gumball => PUBLIC;
@@ -13,6 +13,8 @@ mod gumball_machine {
             change_price => restrict_to: [OWNER];
             change_discount => restrict_to: [OWNER];
             change_member_card => restrict_to: [OWNER];
+            get_discount => PUBLIC;
+            get_member_role => PUBLIC;
         }
     }
     struct GumballMachine {
@@ -90,7 +92,12 @@ mod gumball_machine {
                 self.collected_tokens.resource_address()
             );
             
-            let total_gumball_amount = payment.amount() / self.price_per_gumball;
+            let total_gumball_amount = if payment.amount() < self.price_per_gumball {
+                dec!(0)
+             } else {
+                (payment.amount() / self.price_per_gumball).round(0, RoundingMode::ToZero)
+             };
+
             let total_gumball_price = total_gumball_amount * self.price_per_gumball;
             let our_share = payment.take(total_gumball_price);
 
@@ -111,7 +118,12 @@ mod gumball_machine {
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
             let discounted_price_per_gumball = self.price_per_gumball * discount_percent;
 
-            let total_gumball_amount = payment.amount() / discounted_price_per_gumball;
+            let total_gumball_amount = if payment.amount() < discounted_price_per_gumball {
+                dec!(0)
+             } else {
+                (payment.amount() / discounted_price_per_gumball).round(0, RoundingMode::ToZero)
+             };
+
             let total_gumball_price = total_gumball_amount * discounted_price_per_gumball;
 
             let our_share = payment.take(total_gumball_price);
@@ -140,6 +152,14 @@ mod gumball_machine {
 
         pub fn change_member_card(&mut self, new_member_card: ResourceAddress) {
             Runtime::global_component().set_role("member", rule!(require(new_member_card)));
+        }
+
+        pub fn get_discount(&self) -> Decimal {
+            self.discount_amount
+        }
+
+        pub fn get_member_role(&self) -> AccessRule {
+            Runtime::global_component().get_role("member").unwrap()
         }
     }
 }

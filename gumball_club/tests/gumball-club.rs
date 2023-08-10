@@ -173,6 +173,7 @@ fn dispense_gc_tokens() {
 
     let commit = receipt.expect_commit_success();
     
+    // Hard coded for 100 for now.
     assert_eq!(
         commit.balance_changes(),
         &indexmap!(
@@ -182,7 +183,7 @@ fn dispense_gc_tokens() {
                 XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
             ),
             test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("20"))
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("100"))
             ),
         )
     );

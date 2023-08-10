@@ -107,7 +107,7 @@ mod gumball_club {
         
         pub fn dispense_gc_tokens(&mut self) -> Bucket {
             // Currently mint amount hard coded to 20
-            let gumball_club_tokens = self.gumball_club_token_manager.mint(dec!(20));
+            let gumball_club_tokens = self.gumball_club_token_manager.mint(dec!(100));
 
             return gumball_club_tokens
         }
