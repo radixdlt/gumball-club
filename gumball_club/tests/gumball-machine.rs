@@ -3,6 +3,7 @@ use scrypto_unit::*;
 use transaction::{builder::ManifestBuilder, manifest::decompiler::ManifestObjectNames, prelude::TransactionManifestV1};
 use radix_engine::transaction::TransactionReceipt;
 use radix_engine::transaction::BalanceChange;
+use scrypto::api::ObjectModuleId;
 
 pub struct Account {
     public_key: Secp256k1PublicKey,
@@ -260,11 +261,11 @@ impl TestEnvironment {
     pub fn change_discount(&mut self, new_discount: Decimal) -> TransactionReceipt {
 
         let manifest = ManifestBuilder::new()
-            .create_proof_from_account_of_non_fungibles(
+            .create_proof_from_account_of_amount(
                 self.account.account_address, 
-                self.member_card_badge, 
-                &btreeset!(NonFungibleLocalId::integer(1)
-            ))
+                self.owner_badge, 
+                dec!(1)
+            )
             .call_method(
                 self.gumball_machine_component, 
                 "change_discount", 
@@ -282,14 +283,14 @@ impl TestEnvironment {
     pub fn change_member_card(&mut self, new_member_card: ResourceAddress) -> TransactionReceipt {
         
         let manifest = ManifestBuilder::new()
-            .create_proof_from_account_of_non_fungibles(
+            .create_proof_from_account_of_amount(
                 self.account.account_address, 
-                self.member_card_badge, 
-                &btreeset!(NonFungibleLocalId::integer(1)
-            ))
+                self.owner_badge, 
+                dec!(1)
+            )
             .call_method(
                 self.gumball_machine_component, 
-                "change_discount", 
+                "change_member_card", 
                 manifest_args!(new_member_card)
             );
 
@@ -394,5 +395,75 @@ fn change_price() {
 
     receipt.expect_commit_success();
 
-    // Need to figure out how to query component state.
+    let receipt = test_environment.get_price();
+
+    let output: Decimal = receipt.expect_commit_success().output(1);
+
+    assert_eq!(output, dec!(2), "Incorrect price!");
+}
+
+#[test]
+fn change_discount() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let gumball_machine_component = test_environment.gumball_machine_component;
+
+    let receipt = test_environment.change_discount(dec!(20));
+
+    receipt.expect_commit_success();
+
+    let manifest = ManifestBuilder::new()
+        .call_method(
+            gumball_machine_component, 
+            "get_discount", 
+            manifest_args!()
+        )
+        .build();
+
+    let receipt = test_environment.test_runner.execute_manifest_ignoring_fee(manifest, 
+        vec![NonFungibleGlobalId::from_public_key(&test_environment.account.public_key)]
+    );
+
+    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+
+    let output: Decimal = receipt.expect_commit_success().output(1);
+
+    assert_eq!(output, dec!(20), "Incorrect discount!");
+}
+
+#[test]
+fn change_member_card() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let gumball_machine_component = test_environment.gumball_machine_component;
+
+    let new_member_card = 
+        test_environment.test_runner
+        .create_fungible_resource(
+            dec!(1), 
+            0u8, 
+            test_environment.account.account_address
+        );
+
+    let receipt = test_environment.change_member_card(new_member_card);
+
+    receipt.expect_commit_success();
+
+    let manifest = ManifestBuilder::new()
+        .get_role(
+            gumball_machine_component, 
+            ObjectModuleId::Main, 
+            RoleKey::from("member")
+        )
+        .build();
+
+    let receipt = test_environment.test_runner.execute_manifest_ignoring_fee(manifest, 
+        vec![NonFungibleGlobalId::from_public_key(&test_environment.account.public_key)]
+    );
+
+    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+
+    let output: RoleDefinition = receipt.expect_commit_success().output(1);
+    let role = RoleDefinition::Some(rule!(require(new_member_card)));
+
+    assert_eq!(output, role, "Roles do not match!");
+
 }

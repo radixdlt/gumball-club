@@ -330,73 +330,185 @@ fn get_price() {
 pub fn buy_candy() {
     let mut test_environment = TestEnvironment::instantiate_test();
 
-    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(2), 1800000);
+    let final_time_ms: i64 = 7200000;
+    let mut proposer_timestamp_ms: i64 = 0;
+    let incremental_proposer_timestamp_ms: i64 = 600000;
+    let mut round: u64 = 2;
+    let incremental_round: u64 = 1;
 
-    let receipt = test_environment.buy_candy(dec!(5));
+    while proposer_timestamp_ms <= final_time_ms {
+    
+        test_environment.test_runner.advance_to_round_at_timestamp(Round::of(round), proposer_timestamp_ms);
 
-    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        //
+        let receipt = test_environment.buy_candy(dec!(5));
 
-    let commit = receipt.expect_commit_success();
+        println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        //
+        let commit = receipt.expect_commit_success();
 
-    assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
+        let price_vec: Vec<Decimal> = 
+            vec![
+                dec!("0.1"),
+                dec!("1.76"),
+                dec!("3.43"),
+                dec!("5.1"),
+                dec!("3.43"),
+                dec!("1.76"),
+                dec!("0.1"),
+                dec!("1.76"),
+                dec!("3.43"),
+                dec!("5.1"),
+                dec!("3.43"),
+                dec!("1.76"),
+                dec!("0.1"),
+                ];
+
+        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
+
+        if index >= price_vec.len() {
+            index = 0;
+        }
+
+        let candy_amount = (dec!(5) / price_vec[index]).round(0, RoundingMode::ToZero);
+        let gumball_club_token_amount = candy_amount * price_vec[index];
+
+        let mut balance_changes = indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
                 XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
                 XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
-            ),
-            test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-4.25")),
-                test_environment.candy_token => BalanceChange::Fungible(dec!("1"))
-            ),
-            test_environment.candy_machine_component.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("4.25"))
             )
-        )
-    );
+        );
+        
+        if candy_amount != dec!(0) {
+            balance_changes.insert(
+                test_environment.account.account_address.into(),
+                indexmap!(
+                    test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_amount * dec!("-1")),
+                    test_environment.candy_token => BalanceChange::Fungible(candy_amount)
+                )
+            );
+        
+            balance_changes.insert(
+                test_environment.candy_machine_component.into(),
+                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_amount))
+            );
+        }
+        
+        assert_eq!(commit.balance_changes(), &balance_changes);
+
+        proposer_timestamp_ms += incremental_proposer_timestamp_ms;
+        round += incremental_round;
+    }
 }
 
 #[test]
 pub fn buy_candy_with_member_card() {
     let mut test_environment = TestEnvironment::instantiate_test();
 
-    test_environment.test_runner.advance_to_round_at_timestamp(Round::of(2), 1800000);
+    let final_time_ms: i64 = 7200000;
+    let mut proposer_timestamp_ms: i64 = 0;
+    let incremental_proposer_timestamp_ms: i64 = 600000;
+    let mut round: u64 = 2;
+    let incremental_round: u64 = 1;
 
-    let receipt = test_environment.buy_candy_with_member_card(dec!(5));
+    while proposer_timestamp_ms <= final_time_ms {
+    
+        test_environment.test_runner.advance_to_round_at_timestamp(Round::of(round), proposer_timestamp_ms);
 
-    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        //
+        let receipt = test_environment.buy_candy_with_member_card(dec!(5));
 
-    let commit = receipt.expect_commit_success();
+        println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+        //
+        let commit = receipt.expect_commit_success();
 
-    assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
+        let price_vec: Vec<Decimal> = 
+            vec![
+                dec!("0.1"),
+                dec!("1.76"),
+                dec!("3.43"),
+                dec!("5.1"),
+                dec!("3.43"),
+                dec!("1.76"),
+                dec!("0.1"),
+                dec!("1.76"),
+                dec!("3.43"),
+                dec!("5.1"),
+                dec!("3.43"),
+                dec!("1.76"),
+                dec!("0.1"),
+                ];
+
+        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
+
+        if index >= price_vec.len() {
+            index = 0;
+        }
+
+        let discount_percent = dec!("0.5");
+        let discounted_price_per_candy = price_vec[index] * discount_percent;
+
+        let candy_amount = (dec!(5) / discounted_price_per_candy).round(0, RoundingMode::ToZero);
+        let gumball_club_token_amount = candy_amount * discounted_price_per_candy;
+
+        let mut balance_changes = indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
                 XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
                 XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
-            ),
-            test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-4.25")),
-                test_environment.candy_token => BalanceChange::Fungible(dec!("2"))
-            ),
-            test_environment.candy_machine_component.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("4.25"))
             )
-        )
-    );
+        );
+        
+        if candy_amount != dec!(0) {
+            balance_changes.insert(
+                test_environment.account.account_address.into(),
+                indexmap!(
+                    test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_amount * dec!("-1")),
+                    test_environment.candy_token => BalanceChange::Fungible(candy_amount)
+                )
+            );
+        
+            balance_changes.insert(
+                test_environment.candy_machine_component.into(),
+                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_amount))
+            );
+        }
+        
+        assert_eq!(commit.balance_changes(), &balance_changes);
+
+        proposer_timestamp_ms += incremental_proposer_timestamp_ms;
+        round += incremental_round;
+    }
 }
 
 #[test]
 fn change_discount() {
     let mut test_environment = TestEnvironment::instantiate_test();
+    let candy_machine_component = test_environment.candy_machine_component;
 
     let receipt = test_environment.change_discount(dec!(20));
 
     receipt.expect_commit_success();
 
-    // Need to figure out how to query component state.
+    let manifest = ManifestBuilder::new()
+        .call_method(
+            candy_machine_component, 
+            "get_discount", 
+            manifest_args!()
+        )
+        .build();
+
+    let receipt = test_environment.test_runner.execute_manifest_ignoring_fee(manifest, 
+        vec![NonFungibleGlobalId::from_public_key(&test_environment.account.public_key)]
+    );
+
+    println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
+
+    let output: Decimal = receipt.expect_commit_success().output(1);
+
+    assert_eq!(output, dec!(20), "Incorrect discount!");
 }
 
 #[test]
@@ -430,10 +542,10 @@ fn change_member_card() {
 
     println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
 
-    let output = &receipt.expect_commit_success();
-    println!("Output: {:?}", output);
+    let output: RoleDefinition = receipt.expect_commit_success().output(1);
+    let role = RoleDefinition::Some(rule!(require(new_member_card)));
 
-    // Need to figure out how to compare changes to AuthorityModule
+    assert_eq!(output, role, "Roles do not match!");
 
 }
 

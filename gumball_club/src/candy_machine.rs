@@ -17,15 +17,9 @@ mod candy_machine {
         }
     );
 
-    const SUGARPRICEORACLE: Global<SugarPriceOracle> = global_component!(
-        SugarPriceOracle,
-        // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-        "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
-    );
-
     enable_method_auth! {
         roles {
-            member => updatable_by: [SELF];
+            member => updatable_by: [SELF,OWNER];
         },
         methods {
             buy_candy => PUBLIC;
@@ -33,6 +27,8 @@ mod candy_machine {
             buy_candy_with_member_card => restrict_to: [member];
             change_discount => restrict_to: [OWNER];
             change_member_card => restrict_to: [OWNER];
+            get_discount => PUBLIC;
+            get_member_role => PUBLIC;
         }
     }
 
@@ -40,7 +36,6 @@ mod candy_machine {
         candy_token_manager: ResourceManager,
         collected_tokens: Vault,
         discount_amount: Decimal,
-        last_updated: Instant,
     }
 
     impl CandyMachine {
@@ -74,7 +69,6 @@ mod candy_machine {
                 candy_token_manager: candy_token_manager,
                 collected_tokens: Vault::new(payment_token_address),
                 discount_amount: dec!(50),
-                last_updated: Clock::current_time_rounded_to_minutes(),
             }
             .instantiate()
             .prepare_to_globalize(owner_role)
@@ -106,13 +100,15 @@ mod candy_machine {
             );
             
             let price_per_candy = self.get_price();
+
+            let total_candy_amount = if payment.amount() < price_per_candy {
+                dec!(0)
+            } else {
+                (payment.amount() / price_per_candy).round(0, RoundingMode::ToZero)
+            };
              
-            let total_candy_amount = 
-                (payment.amount() / price_per_candy).round(0, RoundingMode::ToZero);
-
-            info!("Total Candy: {:?}", total_candy_amount);
-
             let total_candy_price = total_candy_amount * price_per_candy;
+            
             let our_share = payment.take(total_candy_price);
 
             self.collected_tokens.put(our_share);
@@ -130,11 +126,15 @@ mod candy_machine {
             
             let price_per_candy = self.get_price();
             let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let discounted_price_per_gumball = price_per_candy * discount_percent;
+            let discounted_price_per_candy = price_per_candy * discount_percent;
 
-            let total_candy_amount = 
-            (payment.amount() / discounted_price_per_gumball).round(0, RoundingMode::ToZero);
-            let total_candy_price = total_candy_amount * discounted_price_per_gumball;
+            let total_candy_amount = if payment.amount() < discounted_price_per_candy {
+                dec!(0)
+            } else {
+                (payment.amount() / discounted_price_per_candy).round(0, RoundingMode::ToZero)
+            };
+            
+            let total_candy_price = total_candy_amount * discounted_price_per_candy;
 
             let our_share = payment.take(total_candy_price);
 
@@ -158,7 +158,21 @@ mod candy_machine {
         }
 
         pub fn get_price(&mut self) -> Decimal {
-            SUGARPRICEORACLE.get_price()
+            let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
+                SugarPriceOracle,
+                // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
+                "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+            );
+
+            sugar_price_oracle.get_price()
+        }
+
+        pub fn get_discount(&self) -> Decimal {
+            self.discount_amount
+        }
+
+        pub fn get_member_role(&self) -> AccessRule {
+            Runtime::global_component().get_role("member").unwrap()
         }
     }
 }

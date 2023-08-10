@@ -26,16 +26,17 @@ mod sugar_price_oracle {
             
             let normalized_time = time % (2 * half_period);
 
-            let max_value = dec!(4);
+            let max_value = dec!(5);
+            let epsilon = dec!("0.10");
         
             let price = if normalized_time < half_period {
                 // Linear rise for the first half (30 minutes)
-                (Decimal::from(normalized_time) * max_value / Decimal::from(half_period)) + dec!("0.25")
+                (Decimal::from(normalized_time) * max_value / Decimal::from(half_period)) + epsilon
             } else {
                 // Linear fall for the second half (30 minutes)
                 max_value - ((Decimal::from(normalized_time) 
                 - Decimal::from(half_period)) * max_value
-                / Decimal::from(half_period)) + dec!("0.25")
+                / Decimal::from(half_period)) + epsilon
             };
 
             info!("Price: {:?}", price.round(2, RoundingMode::ToZero));
