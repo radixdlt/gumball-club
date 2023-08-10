@@ -38,8 +38,6 @@ mod sugar_price_oracle {
                 - Decimal::from(half_period)) * max_value
                 / Decimal::from(half_period)) + epsilon
             };
-
-            info!("Price: {:?}", price.round(2, RoundingMode::ToZero));
             
             return price.round(2, RoundingMode::ToZero);
         }

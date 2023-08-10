@@ -91,6 +91,16 @@ mod candy_machine {
             .globalize()
         }
 
+        pub fn get_price(&mut self) -> Decimal {
+            let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
+                SugarPriceOracle,
+                // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
+                "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+            );
+
+            sugar_price_oracle.get_price()
+        }
+
         pub fn buy_candy(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
 
             assert_eq!(
@@ -155,16 +165,6 @@ mod candy_machine {
 
         pub fn change_member_card(&mut self, new_member_card: ResourceAddress) {
             Runtime::global_component().set_role("member", rule!(require(new_member_card)));
-        }
-
-        pub fn get_price(&mut self) -> Decimal {
-            let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
-                SugarPriceOracle,
-                // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
-            );
-
-            sugar_price_oracle.get_price()
         }
 
         pub fn get_discount(&self) -> Decimal {
