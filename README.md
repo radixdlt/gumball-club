@@ -2,10 +2,11 @@
 - [Abstract](#abstract)
 - [Features](#features)
 - [Details of Design](#details-of-design)
-  - [Blueprints Overview](#blueprints-overview)
+  - [Blueprints Overview](#blueprint-overview)
     - [GumballClub Blueprint](#gumballclub-blueprint)
-    - [GumballMachine Blueprint](#gumballclub-blueprint)
-    - [CandyMachine Blueprint](#gumballclub-blueprint)
+    - [GumballMachine Blueprint](#gumballmachine-blueprint)
+    - [CandyMachine Blueprint](#candymachine-blueprint)
+    - [SugarPriceOracle Blueprint](#sugarpriceoracle-blueprint)
 
 # Abstract
 The motivation of this blueprint package is to showcase a simple example that utilizes many different Scrypto concepts and aims to provide users a delightful experience with the Radix Wallet. The `GumballClub` is a collection of blueprints which facilitates the distribution of Gumball Club token and member card NFT badges to be used to purchase gumballs and candies from the `GumballMachine` and `CandyMachine`. The Scrypto concepts it uses are:
