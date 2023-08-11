@@ -133,6 +133,20 @@ The `GumballMachine` has these methods:
 
 * `member` - The member which is specified by those who hold the badge resource determined by the `member_card_address`.
 
+* `PUBLIC` - The role that defines everybody else.
+
+| Roles | Methods | 
+| -------- | -------- | 
+| `OWNER` | - `change_price`|
+|         | - `change_discount`|
+|         | - `change_member_card`| 
+| `member` | - `buy_gumball_with_member_card` |
+| `PUBLIC` | - `buy_gumball` |
+|          | - `get_price`|
+|          | - `get_discount`|
+|          | - `get_member_role`| 
+
+
 ### CandyMachine Blueprint
 The `CandyMachine` blueprint facilitates the minting/selling of candies when users send in a payment. A member card can be used to provide special discounts on candies to its members. Owners of the component can configure resource and component metadata as well as access privilaged methods safeguarded by the Radix Engine auth model to change the price of candies, discounts, and more.
 
@@ -170,7 +184,7 @@ The `CandyMachine` has these methods:
 
 * `get_price` - Retrieves the current price of candy saved in component state. It uses an external blueprint package cross-component call to the `SugarPriceOracle` to retrieve the price per candy.
 
-* `buy_candy` - Takes in a `Bucket` of resource specified by `payment_token_address` and mints candy based on the cross-component call to `SugarPriceOracle` to determine the price per candy..
+* `buy_candy` - Takes in a `Bucket` of resource specified by `payment_token_address` and mints candy based on the cross-component call to `SugarPriceOracle` to determine the price per candy.
 
 * `buy_candy_with_member_card` - Authorized method for `member` role which requires a `Proof` of the resource specified by `member_card_address`. If `Proof` is provided, then candies are 50% off.
 
@@ -189,6 +203,18 @@ The `CandyMachine` has these methods:
 * `SELF` - The component itself which is designated authority to mint candies.
 
 * `member` - The member which is specified by those who hold the badge resource determined by the `member_card_address`.
+
+* `PUBLIC` - The role that defines everybody else.
+
+| Roles | Methods | 
+| -------- | -------- | 
+| `OWNER` | - `change_discount`|
+|         | - `change_member_card`|
+| `member` | - `buy_candy_with_member_card` |
+| `PUBLIC` | - `buy_candy` |
+|          | - `get_price`|
+|          | - `get_discount`|
+|          | - `get_member_role`| 
 
 ### SugarPriceOracle Blueprint
 The `SugarPriceOracle` is a pseudo Oracle the feeds the `CandyMachine` price of candy. 
