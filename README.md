@@ -1,3 +1,5 @@
+![Alt text](image.png)
+
 # Table of Contents
 - [Abstract](#abstract)
 - [Features](#features)
