@@ -178,7 +178,10 @@ mod gumball_machine {
                 self.collected_tokens
                     .resource_manager()
                     .get_metadata("name")
-                    .unwrap_or(self.collected_tokens.resource_address().to_string(&AddressBech32Encoder::for_simulator()));
+                    .unwrap_or(
+                        self.collected_tokens.resource_address()
+                        .to_string(&AddressBech32Encoder::for_simulator())
+                    );
             
             // Asserts that the payment type is of the accepted payment resource.
             // This assert is not needed but can be used for friendly error messages.
@@ -227,13 +230,14 @@ mod gumball_machine {
         /// 2. The `Bucket` of gumballs.
         pub fn buy_gumball_with_member_card(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
 
-            let resource_name_metadata: GlobalAddress =  
+            let resource_name_metadata: String = 
                 self.collected_tokens
                     .resource_manager()
                     .get_metadata("name")
                     .unwrap_or(
-                        self.collected_tokens.resource_address().into()
-                    );     
+                        self.collected_tokens.resource_address()
+                        .to_string(&AddressBech32Encoder::for_simulator())
+                    );    
 
             // Asserts that the payment type is of the accepted payment resource.
             // This assert is not needed but can be used for friendly error messages.
