@@ -34,8 +34,12 @@ The `GumballClub` has a few simple yet novel features:
 ## Blueprint Overview
 The GumballClub package is made up of 3 blueprints: `GumballClub`, `GumballMachine`, and `CandyMachine`. It relies on an external package `SugarPriceOracle` to feed the price of candy used by the `CandyMachine`.
 
+
+
 ### GumballClub Blueprint
 You can think of the `GumballClub` blueprint as the "master" blueprint. It is designed to instantiate all the component and create all the resources needed to build your `GumballClub` component backend out of the box and only a few configurations are needed to get it set up. Below will describe the instantiation process and the methods the `GumballClub` blueprint provides.
+
+![Alt text](image-1.png)
 
 **Instantiation** 
 
