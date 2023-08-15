@@ -50,7 +50,7 @@ The `GumballClub` instantiation function: `instantiate_gumball_club` takes in 3 
     - The `OwnerRole` can be specified to be `Updatable` meaning the badge address that the `AccessRule` is mapped to can be updated by the owner itself.
     - The `OwnerRole` can be specified to `None` meaning that the component and its resources will not have an owner and will not be able to have access to privileged methods nor update the entities metadata.
     - It is important to specify an `OwnerRole` and configure it to a badge address to enable [metadata verification](https://docs-babylon.radixdlt.com/main/standards/metadata-for-verification.html).
-2. `price_per_card` | `Decimal` - This is to confgiure the price of the member card that will be minted and sold by the `GumballClub` component.
+2. `price_per_card` | `Decimal` - This is to configure the price of the member card that will be minted and sold by the `GumballClub` component.
 3. `price_per_gumball` | `Decimal` - This is the configure the price of the gumball resource minted and sold by the `GumballMachine`.
 
 **Resources**
