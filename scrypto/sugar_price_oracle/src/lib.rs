@@ -16,7 +16,7 @@ mod sugar_price_oracle {
             .globalize()
         }
 
-        pub fn get_price(&mut self) -> Decimal {
+        pub fn get_price(&self) -> Decimal {
             
             let current_time_in_seconds = Clock::current_time_rounded_to_minutes().seconds_since_unix_epoch;
     

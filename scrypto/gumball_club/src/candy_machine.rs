@@ -11,9 +11,10 @@ use scrypto::prelude::*;
 /// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
     extern_blueprint!(
-        "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
+        // "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
+        "package_tdx_d_1ph3v6znkrrftaydtua03s0l47zxmmxp8cxxnjdfzrqp9guw04shqka",
         SugarPriceOracle {
-            fn get_price(&mut self) -> Decimal;
+            fn get_price(&self) -> Decimal;
         }
     );
 
@@ -163,7 +164,8 @@ mod candy_machine {
             let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+                // "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+                "component_tdx_d_1czpdx6jq83ua9ucu8regtqc86rnpwrs7qquzs7l2az5uypdh7nz6f4"
             );
 
             sugar_price_oracle.get_price()
