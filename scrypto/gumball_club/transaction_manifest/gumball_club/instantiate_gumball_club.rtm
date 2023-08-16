@@ -1,0 +1,18 @@
+CALL_FUNCTION
+    Address("package_sim1p4vahsvnech9t4chdytw26ep7udfw7hq7jyqnsge6yzd6dlqlapv2y")
+    "GumballClub"
+    "instantiate_gumball_club"
+    Enum<2u8>(
+        Enum<2u8>(
+            Enum<0u8>(
+                Enum<0u8>(
+                    Enum<1u8>(
+                        Address("resource_sim1thrc5s709vrvv7m3769tsx4qqj5w4zsgaaeuan46qt3nqkwhxyge02")
+                    )
+                )
+            )
+        )
+    )
+    Decimal("5")
+    Decimal("1")
+;

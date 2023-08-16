@@ -14,6 +14,7 @@ pub struct TestEnvironment {
     test_runner: TestRunner,
     account: Account,
     owner_badge: ResourceAddress,
+    package_address: PackageAddress,
     gumball_machine_component: ComponentAddress,
     gumball_club_token: ResourceAddress,
     member_card_badge: ResourceAddress,
@@ -124,6 +125,7 @@ impl TestEnvironment {
             test_runner,
             account,
             owner_badge,
+            package_address,
             gumball_machine_component,
             gumball_club_token,
             member_card_badge,
@@ -151,6 +153,34 @@ impl TestEnvironment {
         self.test_runner.execute_manifest_ignoring_fee(
             manifest, 
             vec![NonFungibleGlobalId::from_public_key(&self.account.public_key)]
+        )
+    }
+
+    pub fn instantiate_gumball_machine(
+        &mut self,
+        owner_role: OwnerRole,
+        payment_token_address: ResourceAddress,
+        member_card_address: ResourceAddress,
+        price_per_gumball: Decimal,
+    ) -> TransactionReceipt {
+        let manifest = ManifestBuilder::new()
+            .call_function(
+                self.package_address, 
+                "GumballMachine", 
+                "instantiate_gumball_machine", 
+                manifest_args!(
+                    owner_role,
+                    payment_token_address,
+                    member_card_address,
+                    price_per_gumball
+                )
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "instantiate_gumball_machine",
+            &NetworkDefinition::simulator()
         )
     }
 
@@ -309,6 +339,23 @@ impl TestEnvironment {
         ).unwrap()
 
     }
+}
+
+#[test]
+fn instantiate_gumball_machine() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let owner_badge = test_environment.owner_badge;
+    let gumball_club_token = test_environment.gumball_club_token;
+    let member_card = test_environment.member_card_badge;
+
+    let receipt = test_environment.instantiate_gumball_machine(
+        OwnerRole::Updatable(rule!(require(owner_badge))), 
+        gumball_club_token, 
+        member_card, 
+        dec!(5)
+    );
+
+    receipt.expect_commit_success();
 }
 
 #[test]

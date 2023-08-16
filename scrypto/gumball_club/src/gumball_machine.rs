@@ -78,7 +78,6 @@ mod gumball_machine {
         /// pre-configured `payment_token_address` and `member_card_address` provided by the `GumballClub`. 
         /// If you wish to instantiate the `GumballMachine` on its own, then you must specify its own 
         /// `payment_token_address` and `member_card_address` for your own purpose.
-
         pub fn instantiate_gumball_machine(
             owner_role: OwnerRole,
             payment_token_address: ResourceAddress, 
@@ -90,6 +89,26 @@ mod gumball_machine {
             // "virtual actor badge".
             let (address_reservation, component_address) = 
                 Runtime::allocate_component_address(Runtime::blueprint_id());
+
+            assert_ne!(
+                payment_token_address, member_card_address,
+                "payment_token_address cannot be the same as the member_card_address"
+            );
+
+            // Ideally it would be nice to assert the `ResourceAddress` of the `OwnerRole` without
+            // needing to account different `OwnerRole` variation.
+
+            assert!(
+                !(
+                    (owner_role == OwnerRole::Fixed(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Fixed(rule!(require(member_card_address))))
+                    &&
+                    (owner_role == OwnerRole::Updatable(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Updatable(rule!(require(member_card_address))))
+                ),
+                "`OwnerRole` mapping cannot map to either payment_token_address nor member_card_address"
+            );
+            
 
             // The resource definition for the candy token. This resource has divisibility
             // set to 0 to ensure candies sold are whole candies and cannot be fractionalized.

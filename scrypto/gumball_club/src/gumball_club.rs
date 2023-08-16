@@ -123,6 +123,10 @@ mod gumball_club {
                     minter => rule!(require(global_caller(component_address)));
                     minter_updater => rule!(deny_all);
                 ))
+                .burn_roles(burn_roles!(
+                    burner => rule!(allow_all);
+                    burner_updater => rule!(deny_all);
+                ))
                 .create_with_no_initial_supply();
             
             let gumball_machine: Global<GumballMachine> = 

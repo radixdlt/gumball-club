@@ -15,6 +15,7 @@ pub struct TestEnvironment {
     test_runner: TestRunner,
     account: Account,
     owner_badge: ResourceAddress,
+    package_address: PackageAddress,
     candy_machine_component: ComponentAddress,
     gumball_club_token: ResourceAddress,
     member_card_badge: ResourceAddress,
@@ -59,11 +60,11 @@ impl TestEnvironment {
 
         receipt.expect_commit_success();
 
-        let gc_package_address = test_runner.compile_and_publish(this_package!());
+        let package_address = test_runner.compile_and_publish(this_package!());
 
         let manifest = ManifestBuilder::new()
             .call_function(
-                gc_package_address, 
+                package_address, 
                 "GumballClub", 
                 "instantiate_gumball_club", 
                 manifest_args!(
@@ -130,6 +131,7 @@ impl TestEnvironment {
             test_runner,
             account,
             owner_badge,
+            package_address,
             candy_machine_component,
             gumball_club_token,
             member_card_badge,
@@ -157,6 +159,32 @@ impl TestEnvironment {
         self.test_runner.execute_manifest_ignoring_fee(
             manifest, 
             vec![NonFungibleGlobalId::from_public_key(&self.account.public_key)]
+        )
+    }
+
+    pub fn instantiate_candy_machine(
+        &mut self,
+        owner_role: OwnerRole,
+        payment_token_address: ResourceAddress,
+        member_card_address: ResourceAddress,
+    ) -> TransactionReceipt {
+        let manifest = ManifestBuilder::new()
+            .call_function(
+                self.package_address, 
+                "CandyMachine", 
+                "instantiate_candy_machine", 
+                manifest_args!(
+                    owner_role,
+                    payment_token_address,
+                    member_card_address,
+                )
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "instantiate_candy_machine",
+            &NetworkDefinition::simulator()
         )
     }
 
@@ -290,6 +318,24 @@ impl TestEnvironment {
         ).unwrap()
     }
 }
+
+
+#[test]
+fn instantiate_candy_machine() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let owner_badge = test_environment.owner_badge;
+    let gumball_club_token = test_environment.gumball_club_token;
+    let member_card = test_environment.member_card_badge;
+
+    let receipt = test_environment.instantiate_candy_machine(
+        OwnerRole::Updatable(rule!(require(owner_badge))), 
+        gumball_club_token, 
+        member_card, 
+    );
+
+    receipt.expect_commit_success();
+}
+
 
 #[test]
 fn get_price() {

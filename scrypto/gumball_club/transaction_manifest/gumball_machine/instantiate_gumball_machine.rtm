@@ -1,0 +1,19 @@
+CALL_FUNCTION
+    Address("package_sim1p4vahsvnech9t4chdytw26ep7udfw7hq7jyqnsge6yzd6dlqlapv2y")
+    "GumballMachine"
+    "instantiate_gumball_machine"
+    Enum<2u8>(
+        Enum<2u8>(
+            Enum<0u8>(
+                Enum<0u8>(
+                    Enum<1u8>(
+                        Address("resource_sim1thrc5s709vrvv7m3769tsx4qqj5w4zsgaaeuan46qt3nqkwhxyge02")
+                    )
+                )
+            )
+        )
+    )
+    Address("resource_sim1thj5e43xd45j0nqyndfah4u2fpclkn5nfqyjqhnr37c5xtu06y7gux")
+    Address("resource_sim1nt0m7mhdzam7w2za2l2sgnneaxjf46a45fkrsuqeut6xhyjrskuc70")
+    Decimal("5")
+;

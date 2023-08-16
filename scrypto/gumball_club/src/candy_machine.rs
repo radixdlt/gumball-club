@@ -10,13 +10,13 @@ use scrypto::prelude::*;
 /// every oracle will be a Global<SugarPriceOracle>?
 /// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
-    extern_blueprint!(
-        // "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
-        "package_tdx_d_1ph3v6znkrrftaydtua03s0l47zxmmxp8cxxnjdfzrqp9guw04shqka",
-        SugarPriceOracle {
-            fn get_price(&self) -> Decimal;
-        }
-    );
+extern_blueprint!(
+    "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
+    // "package_tdx_d_1pk5prt4nlcdd3urqjrcsmdaqndgkrqwmkf24gthk7x078t4gf2luf2",
+    SugarPriceOracle {
+        fn get_price(&self) -> Decimal;
+    }
+);
 
     // Defines component method authority
     
@@ -95,6 +95,21 @@ mod candy_machine {
             let (address_reservation, component_address) = 
                 Runtime::allocate_component_address(Runtime::blueprint_id());
             
+            assert_ne!(
+                payment_token_address, member_card_address,
+                "payment_token_address cannot be the same as the member_card_address"
+            );
+
+            assert!(
+                !(
+                    (owner_role == OwnerRole::Fixed(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Fixed(rule!(require(member_card_address))))
+                    &&
+                    (owner_role == OwnerRole::Updatable(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Updatable(rule!(require(member_card_address))))
+                ),
+                "`OwnerRole` mapping cannot map to either payment_token_address nor member_card_address"
+            );
             // The resource definition for the candy token. This resource has divisibility
             // set to 0 to ensure candies sold are whole candies and cannot be fractionalized.
 
@@ -164,8 +179,8 @@ mod candy_machine {
             let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                // "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
-                "component_tdx_d_1czpdx6jq83ua9ucu8regtqc86rnpwrs7qquzs7l2az5uypdh7nz6f4"
+                "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
+                // "component_tdx_d_1czgfwttsetywysval8mjcave6ldsxpuegunhgsztpl50l3maezs374"
             );
 
             sugar_price_oracle.get_price()

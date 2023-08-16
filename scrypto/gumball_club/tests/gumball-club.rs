@@ -12,6 +12,8 @@ pub struct Account {
 pub struct TestEnvironment {
     test_runner: TestRunner,
     account: Account,
+    owner_badge: ResourceAddress,
+    package_address: PackageAddress,
     gumball_club_component: ComponentAddress,
     gumball_club_token: ResourceAddress,
     member_card_badge: ResourceAddress,
@@ -80,6 +82,8 @@ impl TestEnvironment {
         Self {
             test_runner,
             account,
+            owner_badge,
+            package_address,
             gumball_club_component,
             gumball_club_token,
             member_card_badge,
@@ -106,6 +110,27 @@ impl TestEnvironment {
         self.test_runner.execute_manifest_ignoring_fee(
             manifest, 
             vec![NonFungibleGlobalId::from_public_key(&self.account.public_key)]
+        )
+    }
+
+    pub fn instantiate_gumball_club(&mut self) -> TransactionReceipt {
+        let manifest = ManifestBuilder::new()
+            .call_function(
+                self.package_address, 
+                "GumballClub", 
+                "instantiate_gumball_club", 
+                manifest_args!(
+                    OwnerRole::Updatable(rule!(require(self.owner_badge))),
+                    dec!(5),
+                    dec!(1),
+                )
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "instantiate_gumball_club",
+            &NetworkDefinition::simulator()
         )
     }
 
@@ -165,8 +190,16 @@ impl TestEnvironment {
 }
 
 #[test]
+fn instantiate_gumball_club() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+
+    let receipt = test_environment.instantiate_gumball_club();
+
+    receipt.expect_commit_success();
+}
+
+#[test]
 fn dispense_gc_tokens() {
-    
     let mut test_environment = TestEnvironment::instantiate_test();
 
     let receipt = test_environment.dispense_gc_tokens();
