@@ -1,0 +1,23 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+}
+
+.modal {
+  border-radius: 12px;
+  background: var(--white);
+  box-shadow: var(--shadow-lg);
+  width: 25rem;
+  align-self: flex-start;
+  margin-top: calc(100vh / 10);
+  padding: 1.5rem;
+  text-align: center;
+}

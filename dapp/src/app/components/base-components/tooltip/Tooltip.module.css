@@ -1,0 +1,38 @@
+.tooltip {
+  border-radius: 8px;
+  background: var(--blue);
+  width: 100%;
+  padding: 1rem;
+  color: var(--white);
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  line-height: 150%;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: -1.25rem;
+  right: 3.7rem;
+  transform: rotate(180deg);
+  border-width: 0.625rem;
+  border-style: solid;
+  border-color: var(--blue) transparent transparent transparent;
+}
+
+.close {
+  width: 1rem;
+  height: 1rem;
+}
+
+.close::before {
+  content: "";
+  position: absolute;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  right: 1rem;
+  top: 0.85rem;
+  background-image: url("/assets/tooltip-close.svg");
+}

@@ -1,0 +1,20 @@
+.card {
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  height: 100%;
+  width: 100%;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-shadow {
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid #ecf1ff;
+  background: rgba(236, 241, 255, 0.5);
+  width: 100%;
+}

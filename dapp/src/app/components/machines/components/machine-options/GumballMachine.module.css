@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.content {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 1.3rem;
+}
+
+.options {
+  width: 100%;
+  height: 17.625rem;
+}
