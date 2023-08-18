@@ -20,32 +20,29 @@ export const useAccounts = () => {
 
   const includeFungibleTokens = (accounts: Account[]) => {
     setState((prev) => ({ ...prev, accounts: [], status: "pending" }))
-    return (
-      dAppToolkit.gatewayApi.state
-        .getEntityDetailsVaultAggregated(
-          accounts.map((account) => account.address)
-        )
-        // TODO: remove any when gateway api types are exported correctly
-        .then((data: any[]) =>
-          Promise.all(
-            data.map((item, index) =>
-              transformFungibleTokens(
-                item.fungible_resources,
-                dAppToolkit.gatewayApi.state
-              ).then((fungibleTokens) => ({
-                ...accounts[index],
-                fungibleTokens,
-              }))
-            )
+    return dAppToolkit.gatewayApi.state
+      .getEntityDetailsVaultAggregated(
+        accounts.map((account) => account.address)
+      )
+      .then((data) =>
+        Promise.all(
+          data.map((item, index) =>
+            transformFungibleTokens(
+              item.fungible_resources,
+              dAppToolkit.gatewayApi.state
+            ).then((fungibleTokens) => ({
+              ...accounts[index],
+              fungibleTokens,
+            }))
           )
         )
-        .then((accounts: any) => {
-          setState({ accounts, status: "success", hasLoaded: true })
-        })
-        .catch(() => {
-          setState({ accounts: [], status: "error", hasLoaded: true })
-        })
-    )
+      )
+      .then((accounts: any) => {
+        setState({ accounts, status: "success", hasLoaded: true })
+      })
+      .catch(() => {
+        setState({ accounts: [], status: "error", hasLoaded: true })
+      })
   }
 
   useEffect(() => {

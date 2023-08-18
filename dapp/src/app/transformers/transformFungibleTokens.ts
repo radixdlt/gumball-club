@@ -1,4 +1,3 @@
-// @ts-nocheck TODO: Remove when gateway api types are exported correctly
 import {
   EntityMetadataCollection,
   FungibleResourcesVaultCollection,

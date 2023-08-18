@@ -5,18 +5,17 @@ import { useFetch } from "./useFetch"
 export const useWellKnownAddresses = () => {
   const dAppToolkit = useDappToolkit()
   const [state, setState] = useState<{ xrd: string } | undefined>()
-  const fetchHook = useFetch()
+  const { fetch } = useFetch()
 
   useEffect(() => {
-    fetchHook.fetch(
+    fetch(
       dAppToolkit.gatewayApi.status
         .getNetworkConfiguration()
-        // TODO: remove any when gateway api types are exported correctly
-        .then((response: any) => {
+        .then((response) => {
           setState(response.well_known_addresses)
         })
     )
-  }, [dAppToolkit])
+  }, [dAppToolkit, fetch])
 
   return state
 }
