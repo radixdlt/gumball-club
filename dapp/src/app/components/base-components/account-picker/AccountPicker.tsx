@@ -6,14 +6,6 @@ import { animated, useSpring } from "@react-spring/web"
 import { Text } from "../text/Text"
 import { Account as AccountType } from "@radixdlt/radix-dapp-toolkit"
 
-const RadioButton = ({ selected }: { selected?: boolean }) => (
-  <div className={`${styles["radio-wrapper"]}`}>
-    <div
-      className={`${styles.radio} ${selected ? styles["selected"] : ""}`}
-    ></div>
-  </div>
-)
-
 const Account = ({
   label,
   address,
@@ -38,7 +30,6 @@ const Account = ({
   >
     <span className={styles.label}>{label}</span>
     <span className={styles.address}>{shortenAddress(address)}</span>
-    {variant === "radio-button" ? <RadioButton selected={selected} /> : null}
   </div>
 )
 
