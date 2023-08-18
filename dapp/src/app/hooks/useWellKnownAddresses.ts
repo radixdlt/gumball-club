@@ -11,7 +11,8 @@ export const useWellKnownAddresses = () => {
     fetchHook.fetch(
       dAppToolkit.gatewayApi.status
         .getNetworkConfiguration()
-        .then((response) => {
+        // TODO: remove any when gateway api types are exported correctly
+        .then((response: any) => {
           setState(response.well_known_addresses)
         })
     )

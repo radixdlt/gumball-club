@@ -3,8 +3,8 @@ import { useOutsideClick } from "@/app/hooks/useOutsideClick"
 import styles from "./AccountPicker.module.css"
 import { useEffect, useState } from "react"
 import { animated, useSpring } from "@react-spring/web"
-import type { Account as AccountType } from "@/app/types"
 import { Text } from "../text/Text"
+import { Account as AccountType } from "@radixdlt/radix-dapp-toolkit"
 
 const RadioButton = ({ selected }: { selected?: boolean }) => (
   <div className={`${styles["radio-wrapper"]}`}>

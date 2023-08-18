@@ -8,7 +8,6 @@ import { useConnectButtonState } from "@/app/hooks/useConnectButtonState"
 import { Tooltip } from "../base-components/tooltip/Tooltip"
 import { usePersona } from "@/app/hooks/usePersona"
 import { usePersonaData } from "@/app/hooks/usePersonaData"
-import { useSpring } from "@react-spring/web"
 
 declare global {
   namespace JSX {
@@ -34,15 +33,15 @@ const ConnectHelper = () => (
 export const Header = ({
   className = "",
   hasXrd,
-  accounts,
-  accountsLoading,
+  accounts = [],
+  accountsLoading = false,
 }: {
   className?: string
-  hasXrd: boolean
-  accounts: AccountWithFungibleTokens[]
-  accountsLoading: boolean
+  hasXrd?: boolean
+  accounts?: AccountWithFungibleTokens[]
+  accountsLoading?: boolean
 }) => {
-  const { persona, hasLoaded } = usePersona()
+  const { persona } = usePersona()
   const connectButtonState = useConnectButtonState()
   const personaData = usePersonaData()
   const [state, setState] = React.useState<{
@@ -54,7 +53,7 @@ export const Header = ({
     isPopoverOpen: false,
     insufficientXrdAlertDismissed: false,
   })
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<any>(null)
 
   const showConnectHelper =
     accounts.length === 0 && connectButtonState === "default"

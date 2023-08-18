@@ -1,9 +1,9 @@
 import { Card } from "../../base-components/card"
 import { Tag } from "../../base-components/tag"
 import Image from "next/image"
-import { Account } from "@/app/types"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
+import { Account } from "@radixdlt/radix-dapp-toolkit"
 
 export const CandyBagMachine = ({
   accounts,

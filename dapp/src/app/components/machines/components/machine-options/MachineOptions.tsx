@@ -4,9 +4,9 @@ import styles from "./GumballMachine.module.css"
 import { AccountPicker } from "../../../base-components/account-picker/AccountPicker"
 import { Input } from "../../../base-components/input/Input"
 import { Border } from "../../../base-components/border/Border"
-import { Account } from "@/app/types"
 import { ReactNode, useEffect, useState } from "react"
 import { Button } from "../../../base-components/button"
+import { Account } from "@radixdlt/radix-dapp-toolkit"
 
 export const MachineOptions = ({
   accounts,

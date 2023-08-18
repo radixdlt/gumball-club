@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react"
 
-import { TokenDispenser } from "./TokenDispenser";
+import { TokenDispenser } from "./TokenDispenser"
 
 const meta = {
   title: "Gumball Club/Machines/TokenDispenser",
@@ -9,13 +9,14 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
-} satisfies Meta<typeof TokenDispenser>;
+} satisfies Meta<typeof TokenDispenser>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
+    hasXrd: true,
     accounts: [
       {
         label: "Main",
@@ -36,4 +37,4 @@ export const Primary: Story = {
       <TokenDispenser {...args} />
     </div>
   ),
-};
+}
