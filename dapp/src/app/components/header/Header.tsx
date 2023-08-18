@@ -90,7 +90,7 @@ export const Header = ({
   return (
     <header className={`${className}`}>
       <div className={`${styles.header} `}>
-        <Image src="/assets/logo.png" height={75} width={275} alt="logo" />
+        <Image src="/assets/logo.png" height={42} width={139} alt="logo" />
         <div className={styles["radix-connect-button"]}>
           <radix-connect-button ref={ref} />
           {showConnectHelper ? <ConnectHelper /> : null}

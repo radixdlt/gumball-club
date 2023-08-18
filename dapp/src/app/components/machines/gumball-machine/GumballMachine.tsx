@@ -41,8 +41,8 @@ export const GumballMachine = ({
           <Image
             src="/assets/gumball-machine.png"
             alt="me"
-            width="154"
-            height="274"
+            width="190"
+            height="305"
           />
         }
         accounts={accounts}

@@ -46,8 +46,8 @@ export const CandyBagMachine = ({
           <Image
             src="/assets/candy-machine.png"
             alt="me"
-            width="185"
-            height="274"
+            width="176"
+            height="282"
           />
         }
         accounts={accounts}
