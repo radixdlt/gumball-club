@@ -25,7 +25,7 @@ jobs:
 #       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
 #         with:
 #           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'radix-dapp-toolkit'
+#           app_name: 'gumball-club'
 #           step_name: 'snyk-scan-deps-licenses'
 #           secret_prefix: 'SNYK'
 #           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
@@ -47,7 +47,7 @@ jobs:
 #       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
 #         with:
 #           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'radix-dapp-toolkit'
+#           app_name: 'gumball-club'
 #           step_name: 'snyk-scan-code'
 #           secret_prefix: 'SNYK'
 #           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
@@ -73,7 +73,7 @@ jobs:
 #       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
 #         with:
 #           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'radix-dapp-toolkit'
+#           app_name: 'gumball-club'
 #           step_name: 'snyk-sbom'
 #           secret_prefix: 'SNYK'
 #           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
@@ -173,7 +173,7 @@ jobs:
 #       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
 #         with:
 #           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'radix-dapp-toolkit'
+#           app_name: 'gumball-club'
 #           step_name: 'snyk-monitor'
 #           secret_prefix: 'SNYK'
 #           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
@@ -199,13 +199,13 @@ jobs:
 #       - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
 #         with:
 #           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'radix-dapp-toolkit'
+#           app_name: 'gumball-club'
 #           step_name: 'snyk-container-monitor'
 #           dockerhub_secret_name: ${{ secrets.AWS_SECRET_NAME_DOCKERHUB }}
 #           snyk_secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
 #           parse_json: true
 #           snyk_org_id: ${{ secrets.SNYK_ORG_ID }}
-#           image: docker.io/radixdlt/private-radix-dapp-toolkit:sha-${{ needs.build.outputs.tag }}
+#           image: docker.io/radixdlt/private-gumball-club:sha-${{ needs.build.outputs.tag }}
 #           target_ref: ${{ github.ref_name }}
 
 #   deploy-pr:
@@ -245,8 +245,8 @@ jobs:
 #           apiVersion: hnc.x-k8s.io/v1alpha2
 #           kind: SubnamespaceAnchor
 #           metadata:
-#             name: radix-dapp-toolkit-pr-${{ github.event.number }}
-#             namespace: radix-dapp-toolkit-ci-pr
+#             name: gumball-club-pr-${{ github.event.number }}
+#             namespace: gumball-club-ci-pr
 #           DOC
 
 #           aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} \
@@ -255,13 +255,13 @@ jobs:
 
 #           kubectl apply -f namespace.yaml
 
-#           helmfile --environment pr --namespace radix-dapp-toolkit-pr-${{ github.event.number }} \
+#           helmfile --environment pr --namespace gumball-club-pr-${{ github.event.number }} \
 #                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
 #                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
 #                    apply
 #         env:
 #           CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
-#           INGRESS_DOMAIN: radix-dapp-toolkit-pr-${{ github.event.number}}.${{ secrets.INGRESS_DOMAIN }}
+#           INGRESS_DOMAIN: gumball-club-pr-${{ github.event.number}}.${{ secrets.INGRESS_DOMAIN }}
 #           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
 #           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
 
@@ -302,13 +302,13 @@ jobs:
 #                                     --alias ${{ secrets.CLUSTER_NAME }} \
 #                                     --region eu-west-2
 
-#           helmfile --environment dev --namespace radix-dapp-toolkit-dev \
+#           helmfile --environment dev --namespace gumball-club-dev \
 #                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
 #                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
 #                    apply
 #         env:
 #           CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
-#           INGRESS_DOMAIN: radix-dapp-toolkit-dev.${{ secrets.INGRESS_DOMAIN }}
+#           INGRESS_DOMAIN: gumball-club-dev.${{ secrets.INGRESS_DOMAIN }}
 #           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
 #           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
 
@@ -356,15 +356,15 @@ jobs:
 #           apiVersion: hnc.x-k8s.io/v1alpha2
 #           kind: SubnamespaceAnchor
 #           metadata:
-#             name: radix-dapp-toolkit-$NORMALIZED_BRANCH_NAME
-#             namespace: radix-dapp-toolkit-ci-releases
+#             name: gumball-club-$NORMALIZED_BRANCH_NAME
+#             namespace: gumball-club-ci-releases
 #           DOC
 
 #           kubectl apply -f subns-manifest.yaml
 
-#           helmfile --environment dev --namespace radix-dapp-toolkit-$NORMALIZED_BRANCH_NAME \
+#           helmfile --environment dev --namespace gumball-club-$NORMALIZED_BRANCH_NAME \
 #                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-#                    --state-values-set "ci.ingressDomain=radix-dapp-toolkit-${NORMALIZED_BRANCH_NAME}.${{ env.INGRESS_DOMAIN }}" \
+#                    --state-values-set "ci.ingressDomain=gumball-club-${NORMALIZED_BRANCH_NAME}.${{ env.INGRESS_DOMAIN }}" \
 #                    apply
 #         env:
 #           CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
