@@ -131,28 +131,28 @@ jobs:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --target-reference=${{ github.ref_name }}
           command: monitor
 
-#   snyk-container-monitor:
-#     runs-on: ubuntu-latest
-#     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-#     needs:
-#       - push-docker-image
-#     permissions:
-#       id-token: write
-#       pull-requests: read
-#       contents: read
-#       deployments: write
-#     steps:
-#       - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
-#         with:
-#           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-#           app_name: 'gumball-club'
-#           step_name: 'snyk-container-monitor'
-#           dockerhub_secret_name: ${{ secrets.AWS_SECRET_NAME_DOCKERHUB }}
-#           snyk_secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
-#           parse_json: true
-#           snyk_org_id: ${{ secrets.SNYK_ORG_ID }}
-#           image: docker.io/radixdlt/private-gumball-club:sha-${{ needs.build.outputs.tag }}
-#           target_ref: ${{ github.ref_name }}
+  snyk-container-monitor:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - push-docker-image
+    permissions:
+      id-token: write
+      pull-requests: read
+      contents: read
+      deployments: write
+    steps:
+      - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
+        with:
+          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
+          app_name: 'gumball-club'
+          step_name: 'snyk-container-monitor'
+          dockerhub_secret_name: ${{ secrets.AWS_SECRET_NAME_DOCKERHUB }}
+          snyk_secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
+          parse_json: true
+          snyk_org_id: ${{ secrets.SNYK_ORG_ID }}
+          image: docker.io/radixdlt/private-gumball-club:${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          target_ref: ${{ github.ref_name }}
 
   deploy-pr:
     if: ${{ github.event_name == 'pull_request' }}
