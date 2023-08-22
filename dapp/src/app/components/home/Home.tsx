@@ -18,18 +18,22 @@ import { hasFungibleTokens } from "@/app/helpers/getAccountTokens"
 import { config } from "@/app/config"
 import { TokenDispenserModal } from "../token-dispenser/TokenDispenserModal"
 import { GumballMachineModal } from "../machines/gumball-machine/GumballMachineModal"
+import { CandyMachineModal } from "../machines/candybag-machine/CandyMachineModal"
 
 export const Home = () => {
   const {
     refresh,
     state: { accounts, status, hasLoaded: hasAccountsLoaded },
   } = useAccounts()
-  const { dispenseGcTokens, buyGumball } = useSendTransactionManifest()()
+  const { dispenseGcTokens, buyGumball, buyCandy } =
+    useSendTransactionManifest()()
 
   const [state, setState] = useState<
     Partial<{
       showTokenDispenserModal: boolean
       showGumballModal: boolean
+      showCandyModal: boolean
+      showMembershipModal: boolean
       account: AccountWithFungibleTokens
       outputTokenValue: number
     }>
@@ -108,6 +112,27 @@ export const Home = () => {
         account={state?.account}
       />
 
+      <CandyMachineModal
+        outputTokenValue={state?.outputTokenValue}
+        show={state?.showCandyModal}
+        onDismiss={() => {
+          setState((prev) => ({
+            ...prev,
+            showCandyModal: false,
+          }))
+
+          // wait for animation to finish before resetting account state
+          setTimeout(() => {
+            setState((prev) => ({
+              ...prev,
+              account: undefined,
+              outputTokenValue: undefined,
+            }))
+          }, 1000)
+        }}
+        account={state?.account}
+      />
+
       <animated.div className={styles.home} style={style}>
         <Header
           className={styles.header}
@@ -158,7 +183,24 @@ export const Home = () => {
             <CandyBagMachine
               price={2}
               accounts={accounts}
-              onSubmit={() => {}}
+              onSubmit={({
+                selectedAccount,
+                inputTokenValue,
+                outputTokenValue,
+              }) => {
+                buyCandy(selectedAccount, inputTokenValue)
+                  .map(refresh)
+                  .map(() =>
+                    setState((prev) => ({
+                      ...prev,
+                      showCandyModal: true,
+                      account: accounts.find(
+                        (account) => account.address === selectedAccount
+                      ),
+                      outputTokenValue,
+                    }))
+                  )
+              }}
             />
             {hasGcTokens && (
               <MembershipMachine accounts={accounts} onSubmit={() => {}} />

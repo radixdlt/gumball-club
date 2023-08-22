@@ -3,8 +3,9 @@ import { Tag } from "../../base-components/tag"
 import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
-import { Account } from "@radixdlt/radix-dapp-toolkit"
 import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { useSugarMarketPrice } from "./useSugarMarketPrice"
+import { useEffect, useState } from "react"
 
 export const CandyBagMachine = ({
   accounts,
@@ -16,8 +17,34 @@ export const CandyBagMachine = ({
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number
+    outputTokenValue: number
   }) => void
 }) => {
+  const getPrice = useSugarMarketPrice()
+  const [candyPrice, setState] = useState(0)
+
+  useEffect(() => {
+    let timeoutRef: any
+
+    const handleGetPrice = () => {
+      timeoutRef = setTimeout(async () => {
+        try {
+          setState(await getPrice())
+          handleGetPrice()
+        } catch (error) {
+          handleGetPrice()
+        }
+      }, 10_000)
+    }
+
+    getPrice().then(setState)
+    handleGetPrice()
+
+    return () => {
+      if (timeoutRef) clearTimeout(timeoutRef)
+    }
+  }, [setState, getPrice])
+
   return (
     <Card>
       <MachineHeader
@@ -34,15 +61,15 @@ export const CandyBagMachine = ({
               marginTop: "0.5rem",
             }}
           >
-            <Tag color="blue">2 GC = 1 Candy bag </Tag>
+            {/* <Tag color="blue">2 GC = 1 Candy bag </Tag> */}
             <Tag color="pink" icon="market">
-              Market Price: 0.2 GC/candy
+              Market Price: {candyPrice} GC/candy
             </Tag>
           </div>
         }
       />
       <MachineOptions
-        price={price}
+        price={candyPrice}
         image={
           <Image
             src="/assets/candy-machine.png"
@@ -53,7 +80,7 @@ export const CandyBagMachine = ({
         }
         accounts={accounts}
         inputTokenName="GC Tokens"
-        outputTokenName="Candy Bags"
+        outputTokenName="Candy"
         onSubmit={onSubmit}
       ></MachineOptions>
     </Card>

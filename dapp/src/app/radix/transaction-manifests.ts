@@ -4,6 +4,7 @@ export const TransactionManifests = ({
   gumballClubComponent,
   gumballClubTokensResource,
   gumballMachineComponent,
+  candyMachineComponent,
 }: ResourceAddresses) => {
   const dispenseGcTokens = (accountAddress: string) => `
         CALL_METHOD
@@ -44,5 +45,28 @@ export const TransactionManifests = ({
     ;
 `
 
-  return { dispenseGcTokens, buyGumball }
+  const buyCandy = (accountAddress: string, gcTokensValue: number) => `
+    CALL_METHOD
+        Address("${accountAddress}")
+        "withdraw"
+        Address("${gumballClubTokensResource}")
+        Decimal("${gcTokensValue}")
+    ;
+    TAKE_ALL_FROM_WORKTOP
+        Address("${gumballClubTokensResource}")
+        Bucket("gumball_club_token_bucket")
+    ;
+    CALL_METHOD
+        Address("${candyMachineComponent}")
+        "buy_candy"
+        Bucket("gumball_club_token_bucket")
+    ;
+    CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+    ;
+    `
+
+  return { dispenseGcTokens, buyGumball, buyCandy }
 }
