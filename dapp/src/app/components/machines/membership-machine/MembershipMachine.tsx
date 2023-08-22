@@ -3,14 +3,14 @@ import { Tag } from "../../base-components/tag"
 import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
-import { WalletDataStateAccount } from "@radixdlt/radix-dapp-toolkit"
 import styles from "./MembershipMachine.module.css"
+import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
 
 export const MembershipMachine = ({
   accounts,
   onSubmit,
 }: {
-  accounts: WalletDataStateAccount[]
+  accounts: AccountWithFungibleTokens[]
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number

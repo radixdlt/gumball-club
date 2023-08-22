@@ -6,7 +6,9 @@ import { Input } from "../../../base-components/input/Input"
 import { Border } from "../../../base-components/border/Border"
 import { ReactNode, useEffect, useState } from "react"
 import { Button } from "../../../base-components/button"
-import { Account } from "@radixdlt/radix-dapp-toolkit"
+import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { config } from "@/app/config"
+import BigNumber from "bignumber.js"
 
 export const MachineOptions = ({
   accounts,
@@ -16,7 +18,7 @@ export const MachineOptions = ({
   onSubmit,
   price,
 }: {
-  accounts: Account[]
+  accounts: AccountWithFungibleTokens[]
   outputTokenName: string
   inputTokenName: string
   image: ReactNode
@@ -34,6 +36,12 @@ export const MachineOptions = ({
   }>({ inputTokenValue: 0, isValid: false })
 
   const outputTokenValue = Math.floor(inputTokenValue / price)
+
+  const gcTokens = accounts.find(
+    (account) => selectedAccount === account.address
+  )?.fungibleTokens[config.addresses.gumballClubTokensResource].value
+
+  const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
   useEffect(() => {
     setState((prev) => ({
@@ -65,6 +73,8 @@ export const MachineOptions = ({
               }))
             }}
             className="mb-1"
+            tokenBalance={gcTokens}
+            error={invalidInput ? "Not enough GC Tokens in account" : undefined}
           >
             {inputTokenName}
           </Input>
@@ -75,11 +85,16 @@ export const MachineOptions = ({
         </div>
       </div>
       <Button
-        disabled={!isValid || isDisabled}
+        disabled={!isValid || isDisabled || invalidInput}
         icon="external-link"
         onClick={() => {
-          if (isValid)
+          if (isValid) {
             onSubmit({ selectedAccount: selectedAccount!, inputTokenValue })
+            setState((prev) => ({
+              ...prev,
+              inputTokenValue: 0,
+            }))
+          }
         }}
       >
         Send to the Radix Wallet

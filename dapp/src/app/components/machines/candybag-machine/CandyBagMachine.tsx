@@ -4,13 +4,14 @@ import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
 import { Account } from "@radixdlt/radix-dapp-toolkit"
+import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
 
 export const CandyBagMachine = ({
   accounts,
   onSubmit,
   price,
 }: {
-  accounts: Account[]
+  accounts: AccountWithFungibleTokens[]
   price: number
   onSubmit: (value: {
     selectedAccount: string
