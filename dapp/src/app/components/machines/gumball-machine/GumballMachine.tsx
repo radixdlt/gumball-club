@@ -15,6 +15,7 @@ export const GumballMachine = ({
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number
+    outputTokenValue: number
   }) => void
 }) => {
   return (

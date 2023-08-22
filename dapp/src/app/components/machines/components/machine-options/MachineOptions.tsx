@@ -25,6 +25,7 @@ export const MachineOptions = ({
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number
+    outputTokenValue: number
   }) => void
   price: number
 }) => {
@@ -39,7 +40,7 @@ export const MachineOptions = ({
 
   const gcTokens = accounts.find(
     (account) => selectedAccount === account.address
-  )?.fungibleTokens[config.addresses.gumballClubTokensResource].value
+  )?.fungibleTokens[config.addresses.gumballClubTokensResource]?.value
 
   const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
@@ -89,7 +90,11 @@ export const MachineOptions = ({
         icon="external-link"
         onClick={() => {
           if (isValid) {
-            onSubmit({ selectedAccount: selectedAccount!, inputTokenValue })
+            onSubmit({
+              selectedAccount: selectedAccount!,
+              inputTokenValue,
+              outputTokenValue,
+            })
             setState((prev) => ({
               ...prev,
               inputTokenValue: 0,

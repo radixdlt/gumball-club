@@ -17,6 +17,7 @@ import { useSendTransactionManifest } from "@/app/hooks/useSendTransactionManife
 import { hasFungibleTokens } from "@/app/helpers/getAccountTokens"
 import { config } from "@/app/config"
 import { TokenDispenserModal } from "../token-dispenser/TokenDispenserModal"
+import { GumballMachineModal } from "../machines/gumball-machine/GumballMachineModal"
 
 export const Home = () => {
   const {
@@ -28,7 +29,9 @@ export const Home = () => {
   const [state, setState] = useState<
     Partial<{
       showTokenDispenserModal: boolean
+      showGumballModal: boolean
       account: AccountWithFungibleTokens
+      outputTokenValue: number
     }>
   >()
 
@@ -84,6 +87,27 @@ export const Home = () => {
         account={state?.account}
       />
 
+      <GumballMachineModal
+        outputTokenValue={state?.outputTokenValue}
+        show={state?.showGumballModal}
+        onDismiss={() => {
+          setState((prev) => ({
+            ...prev,
+            showGumballModal: false,
+          }))
+
+          // wait for animation to finish before resetting account state
+          setTimeout(() => {
+            setState((prev) => ({
+              ...prev,
+              account: undefined,
+              outputTokenValue: undefined,
+            }))
+          }, 1000)
+        }}
+        account={state?.account}
+      />
+
       <animated.div className={styles.home} style={style}>
         <Header
           className={styles.header}
@@ -112,8 +136,23 @@ export const Home = () => {
           <div className={styles.machines}>
             <GumballMachine
               accounts={accounts}
-              onSubmit={({ selectedAccount, inputTokenValue }) => {
-                buyGumball(selectedAccount, inputTokenValue).map(refresh)
+              onSubmit={({
+                selectedAccount,
+                inputTokenValue,
+                outputTokenValue,
+              }) => {
+                buyGumball(selectedAccount, inputTokenValue)
+                  .map(refresh)
+                  .map(() =>
+                    setState((prev) => ({
+                      ...prev,
+                      showGumballModal: true,
+                      account: accounts.find(
+                        (account) => account.address === selectedAccount
+                      ),
+                      outputTokenValue,
+                    }))
+                  )
               }}
             />
             <CandyBagMachine

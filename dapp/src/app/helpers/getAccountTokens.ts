@@ -1,5 +1,4 @@
 import BigNumber from "bignumber.js"
-import { config } from "../config"
 import { AccountWithFungibleTokens } from "../hooks/useAccounts"
 
 export const getAccountTokens = (
@@ -17,7 +16,7 @@ export const hasFungibleTokens = (
   accounts
     .reduce(
       (acc, account) =>
-        acc.plus(account.fungibleTokens[resourceAddress].value || 0),
+        acc.plus(account.fungibleTokens[resourceAddress]?.value || 0),
       new BigNumber(0)
     )
     .gt(0)

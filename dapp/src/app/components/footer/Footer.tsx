@@ -86,12 +86,14 @@ const Socials = () => (
 
 const RunsOnRadix = () => (
   <div className={styles["runs-on-radix"]}>
-    <Image
-      src="/assets/runs-on-radix.svg"
-      width={119.483}
-      height={48.081}
-      alt="developer console link"
-    ></Image>
+    <a href="https://www.radixdlt.com/full-stack" target="_blank">
+      <Image
+        src="/assets/runs-on-radix.svg"
+        width={119.483}
+        height={48.081}
+        alt="developer console link"
+      ></Image>
+    </a>
   </div>
 )
 
