@@ -77,6 +77,9 @@ export const CandyBagMachine = ({
             height="282"
           />
         }
+        priceCalculationFn={(inputTokenValue, price) =>
+          Math.floor(inputTokenValue * price)
+        }
         accounts={accounts}
         inputTokenName="GC Tokens"
         outputTokenName="Candies"

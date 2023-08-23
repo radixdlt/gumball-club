@@ -14,6 +14,7 @@ export const MembershipMachine = ({
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number
+    outputTokenValue: number
   }) => void
 }) => {
   return (
@@ -26,6 +27,8 @@ export const MembershipMachine = ({
       />
       <MachineOptions
         price={5}
+        defaultInputTokenValue={5}
+        disabled
         image={
           <Image
             src="/assets/membership-machine.png"
@@ -36,7 +39,7 @@ export const MembershipMachine = ({
         }
         accounts={accounts}
         inputTokenName="GC Tokens"
-        outputTokenName="GC Member Card"
+        outputTokenName="Member Card"
         onSubmit={onSubmit}
       ></MachineOptions>
     </Card>

@@ -16,24 +16,19 @@ import { useEffect, useState } from "react"
 import { useSendTransactionManifest } from "@/app/hooks/useSendTransactionManifest"
 import { hasFungibleTokens } from "@/app/helpers/getAccountTokens"
 import { config } from "@/app/config"
-import { TokenDispenserModal } from "../token-dispenser/TokenDispenserModal"
-import { GumballMachineModal } from "../machines/gumball-machine/GumballMachineModal"
-import { CandyMachineModal } from "../machines/candybag-machine/CandyMachineModal"
+import { HomeModule } from "./components/HomeModule"
 
 export const Home = () => {
   const {
     refresh,
     state: { accounts, status, hasLoaded: hasAccountsLoaded },
   } = useAccounts()
-  const { dispenseGcTokens, buyGumball, buyCandy } =
+  const { dispenseGcTokens, buyGumball, buyCandy, buyMemberCard } =
     useSendTransactionManifest()()
 
   const [state, setState] = useState<
     Partial<{
-      showTokenDispenserModal: boolean
-      showGumballModal: boolean
-      showCandyModal: boolean
-      showMembershipModal: boolean
+      showModal: "tokenDispenser" | "gumball" | "candy" | "member"
       account: AccountWithFungibleTokens
       outputTokenValue: number
     }>
@@ -70,66 +65,42 @@ export const Home = () => {
     config.addresses.gumballClubTokensResource
   )
 
+  const handleDismissModal = () => {
+    setState((prev) => ({
+      ...prev,
+      showModal: undefined,
+    }))
+
+    // wait for animation to finish before resetting account state
+    setTimeout(() => {
+      setState((prev) => ({
+        ...prev,
+        account: undefined,
+        outputTokenValue: undefined,
+      }))
+    }, 1000)
+  }
+
+  const handleShowModal = (
+    showModal: "tokenDispenser" | "gumball" | "candy" | "member",
+    selectedAccountAddress: string,
+    outputTokenValue?: number
+  ) =>
+    setState((prev) => ({
+      ...prev,
+      showModal,
+      account: accounts.find(
+        (account) => account.address === selectedAccountAddress
+      ),
+      outputTokenValue,
+    }))
+
   return (
     <>
-      <TokenDispenserModal
-        show={state?.showTokenDispenserModal}
-        onDismiss={() => {
-          setState((prev) => ({
-            ...prev,
-            showTokenDispenserModal: false,
-          }))
-
-          // wait for animation to finish before resetting account state
-          setTimeout(() => {
-            setState((prev) => ({
-              ...prev,
-              account: undefined,
-            }))
-          }, 1000)
-        }}
-        account={state?.account}
-      />
-
-      <GumballMachineModal
+      <HomeModule
         outputTokenValue={state?.outputTokenValue}
-        show={state?.showGumballModal}
-        onDismiss={() => {
-          setState((prev) => ({
-            ...prev,
-            showGumballModal: false,
-          }))
-
-          // wait for animation to finish before resetting account state
-          setTimeout(() => {
-            setState((prev) => ({
-              ...prev,
-              account: undefined,
-              outputTokenValue: undefined,
-            }))
-          }, 1000)
-        }}
-        account={state?.account}
-      />
-
-      <CandyMachineModal
-        outputTokenValue={state?.outputTokenValue}
-        show={state?.showCandyModal}
-        onDismiss={() => {
-          setState((prev) => ({
-            ...prev,
-            showCandyModal: false,
-          }))
-
-          // wait for animation to finish before resetting account state
-          setTimeout(() => {
-            setState((prev) => ({
-              ...prev,
-              account: undefined,
-              outputTokenValue: undefined,
-            }))
-          }, 1000)
-        }}
+        show={state?.showModal}
+        onDismiss={() => handleDismissModal()}
         account={state?.account}
       />
 
@@ -148,13 +119,7 @@ export const Home = () => {
               dispenseGcTokens(selectedAccountAddress)
                 .map(refresh)
                 .map(() =>
-                  setState((prev) => ({
-                    ...prev,
-                    showTokenDispenserModal: true,
-                    account: accounts.find(
-                      (account) => account.address === selectedAccountAddress
-                    ),
-                  }))
+                  handleShowModal("tokenDispenser", selectedAccountAddress)
                 )
             }}
           />
@@ -169,14 +134,11 @@ export const Home = () => {
                 buyGumball(selectedAccount, inputTokenValue)
                   .map(refresh)
                   .map(() =>
-                    setState((prev) => ({
-                      ...prev,
-                      showGumballModal: true,
-                      account: accounts.find(
-                        (account) => account.address === selectedAccount
-                      ),
-                      outputTokenValue,
-                    }))
+                    handleShowModal(
+                      "gumball",
+                      selectedAccount,
+                      outputTokenValue
+                    )
                   )
               }}
             />
@@ -191,19 +153,29 @@ export const Home = () => {
                 buyCandy(selectedAccount, inputTokenValue)
                   .map(refresh)
                   .map(() =>
-                    setState((prev) => ({
-                      ...prev,
-                      showCandyModal: true,
-                      account: accounts.find(
-                        (account) => account.address === selectedAccount
-                      ),
-                      outputTokenValue,
-                    }))
+                    handleShowModal("candy", selectedAccount, outputTokenValue)
                   )
               }}
             />
             {hasGcTokens && (
-              <MembershipMachine accounts={accounts} onSubmit={() => {}} />
+              <MembershipMachine
+                accounts={accounts}
+                onSubmit={({
+                  selectedAccount,
+                  inputTokenValue,
+                  outputTokenValue,
+                }) =>
+                  buyMemberCard(selectedAccount, inputTokenValue)
+                    .map(refresh)
+                    .map(() =>
+                      handleShowModal(
+                        "member",
+                        selectedAccount,
+                        outputTokenValue
+                      )
+                    )
+                }
+              />
             )}
           </div>
           <Footer />

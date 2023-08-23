@@ -19,6 +19,11 @@ export const useSendTransactionManifest = () => {
         sendTransaction(
           transactionManifests.buyCandy(accountAddress, gcTokenValue)
         ),
+
+      buyMemberCard: (accountAddress: string, gcTokenValue: number) =>
+        sendTransaction(
+          transactionManifests.buyMemberCard(accountAddress, gcTokenValue)
+        ),
     }),
     [sendTransaction, transactionManifests]
   )

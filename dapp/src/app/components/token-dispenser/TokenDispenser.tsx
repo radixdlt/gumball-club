@@ -52,7 +52,10 @@ export const TokenDispenser = ({
         icon="external-link"
         disabled={isButtonDisabled}
         onClick={() => {
-          if (selectedAccount) onSubmit(selectedAccount)
+          if (selectedAccount) {
+            onSubmit(selectedAccount)
+            setState((prev) => ({ ...prev, selectedAccount: undefined }))
+          }
         }}
       >
         Send to the Radix Wallet
