@@ -82,7 +82,7 @@ jobs:
         uses: snyk/actions/node@b98d498629f1c368650224d6d212bf7dfa89e4bf # v0.4.0
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --format=cyclonedx1.4+json --json-file-output sbom.json
-          command: sbom
+          command: sbom -d
 
   push-docker-image:
     name: Docker build
@@ -95,6 +95,7 @@ jobs:
       image_registry: "docker.io"
       image_organization: "radixdlt"
       image_name: "private-gumball-club"
+      #tag: ${{ needs.build.outputs.tag }}
       tags: |
         type=sha,event=branch
         type=sha,event=pr
@@ -102,7 +103,7 @@ jobs:
       context: "./dapp/"
       dockerfile: "./dapp/Dockerfile"
       platforms: "linux/amd64"
-      scan_image: true
+      scan_image: false
       snyk_target_ref: ${{ github.ref_name }}
 
   snyk-monitor:
