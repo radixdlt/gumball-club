@@ -61,9 +61,8 @@ export const CandyBagMachine = ({
               marginTop: "0.5rem",
             }}
           >
-            {/* <Tag color="blue">2 GC = 1 Candy bag </Tag> */}
             <Tag color="pink" icon="market">
-              Market Price: {candyPrice} GC/candy
+              Market price estimate: {candyPrice} candies/GC
             </Tag>
           </div>
         }
@@ -80,7 +79,7 @@ export const CandyBagMachine = ({
         }
         accounts={accounts}
         inputTokenName="GC Tokens"
-        outputTokenName="Candy"
+        outputTokenName="Candies"
         onSubmit={onSubmit}
       ></MachineOptions>
     </Card>
