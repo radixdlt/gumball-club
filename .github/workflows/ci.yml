@@ -84,11 +84,33 @@ jobs:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --format=cyclonedx1.4+json --json-file-output sbom.json
           command: sbom -d
 
+#   setup-tags:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+#       with:
+#         fetch-depth: 0
+#     - name: Docker tags for dashboard
+#       id: dashboard-tags
+#       uses: docker/metadata-action@v4
+#       with:
+#         images: |
+#           docker.io/radixdlt/dapps-dashboard
+#         tags: |
+#           type=sha,event=pr
+#           type=sha,event=branch
+#           type=semver,pattern={{version}}
+#     outputs:
+#       dashboard-tags: ${{ steps.dashboard-tags.outputs.tags }}
+#       dashboard-labels: ${{ steps.dashboard-tags.outputs.labels }}
+#       dashboard-json: ${{ steps.dashboard-tags.outputs.json }}
+
   push-docker-image:
     name: Docker build
     needs:
       - snyk-scan-deps-licences
       - snyk-scan-code
+      - setup-tags
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/docker-build.yml@main
     with:
       runs_on: ubuntu-latest
@@ -103,7 +125,8 @@ jobs:
       context: "./dapp/"
       dockerfile: "./dapp/Dockerfile"
       platforms: "linux/amd64"
-      scan_image: false
+      scan_image: true
+      continue_on_scan_image_finding: true
       snyk_target_ref: ${{ github.ref_name }}
 
   snyk-monitor:
