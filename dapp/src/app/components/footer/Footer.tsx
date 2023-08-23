@@ -1,3 +1,4 @@
+import { config } from "@/app/config"
 import styles from "./Footer.module.css"
 import Image from "next/image"
 
@@ -5,11 +6,11 @@ const LearnMore = () => (
   <div className={styles["learn-more"]}>
     <div className={styles.header}>Learn more</div>
     <a
-      href="https://rcnet-v2-dashboard.radixdlt.com"
+      href={`${config.network.dashboardUrl}`}
       className={styles.link}
       target="_blank"
     >
-      Radix Developer Console{" "}
+      Radix Developer Console
       <Image
         src="/assets/external-link.svg"
         width={20}
@@ -18,7 +19,7 @@ const LearnMore = () => (
       ></Image>
     </a>
     <a href="https://www.radixdlt.com" className={styles.link} target="_blank">
-      About Radix{" "}
+      About Radix
       <Image
         src="/assets/external-link.svg"
         width={20}
@@ -85,12 +86,14 @@ const Socials = () => (
 
 const RunsOnRadix = () => (
   <div className={styles["runs-on-radix"]}>
-    <Image
-      src="/assets/runs-on-radix.svg"
-      width={119.483}
-      height={48.081}
-      alt="developer console link"
-    ></Image>
+    <a href="https://www.radixdlt.com/full-stack" target="_blank">
+      <Image
+        src="/assets/runs-on-radix.svg"
+        width={119.483}
+        height={48.081}
+        alt="developer console link"
+      ></Image>
+    </a>
   </div>
 )
 

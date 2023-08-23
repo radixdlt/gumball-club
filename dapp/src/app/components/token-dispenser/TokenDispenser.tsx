@@ -7,6 +7,7 @@ import styles from "./TokenDispenser.module.css"
 import { useEffect, useState } from "react"
 import { Button } from "../base-components/button"
 import { WalletDataStateAccount } from "@radixdlt/radix-dapp-toolkit"
+import { TokenDispenserModal } from "./TokenDispenserModal"
 
 export const TokenDispenser = ({
   accounts,

@@ -16,6 +16,7 @@ html {
   --gray-200: #e5e7eb;
   --gray-300: #d1d5db;
   --gray-500: #6b7280;
+  --gray-900: #111928;
   --white: #fff;
   --yellow: #fbe08e;
   --yellow-100: #fee8a7;
@@ -61,6 +62,20 @@ p {
   font-size: 0.88rem;
   color: var(--gray-500);
   margin: 0;
+}
+
+h3.modal-header {
+  font-size: 1.125rem;
+  color: var(--blue);
+  font-weight: 600;
+  line-height: 150%;
+  white-space: nowrap;
+}
+
+p.modal-text {
+  font-size: 1rem;
+  color: var(--gray-900);
+  line-height: 150%;
 }
 
 a {

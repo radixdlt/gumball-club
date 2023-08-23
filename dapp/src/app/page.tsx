@@ -8,6 +8,7 @@ import {
 import { Home } from "./components/home/Home"
 import { RadixProvider } from "./radix/RadixProvider"
 import { useEffect, useState } from "react"
+import { config } from "./config"
 
 export default function Page() {
   const [state, setState] = useState<RadixDappToolkit | undefined>()
@@ -15,9 +16,8 @@ export default function Page() {
   // Initialize Radix Dapp Toolkit in the client
   useEffect(() => {
     const radixDappToolkit = RadixDappToolkit({
-      networkId: Number.parseInt(process.env.NEXT_PUBLIC_NETWORK_ID || ""),
-      dAppDefinitionAddress:
-        process.env.NEXT_PUBLIC_DAPP_DEFINITION_ADDRESS || "",
+      networkId: config.network.networkId,
+      dAppDefinitionAddress: config.dAppDefinitionAddress,
       logger: createLogger(2),
     })
 

@@ -56,7 +56,7 @@ export const Input = ({
       >
         {children}
       </span>
-      {tokenBalance !== undefined && !isDisabled ? (
+      {tokenBalance !== undefined && !isDisabled && !error ? (
         <span className={styles["token-balance"]}>
           Balance: {tokenBalance} {children}
         </span>

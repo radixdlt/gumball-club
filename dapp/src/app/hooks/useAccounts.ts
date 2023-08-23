@@ -19,7 +19,7 @@ export const useAccounts = () => {
   }>({ accounts: [], status: "pending", hasLoaded: false })
 
   const includeFungibleTokens = (accounts: Account[]) => {
-    setState((prev) => ({ ...prev, accounts: [], status: "pending" }))
+    setState((prev) => ({ ...prev, status: "pending" }))
     return dAppToolkit.gatewayApi.state
       .getEntityDetailsVaultAggregated(
         accounts.map((account) => account.address)
@@ -62,7 +62,7 @@ export const useAccounts = () => {
     state,
     refresh: useCallback(
       () => includeFungibleTokens(state.accounts),
-      [state.accounts]
+      [state.accounts, includeFungibleTokens]
     ),
   }
 }

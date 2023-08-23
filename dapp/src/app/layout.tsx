@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 const font = Inter({
-  weight: ["400"],
+  weight: ["400", "600"],
   style: ["normal"],
   subsets: ["latin"],
 })
