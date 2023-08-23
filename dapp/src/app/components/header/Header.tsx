@@ -1,7 +1,7 @@
 import Image from "next/image"
 import styles from "./Header.module.css"
 import { Hero } from "../base-components/hero/Hero"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { InsufficientXrdAlert } from "./InsufficientXrdAlert"
 import React, { useEffect, useRef } from "react"
 import { useConnectButtonState } from "@/app/hooks/useConnectButtonState"
@@ -38,7 +38,7 @@ export const Header = ({
 }: {
   className?: string
   hasXrd?: boolean
-  accounts?: AccountWithFungibleTokens[]
+  accounts?: AccountWithTokens[]
   accountsLoading?: boolean
 }) => {
   const { persona } = usePersona()

@@ -1,6 +1,6 @@
 "use client"
 
-import { AccountWithFungibleTokens, useAccounts } from "@/app/hooks/useAccounts"
+import { AccountWithTokens, useAccounts } from "@/app/hooks/useAccounts"
 import { Header } from "../header/Header"
 import { CandyBagMachine } from "../machines/candybag-machine/CandyBagMachine"
 import { GumballMachine } from "../machines/gumball-machine/GumballMachine"
@@ -29,7 +29,7 @@ export const Home = () => {
   const [state, setState] = useState<
     Partial<{
       showModal: "tokenDispenser" | "gumball" | "candy" | "member"
-      account: AccountWithFungibleTokens
+      account: AccountWithTokens
       outputTokenValue: number
     }>
   >()
@@ -94,6 +94,8 @@ export const Home = () => {
       ),
       outputTokenValue,
     }))
+
+  console.log(accounts)
 
   return (
     <>

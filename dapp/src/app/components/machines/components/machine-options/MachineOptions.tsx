@@ -6,7 +6,7 @@ import { Input } from "../../../base-components/input/Input"
 import { Border } from "../../../base-components/border/Border"
 import { ReactNode, useEffect, useState } from "react"
 import { Button } from "../../../base-components/button"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { config } from "@/app/config"
 import BigNumber from "bignumber.js"
 
@@ -21,7 +21,7 @@ export const MachineOptions = ({
   defaultInputTokenValue = 0,
   priceCalculationFn,
 }: {
-  accounts: AccountWithFungibleTokens[]
+  accounts: AccountWithTokens[]
   outputTokenName: string
   inputTokenName: string
   image: ReactNode

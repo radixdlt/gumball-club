@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js"
-import { AccountWithFungibleTokens } from "../hooks/useAccounts"
+import { AccountWithTokens } from "../hooks/useAccounts"
 
 export const getAccountTokens = (
-  accounts: AccountWithFungibleTokens[],
+  accounts: AccountWithTokens[],
   accountAddress: string,
   resourceAddress: string
 ) =>
@@ -10,7 +10,7 @@ export const getAccountTokens = (
     ?.fungibleTokens[resourceAddress].value
 
 export const hasFungibleTokens = (
-  accounts: AccountWithFungibleTokens[],
+  accounts: AccountWithTokens[],
   resourceAddress: string
 ) =>
   accounts

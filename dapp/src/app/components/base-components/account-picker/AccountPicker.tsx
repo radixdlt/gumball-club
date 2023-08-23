@@ -133,7 +133,7 @@ export const AccountPicker = ({
     api.start({
       to: openIntent ? openStyle : closedStyle,
     })
-  }, [open, openControl])
+  }, [open, openControl, openIntent, api])
 
   return (
     <div className={`${styles["account-picker"]} ${className}`} ref={ref}>

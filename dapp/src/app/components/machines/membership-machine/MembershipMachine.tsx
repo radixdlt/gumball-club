@@ -4,13 +4,13 @@ import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
 import styles from "./MembershipMachine.module.css"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 
 export const MembershipMachine = ({
   accounts,
   onSubmit,
 }: {
-  accounts: AccountWithFungibleTokens[]
+  accounts: AccountWithTokens[]
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number

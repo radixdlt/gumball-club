@@ -1,4 +1,4 @@
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { GumballMachineModal } from "../../machines/gumball-machine/GumballMachineModal"
 import { MembershipMachineModal } from "../../machines/membership-machine/MembershipMachineModal"
 import { TokenDispenserModal } from "../../token-dispenser/TokenDispenserModal"
@@ -11,7 +11,7 @@ export const HomeModule = ({
   onDismiss,
 }: {
   show?: "tokenDispenser" | "gumball" | "candy" | "member"
-  account?: AccountWithFungibleTokens
+  account?: AccountWithTokens
   outputTokenValue?: number
   onDismiss: () => void
 }) => {

@@ -1,4 +1,4 @@
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { Button } from "../../base-components/button"
 import { Modal } from "../../base-components/modal/Modal"
 import { Text } from "../../base-components/text/Text"
@@ -11,7 +11,7 @@ export const GumballMachineModal = ({
   outputTokenValue,
 }: {
   show?: boolean
-  account?: AccountWithFungibleTokens
+  account?: AccountWithTokens
   outputTokenValue?: number
   onDismiss: () => void
 }) => (

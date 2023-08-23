@@ -3,7 +3,7 @@ import { Tag } from "../../base-components/tag"
 import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { useSugarMarketPrice } from "./useSugarMarketPrice"
 import { useEffect, useState } from "react"
 
@@ -12,7 +12,7 @@ export const CandyBagMachine = ({
   onSubmit,
   price,
 }: {
-  accounts: AccountWithFungibleTokens[]
+  accounts: AccountWithTokens[]
   price: number
   onSubmit: (value: {
     selectedAccount: string
