@@ -43,7 +43,7 @@ export const TransactionManifests = ({
         "deposit_batch"
         Expression("ENTIRE_WORKTOP")
     ;
-`
+  `
 
   const buyCandy = (accountAddress: string, gcTokensValue: number) => `
     CALL_METHOD
@@ -67,6 +67,28 @@ export const TransactionManifests = ({
         Expression("ENTIRE_WORKTOP")
     ;
     `
+  const buyMemberCard = (accountAddress: string, gcTokensValue: number) => `
+    CALL_METHOD
+        Address("${accountAddress}")
+        "withdraw"
+        Address("${gumballClubTokensResource}")
+        Decimal("${gcTokensValue}")
+    ;
+    TAKE_ALL_FROM_WORKTOP
+        Address("${gumballClubTokensResource}")
+        Bucket("gumball_club_token_bucket")
+    ;
+    CALL_METHOD
+        Address("${gumballClubComponent}")
+        "buy_member_card"
+        Bucket("gumball_club_token_bucket")
+    ;
+    CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+    ;
+  `
 
-  return { dispenseGcTokens, buyGumball, buyCandy }
+  return { dispenseGcTokens, buyGumball, buyCandy, buyMemberCard }
 }

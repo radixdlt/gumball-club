@@ -4,16 +4,17 @@ import Image from "next/image"
 import { MachineOptions } from "../components/machine-options/MachineOptions"
 import { MachineHeader } from "../components/machine-header/MachineHeader"
 import styles from "./MembershipMachine.module.css"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 
 export const MembershipMachine = ({
   accounts,
   onSubmit,
 }: {
-  accounts: AccountWithFungibleTokens[]
+  accounts: AccountWithTokens[]
   onSubmit: (value: {
     selectedAccount: string
     inputTokenValue: number
+    outputTokenValue: number
   }) => void
 }) => {
   return (
@@ -26,6 +27,8 @@ export const MembershipMachine = ({
       />
       <MachineOptions
         price={5}
+        defaultInputTokenValue={5}
+        disabled
         image={
           <Image
             src="/assets/membership-machine.png"
@@ -36,7 +39,7 @@ export const MembershipMachine = ({
         }
         accounts={accounts}
         inputTokenName="GC Tokens"
-        outputTokenName="GC Member Card"
+        outputTokenName="Member Card"
         onSubmit={onSubmit}
       ></MachineOptions>
     </Card>

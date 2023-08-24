@@ -4,7 +4,7 @@ import { Modal } from "../../base-components/modal/Modal"
 import { Text } from "../../base-components/text/Text"
 import Image from "next/image"
 
-export const GumballMachineModal = ({
+export const MembershipMachineModal = ({
   onDismiss,
   show,
   account,
@@ -18,18 +18,22 @@ export const GumballMachineModal = ({
   <Modal show={!!show}>
     <>
       <Image
-        width="146"
-        height="146"
-        alt="gc token icon"
-        src="/assets/gumball-token.png"
+        width="256"
+        height="256"
+        alt="candy bag"
+        src="/assets/member-card.png"
         className="mb-1"
       />
       <Text variant="modal-header" className="mb-1">
-        You Bought {outputTokenValue} Gumballs!
+        You bought a GC Member Card!
       </Text>
       <Text variant="modal-text" className="mb-1">
-        No need to take our word for it - you can take a look yourself in “
-        {account?.label}” in your Radix Wallet to see them.
+        This gives you a 50% discount when making a purchase at the Gumball and
+        Candy machines.
+      </Text>
+      <Text variant="modal-text" className="mb-1">
+        The GC Member Card is an NFT - take a look in your Radix Wallet in the
+        NFT section of “{account?.label}”.
       </Text>
 
       <Button onClick={onDismiss}>Okay</Button>

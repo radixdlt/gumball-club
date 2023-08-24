@@ -6,7 +6,7 @@ import { Input } from "../../../base-components/input/Input"
 import { Border } from "../../../base-components/border/Border"
 import { ReactNode, useEffect, useState } from "react"
 import { Button } from "../../../base-components/button"
-import { AccountWithFungibleTokens } from "@/app/hooks/useAccounts"
+import { AccountWithTokens } from "@/app/hooks/useAccounts"
 import { config } from "@/app/config"
 import BigNumber from "bignumber.js"
 
@@ -17,8 +17,11 @@ export const MachineOptions = ({
   image,
   onSubmit,
   price,
+  disabled,
+  defaultInputTokenValue = 0,
+  priceCalculationFn,
 }: {
-  accounts: AccountWithFungibleTokens[]
+  accounts: AccountWithTokens[]
   outputTokenName: string
   inputTokenName: string
   image: ReactNode
@@ -28,15 +31,20 @@ export const MachineOptions = ({
     outputTokenValue: number
   }) => void
   price: number
+  priceCalculationFn?: (inputTokenValue: number, price: number) => number
+  disabled?: boolean
+  defaultInputTokenValue?: number
 }) => {
   const isDisabled = accounts.length === 0
   const [{ selectedAccount, inputTokenValue, isValid }, setState] = useState<{
     selectedAccount?: string
     inputTokenValue: number
     isValid: boolean
-  }>({ inputTokenValue: 0, isValid: false })
+  }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
 
-  const outputTokenValue = Math.floor(inputTokenValue / price)
+  const outputTokenValue = priceCalculationFn
+    ? priceCalculationFn(inputTokenValue, price)
+    : Math.floor(inputTokenValue / price)
 
   const gcTokens = accounts.find(
     (account) => selectedAccount === account.address
@@ -66,7 +74,7 @@ export const MachineOptions = ({
           />
           <Input
             value={inputTokenValue}
-            disabled={isDisabled}
+            disabled={isDisabled || disabled}
             onChange={(ev) => {
               setState((prev) => ({
                 ...prev,
@@ -75,7 +83,11 @@ export const MachineOptions = ({
             }}
             className="mb-1"
             tokenBalance={gcTokens}
-            error={invalidInput ? "Not enough GC Tokens in account" : undefined}
+            error={
+              invalidInput && selectedAccount
+                ? "Not enough GC Tokens in account"
+                : undefined
+            }
           >
             {inputTokenName}
           </Input>
@@ -97,7 +109,8 @@ export const MachineOptions = ({
             })
             setState((prev) => ({
               ...prev,
-              inputTokenValue: 0,
+              inputTokenValue: defaultInputTokenValue,
+              selectedAccount: undefined,
             }))
           }
         }}

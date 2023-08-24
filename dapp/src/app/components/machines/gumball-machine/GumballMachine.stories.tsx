@@ -23,6 +23,7 @@ export const Primary: Story = {
           "account_tdx_21_12x4zx09f8962a9wesfqvxaue0qn6m39r3cpysrjd6dtqppzhrkjrsr",
         appearanceId: 0,
         fungibleTokens: {},
+        nonFungibleTokens: {},
       },
       {
         label: "Saving",
@@ -30,6 +31,7 @@ export const Primary: Story = {
           "account_tdx_21_12xdjp5dq7haph4c75mst99mc26gkm8mys70v6qlyz0fz86f9ucy0ru",
         appearanceId: 4,
         fungibleTokens: {},
+        nonFungibleTokens: {},
       },
     ],
   },
