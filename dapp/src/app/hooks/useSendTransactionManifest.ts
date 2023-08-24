@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { TransactionManifests } from '../radix/transaction-manifests'
 import { config } from '../config'
-import { useSendTransaction } from './useSendTransaction copy'
+import { useSendTransaction } from './useSendTransaction'
 import { NonFungibleResource } from '../transformers/addTokens'
 
 export const useSendTransactionManifest = () => {
