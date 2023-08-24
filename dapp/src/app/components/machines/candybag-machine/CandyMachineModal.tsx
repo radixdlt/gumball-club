@@ -1,8 +1,8 @@
-import { AccountWithTokens } from "@/app/hooks/useAccounts"
-import { Button } from "../../base-components/button"
-import { Modal } from "../../base-components/modal/Modal"
-import { Text } from "../../base-components/text/Text"
-import Image from "next/image"
+import { AccountWithTokens } from '@/app/hooks/useAccounts'
+import { Button } from '../../base-components/button'
+import { Modal } from '../../base-components/modal/Modal'
+import { Text } from '../../base-components/text/Text'
+import Image from 'next/image'
 
 export const CandyMachineModal = ({
   onDismiss,

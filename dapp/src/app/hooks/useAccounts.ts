@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from "react"
-import { useDappToolkit } from "./useDappToolkit"
-import { Account, State } from "@radixdlt/radix-dapp-toolkit"
-import { switchMap, map } from "rxjs"
+import { useCallback, useEffect, useState } from 'react'
+import { useDappToolkit } from './useDappToolkit'
+import { Account, State } from '@radixdlt/radix-dapp-toolkit'
+import { switchMap, map } from 'rxjs'
 import {
   FungibleResource,
   NonFungibleResource,
   transformFungibleTokens,
   transformNonFungibleTokens,
-} from "../transformers/addTokens"
+} from '../transformers/addTokens'
 
 export type AccountWithTokens = Account &
   Account & { fungibleTokens: Record<string, FungibleResource> } & {
@@ -19,7 +19,7 @@ const useWithTokens = (stateApi: State) => {
     (accounts: Account[]) =>
       stateApi
         .getEntityDetailsVaultAggregated(
-          accounts.map((account) => account.address)
+          accounts.map((account) => account.address),
         )
         .then((data) =>
           Promise.all(
@@ -33,16 +33,16 @@ const useWithTokens = (stateApi: State) => {
                   transformNonFungibleTokens(
                     item.non_fungible_resources,
                     accounts[index].address,
-                    stateApi
+                    stateApi,
                   ).then((nonFungibleTokens) => ({
                     ...values,
                     nonFungibleTokens,
-                  }))
-                )
-            )
-          )
+                  })),
+                ),
+            ),
+          ),
         ),
-    [stateApi]
+    [stateApi],
   )
 }
 
@@ -50,9 +50,9 @@ export const useAccounts = () => {
   const dAppToolkit = useDappToolkit()
   const [state, setState] = useState<{
     accounts: AccountWithTokens[]
-    status: "pending" | "success" | "error"
+    status: 'pending' | 'success' | 'error'
     hasLoaded: boolean
-  }>({ accounts: [], status: "pending", hasLoaded: false })
+  }>({ accounts: [], status: 'pending', hasLoaded: false })
 
   const withTokens = useWithTokens(dAppToolkit.gatewayApi.state)
 
@@ -61,15 +61,15 @@ export const useAccounts = () => {
       .pipe(
         map((walletData) => walletData.accounts),
         switchMap((accounts) => {
-          setState((prev) => ({ ...prev, status: "pending" }))
+          setState((prev) => ({ ...prev, status: 'pending' }))
           return withTokens(accounts)
             .then((accounts: any) => {
-              setState({ accounts, status: "success", hasLoaded: true })
+              setState({ accounts, status: 'success', hasLoaded: true })
             })
             .catch(() => {
-              setState({ accounts: [], status: "error", hasLoaded: true })
+              setState({ accounts: [], status: 'error', hasLoaded: true })
             })
-        })
+        }),
       )
       .subscribe()
 
@@ -81,13 +81,13 @@ export const useAccounts = () => {
   return {
     state,
     refresh: useCallback(() => {
-      setState((prev) => ({ ...prev, status: "pending" }))
+      setState((prev) => ({ ...prev, status: 'pending' }))
       return withTokens(state.accounts)
         .then((accounts: any) => {
-          setState({ accounts, status: "success", hasLoaded: true })
+          setState({ accounts, status: 'success', hasLoaded: true })
         })
         .catch(() => {
-          setState({ accounts: [], status: "error", hasLoaded: true })
+          setState({ accounts: [], status: 'error', hasLoaded: true })
         })
     }, [state.accounts, withTokens]),
   }

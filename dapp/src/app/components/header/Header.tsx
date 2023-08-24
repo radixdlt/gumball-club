@@ -1,18 +1,18 @@
-import Image from "next/image"
-import styles from "./Header.module.css"
-import { Hero } from "../base-components/hero/Hero"
-import { AccountWithTokens } from "@/app/hooks/useAccounts"
-import { InsufficientXrdAlert } from "./InsufficientXrdAlert"
-import React, { useEffect, useRef } from "react"
-import { useConnectButtonState } from "@/app/hooks/useConnectButtonState"
-import { Tooltip } from "../base-components/tooltip/Tooltip"
-import { usePersona } from "@/app/hooks/usePersona"
-import { usePersonaData } from "@/app/hooks/usePersonaData"
+import Image from 'next/image'
+import styles from './Header.module.css'
+import { Hero } from '../base-components/hero/Hero'
+import { AccountWithTokens } from '@/app/hooks/useAccounts'
+import { InsufficientXrdAlert } from './InsufficientXrdAlert'
+import React, { useEffect, useRef } from 'react'
+import { useConnectButtonState } from '@/app/hooks/useConnectButtonState'
+import { Tooltip } from '../base-components/tooltip/Tooltip'
+import { usePersona } from '@/app/hooks/usePersona'
+import { usePersonaData } from '@/app/hooks/usePersonaData'
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      "radix-connect-button": React.DetailedHTMLProps<
+      'radix-connect-button': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       >
@@ -22,7 +22,7 @@ declare global {
 
 const ConnectHelper = () => (
   <Image
-    className={styles["connect-arrow"]}
+    className={styles['connect-arrow']}
     src="/assets/connect-arrow.svg"
     height={104}
     width={251}
@@ -31,7 +31,7 @@ const ConnectHelper = () => (
 )
 
 export const Header = ({
-  className = "",
+  className = '',
   hasXrd,
   accounts = [],
   accountsLoading = false,
@@ -56,12 +56,12 @@ export const Header = ({
   const ref = useRef<any>(null)
 
   const showConnectHelper =
-    accounts.length === 0 && connectButtonState === "default"
+    accounts.length === 0 && connectButtonState === 'default'
 
   const showTooltip =
     !state.hideTooltip &&
     !state.isPopoverOpen &&
-    connectButtonState === "pending"
+    connectButtonState === 'pending'
 
   const showInsufficientXrdAlert =
     !!persona &&
@@ -70,7 +70,7 @@ export const Header = ({
     !hasXrd
 
   useEffect(() => {
-    if (state.hideTooltip && connectButtonState !== "pending") {
+    if (state.hideTooltip && connectButtonState !== 'pending') {
       setState((prev) => ({ ...prev, hideTooltip: false, popoverOpen: false }))
     }
 
@@ -80,10 +80,10 @@ export const Header = ({
         setState((prev) => ({ ...prev, isPopoverOpen }))
     }
 
-    document.addEventListener("click", handlePopoverState)
+    document.addEventListener('click', handlePopoverState)
 
     return () => {
-      document.removeEventListener("click", handlePopoverState)
+      document.removeEventListener('click', handlePopoverState)
     }
   }, [connectButtonState, state, setState, ref])
 
@@ -91,7 +91,7 @@ export const Header = ({
     <header className={`${className}`}>
       <div className={`${styles.header} `}>
         <Image src="/assets/logo.png" height={42} width={139} alt="logo" />
-        <div className={styles["radix-connect-button"]}>
+        <div className={styles['radix-connect-button']}>
           <radix-connect-button ref={ref} />
           {showConnectHelper ? <ConnectHelper /> : null}
           {showTooltip && (

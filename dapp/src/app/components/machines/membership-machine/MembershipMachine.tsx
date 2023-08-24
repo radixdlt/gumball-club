@@ -1,21 +1,20 @@
-import { Card } from "../../base-components/card"
-import { Tag } from "../../base-components/tag"
-import Image from "next/image"
-import { MachineOptions } from "../components/machine-options/MachineOptions"
-import { MachineHeader } from "../components/machine-header/MachineHeader"
-import styles from "./MembershipMachine.module.css"
-import { AccountWithTokens } from "@/app/hooks/useAccounts"
+import { Card } from '../../base-components/card'
+import { Tag } from '../../base-components/tag'
+import Image from 'next/image'
+import {
+  MachineOptions,
+  MachineOptionsProps,
+} from '../components/machine-options/MachineOptions'
+import { MachineHeader } from '../components/machine-header/MachineHeader'
+import styles from './MembershipMachine.module.css'
+import { AccountWithTokens } from '@/app/hooks/useAccounts'
 
 export const MembershipMachine = ({
   accounts,
   onSubmit,
 }: {
   accounts: AccountWithTokens[]
-  onSubmit: (value: {
-    selectedAccount: string
-    inputTokenValue: number
-    outputTokenValue: number
-  }) => void
+  onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   return (
     <Card>
@@ -26,6 +25,7 @@ export const MembershipMachine = ({
         textClass={styles.text}
       />
       <MachineOptions
+        id="member"
         price={5}
         defaultInputTokenValue={5}
         disabled

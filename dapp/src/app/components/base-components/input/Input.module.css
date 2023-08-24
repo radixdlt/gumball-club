@@ -68,3 +68,12 @@ input.error {
   left: 0;
   user-select: none;
 }
+
+.hint {
+  color: var(--green-200);
+  position: absolute;
+  bottom: -1.5rem;
+  font-size: 0.75rem;
+  left: 0;
+  user-select: none;
+}

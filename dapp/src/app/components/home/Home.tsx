@@ -1,22 +1,22 @@
-"use client"
+'use client'
 
-import { AccountWithTokens, useAccounts } from "@/app/hooks/useAccounts"
-import { Header } from "../header/Header"
-import { CandyBagMachine } from "../machines/candybag-machine/CandyBagMachine"
-import { GumballMachine } from "../machines/gumball-machine/GumballMachine"
-import { TokenDispenser } from "../token-dispenser/TokenDispenser"
-import { MembershipMachine } from "../machines/membership-machine/MembershipMachine"
-import styles from "./Home.module.css"
-import { Footer } from "../footer/Footer"
-import { useWellKnownAddresses } from "@/app/hooks/useWellKnownAddresses"
-import BigNumber from "bignumber.js"
-import { usePersona } from "@/app/hooks/usePersona"
-import { animated, useSpring } from "@react-spring/web"
-import { useEffect, useState } from "react"
-import { useSendTransactionManifest } from "@/app/hooks/useSendTransactionManifest"
-import { hasFungibleTokens } from "@/app/helpers/getAccountTokens"
-import { config } from "@/app/config"
-import { HomeModule } from "./components/HomeModule"
+import { AccountWithTokens, useAccounts } from '@/app/hooks/useAccounts'
+import { Header } from '../header/Header'
+import { CandyBagMachine } from '../machines/candybag-machine/CandyBagMachine'
+import { GumballMachine } from '../machines/gumball-machine/GumballMachine'
+import { TokenDispenser } from '../token-dispenser/TokenDispenser'
+import { MembershipMachine } from '../machines/membership-machine/MembershipMachine'
+import styles from './Home.module.css'
+import { Footer } from '../footer/Footer'
+import { useWellKnownAddresses } from '@/app/hooks/useWellKnownAddresses'
+import BigNumber from 'bignumber.js'
+import { usePersona } from '@/app/hooks/usePersona'
+import { animated, useSpring } from '@react-spring/web'
+import { useEffect, useState } from 'react'
+import { useSendTransactionManifest } from '@/app/hooks/useSendTransactionManifest'
+import { hasFungibleTokens } from '@/app/helpers/getAccountTokens'
+import { config } from '@/app/config'
+import { HomeModule } from './components/HomeModule'
 
 export const Home = () => {
   const {
@@ -28,7 +28,7 @@ export const Home = () => {
 
   const [state, setState] = useState<
     Partial<{
-      showModal: "tokenDispenser" | "gumball" | "candy" | "member"
+      showModal: 'tokenDispenser' | 'gumball' | 'candy' | 'member'
       account: AccountWithTokens
       outputTokenValue: number
     }>
@@ -55,14 +55,14 @@ export const Home = () => {
   const hasXrd = accounts.some(
     (account) =>
       account.fungibleTokens[xrdAddress] &&
-      new BigNumber(account.fungibleTokens[xrdAddress].value).gt(0)
+      new BigNumber(account.fungibleTokens[xrdAddress].value).gt(0),
   )
 
-  const isAccountsLoading = status === "pending"
+  const isAccountsLoading = status === 'pending'
 
   const hasGcTokens = hasFungibleTokens(
     accounts,
-    config.addresses.gumballClubTokensResource
+    config.addresses.gumballClubTokensResource,
   )
 
   const handleDismissModal = () => {
@@ -82,20 +82,18 @@ export const Home = () => {
   }
 
   const handleShowModal = (
-    showModal: "tokenDispenser" | "gumball" | "candy" | "member",
+    showModal: 'tokenDispenser' | 'gumball' | 'candy' | 'member',
     selectedAccountAddress: string,
-    outputTokenValue?: number
+    outputTokenValue?: number,
   ) =>
     setState((prev) => ({
       ...prev,
       showModal,
       account: accounts.find(
-        (account) => account.address === selectedAccountAddress
+        (account) => account.address === selectedAccountAddress,
       ),
       outputTokenValue,
     }))
-
-  console.log(accounts)
 
   return (
     <>
@@ -121,7 +119,7 @@ export const Home = () => {
               dispenseGcTokens(selectedAccountAddress)
                 .map(refresh)
                 .map(() =>
-                  handleShowModal("tokenDispenser", selectedAccountAddress)
+                  handleShowModal('tokenDispenser', selectedAccountAddress),
                 )
             }}
           />
@@ -129,18 +127,19 @@ export const Home = () => {
             <GumballMachine
               accounts={accounts}
               onSubmit={({
-                selectedAccount,
+                selectedAccountAddress,
                 inputTokenValue,
                 outputTokenValue,
+                memberCard,
               }) => {
-                buyGumball(selectedAccount, inputTokenValue)
+                buyGumball(selectedAccountAddress, inputTokenValue, memberCard)
                   .map(refresh)
                   .map(() =>
                     handleShowModal(
-                      "gumball",
-                      selectedAccount,
-                      outputTokenValue
-                    )
+                      'gumball',
+                      selectedAccountAddress,
+                      outputTokenValue,
+                    ),
                   )
               }}
             />
@@ -148,14 +147,19 @@ export const Home = () => {
               price={2}
               accounts={accounts}
               onSubmit={({
-                selectedAccount,
+                selectedAccountAddress,
                 inputTokenValue,
                 outputTokenValue,
+                memberCard,
               }) => {
-                buyCandy(selectedAccount, inputTokenValue)
+                buyCandy(selectedAccountAddress, inputTokenValue, memberCard)
                   .map(refresh)
                   .map(() =>
-                    handleShowModal("candy", selectedAccount, outputTokenValue)
+                    handleShowModal(
+                      'candy',
+                      selectedAccountAddress,
+                      outputTokenValue,
+                    ),
                   )
               }}
             />
@@ -163,18 +167,18 @@ export const Home = () => {
               <MembershipMachine
                 accounts={accounts}
                 onSubmit={({
-                  selectedAccount,
+                  selectedAccountAddress,
                   inputTokenValue,
                   outputTokenValue,
                 }) =>
-                  buyMemberCard(selectedAccount, inputTokenValue)
+                  buyMemberCard(selectedAccountAddress, inputTokenValue)
                     .map(refresh)
                     .map(() =>
                       handleShowModal(
-                        "member",
-                        selectedAccount,
-                        outputTokenValue
-                      )
+                        'member',
+                        selectedAccountAddress,
+                        outputTokenValue,
+                      ),
                     )
                 }
               />

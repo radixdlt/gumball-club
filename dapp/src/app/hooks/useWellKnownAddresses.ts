@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { useDappToolkit } from "./useDappToolkit"
-import { useFetch } from "./useFetch"
+import { useEffect, useState } from 'react'
+import { useDappToolkit } from './useDappToolkit'
+import { useFetch } from './useFetch'
 
 export const useWellKnownAddresses = () => {
   const dAppToolkit = useDappToolkit()
@@ -13,7 +13,7 @@ export const useWellKnownAddresses = () => {
         .getNetworkConfiguration()
         .then((response) => {
           setState(response.well_known_addresses)
-        })
+        }),
     )
   }, [dAppToolkit, fetch])
 

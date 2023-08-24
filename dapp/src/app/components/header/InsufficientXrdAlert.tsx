@@ -1,6 +1,6 @@
-import { Alert } from "../base-components/alert/Alert"
-import { Button } from "../base-components/button"
-import styles from "./Header.module.css"
+import { Alert } from '../base-components/alert/Alert'
+import { Button } from '../base-components/button'
+import styles from './Header.module.css'
 
 export const InsufficientXrdAlert = ({
   onClose,

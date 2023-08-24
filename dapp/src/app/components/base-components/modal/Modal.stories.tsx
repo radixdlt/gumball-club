@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { Modal } from "./Modal";
-import { Text } from "../text";
+import { Modal } from './Modal'
+import { Text } from '../text'
 
 const meta = {
-  title: "Gumball Club/Base components/Modal",
+  title: 'Gumball Club/Base components/Modal',
   component: Modal,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
-} satisfies Meta<typeof Modal>;
+  tags: ['autodocs'],
+} satisfies Meta<typeof Modal>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
@@ -34,4 +34,4 @@ export const Primary: Story = {
       </>
     ),
   },
-};
+}

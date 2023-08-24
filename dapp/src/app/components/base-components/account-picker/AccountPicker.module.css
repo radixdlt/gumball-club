@@ -49,9 +49,9 @@
 }
 
 .select::after {
-  content: "";
-  mask-image: url("/assets/chevron-up.svg");
-  -webkit-mask-image: url("/assets/chevron-up.svg");
+  content: '';
+  mask-image: url('/assets/chevron-up.svg');
+  -webkit-mask-image: url('/assets/chevron-up.svg');
   background: var(--gray-500);
   background-position: center;
   -webkit-mask-position: center;

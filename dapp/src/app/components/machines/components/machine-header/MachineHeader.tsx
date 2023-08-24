@@ -1,6 +1,6 @@
-import styles from "./MachineHeader.module.css"
-import { Text } from "../../../base-components/text"
-import React from "react"
+import styles from './MachineHeader.module.css'
+import { Text } from '../../../base-components/text'
+import React from 'react'
 
 export const MachineHeader = ({
   header,

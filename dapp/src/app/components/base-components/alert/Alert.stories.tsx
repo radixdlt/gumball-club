@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { Alert } from "./Alert"
-import { Button } from "../button"
+import { Alert } from './Alert'
+import { Button } from '../button'
 
 const meta = {
-  title: "Gumball Club/Base components/Alert",
+  title: 'Gumball Club/Base components/Alert',
   component: Alert,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta<typeof Alert>
 
 export default meta
@@ -23,8 +23,8 @@ export const Primary: Story = {
   ),
 
   args: {
-    variant: "info",
-    title: "Uh oh!",
+    variant: 'info',
+    title: 'Uh oh!',
     onClose: () => {},
     text: `You don’t have any XRD tokens in any of the accounts you shared. XRD
   tokens are required to pay the transaction fee for all transactions on the

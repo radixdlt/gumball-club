@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { useDappToolkit } from "./useDappToolkit"
-import { Persona } from "@radixdlt/radix-dapp-toolkit"
+import { useEffect, useState } from 'react'
+import { useDappToolkit } from './useDappToolkit'
+import { Persona } from '@radixdlt/radix-dapp-toolkit'
 
 export const usePersona = () => {
   const dAppToolkit = useDappToolkit()
@@ -13,13 +13,13 @@ export const usePersona = () => {
     const subscription = dAppToolkit.walletApi.walletData$.subscribe(
       (state) => {
         setState({ persona: state.persona, hasLoaded: true })
-      }
+      },
     )
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [])
+  }, [dAppToolkit])
 
   return state
 }

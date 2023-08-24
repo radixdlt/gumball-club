@@ -1,14 +1,14 @@
-"use client"
+'use client'
 
 import {
   DataRequestBuilder,
   RadixDappToolkit,
   createLogger,
-} from "@radixdlt/radix-dapp-toolkit"
-import { Home } from "./components/home/Home"
-import { RadixProvider } from "./radix/RadixProvider"
-import { useEffect, useState } from "react"
-import { config } from "./config"
+} from '@radixdlt/radix-dapp-toolkit'
+import { Home } from './components/home/Home'
+import { RadixProvider } from './radix/RadixProvider'
+import { useEffect, useState } from 'react'
+import { config } from './config'
 
 export default function Page() {
   const [state, setState] = useState<RadixDappToolkit | undefined>()
@@ -23,7 +23,7 @@ export default function Page() {
 
     radixDappToolkit.walletApi.setRequestData(
       DataRequestBuilder.accounts().atLeast(1),
-      DataRequestBuilder.personaData().fullName()
+      DataRequestBuilder.personaData().fullName(),
     )
 
     setState(radixDappToolkit)

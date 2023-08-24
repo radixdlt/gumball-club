@@ -1,10 +1,10 @@
-import { ReactNode } from "react"
-import styles from "./Tooltip.module.css"
+import { ReactNode } from 'react'
+import styles from './Tooltip.module.css'
 
 export const Tooltip = ({
   children,
   onClose,
-  className = "",
+  className = '',
 }: {
   children: ReactNode
   onClose: () => void

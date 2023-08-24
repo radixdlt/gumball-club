@@ -1,9 +1,9 @@
-import { config } from "@/app/config"
-import styles from "./Footer.module.css"
-import Image from "next/image"
+import { config } from '@/app/config'
+import styles from './Footer.module.css'
+import Image from 'next/image'
 
 const LearnMore = () => (
-  <div className={styles["learn-more"]}>
+  <div className={styles['learn-more']}>
     <div className={styles.header}>Learn more</div>
     <a
       href={`${config.network.dashboardUrl}`}
@@ -31,44 +31,44 @@ const LearnMore = () => (
 )
 
 const Socials = () => (
-  <div className={styles["socials"]}>
+  <div className={styles['socials']}>
     <div className={styles.header}>Join the Radix Community</div>
-    <div className={styles["socials-links"]}>
+    <div className={styles['socials-links']}>
       {[
         {
-          iconPath: "/assets/twitter.svg",
-          url: "https://x.com/RadixDLT",
+          iconPath: '/assets/twitter.svg',
+          url: 'https://x.com/RadixDLT',
           height: 24,
           width: 24,
-          alt: "X link",
+          alt: 'X link',
         },
         {
-          iconPath: "/assets/github.svg",
-          url: "https://github.com/radixdlt",
+          iconPath: '/assets/github.svg',
+          url: 'https://github.com/radixdlt',
           height: 24,
           width: 24,
-          alt: "Github link",
+          alt: 'Github link',
         },
         {
-          iconPath: "/assets/telegram.svg",
-          url: "https://t.me/radix_dlt",
+          iconPath: '/assets/telegram.svg',
+          url: 'https://t.me/radix_dlt',
           height: 24,
           width: 24,
-          alt: "Telegram link",
+          alt: 'Telegram link',
         },
         {
-          iconPath: "/assets/discord.svg",
-          url: "https://discord.gg/radixdlt",
+          iconPath: '/assets/discord.svg',
+          url: 'https://discord.gg/radixdlt',
           height: 24,
           width: 24,
-          alt: "Discord link",
+          alt: 'Discord link',
         },
         {
-          iconPath: "/assets/email.svg",
-          url: "mailto:hello@radixdlt.com",
+          iconPath: '/assets/email.svg',
+          url: 'mailto:hello@radixdlt.com',
           height: 24,
           width: 24,
-          alt: "Email address",
+          alt: 'Email address',
         },
       ].map((item) => (
         <a href={item.url} key={item.url} target="_blank">
@@ -85,7 +85,7 @@ const Socials = () => (
 )
 
 const RunsOnRadix = () => (
-  <div className={styles["runs-on-radix"]}>
+  <div className={styles['runs-on-radix']}>
     <a href="https://www.radixdlt.com/full-stack" target="_blank">
       <Image
         src="/assets/runs-on-radix.svg"
@@ -98,14 +98,14 @@ const RunsOnRadix = () => (
 )
 
 const CopyRight = () => (
-  <div className={styles["copyright"]}>
+  <div className={styles['copyright']}>
     <div>
       © Radix Publishing Ltd, {new Date().getFullYear()}. All rights reserved.
       Radix Publishing Ltd.
     </div>
     <div className={styles.legal}>
       <a href="">Privacy Notice</a>
-      <div className={styles["separator"]}></div>
+      <div className={styles['separator']}></div>
       <a href="">Terms and Conditions</a>
     </div>
   </div>
@@ -118,7 +118,7 @@ export const Footer = () => (
       <Socials />
       <RunsOnRadix />
     </div>
-    <div className={styles["border"]}></div>
+    <div className={styles['border']}></div>
     <CopyRight />
   </div>
 )

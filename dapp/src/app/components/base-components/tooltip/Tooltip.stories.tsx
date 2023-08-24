@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { Tooltip } from "./Tooltip"
+import { Tooltip } from './Tooltip'
 
 const meta = {
-  title: "Gumball Club/Base components/Tooltip",
+  title: 'Gumball Club/Base components/Tooltip',
   component: Tooltip,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta<typeof Tooltip>
 
 export default meta

@@ -1,6 +1,6 @@
-import { Persona, PersonaDataName } from "@radixdlt/radix-dapp-toolkit"
-import { Text } from "../text"
-import styles from "./Hero.module.css"
+import { Persona, PersonaDataName } from '@radixdlt/radix-dapp-toolkit'
+import { Text } from '../text'
+import styles from './Hero.module.css'
 
 export const Hero = ({
   personaDataName,
@@ -14,12 +14,12 @@ export const Hero = ({
   return (
     <div className={styles.hero}>
       <Text variant="title">
-        {alias ? `Welcome, ${alias}!` : "Welcome to the Gumball Club"}
+        {alias ? `Welcome, ${alias}!` : 'Welcome to the Gumball Club'}
       </Text>
       <Text variant="subtitle">
         {alias
-          ? "Get some Gumball Club Tokens, and use them to buy Gumballs or Candies!"
-          : "A playground to experience Web3 using the Radix Wallet"}
+          ? 'Get some Gumball Club Tokens, and use them to buy Gumballs or Candies!'
+          : 'A playground to experience Web3 using the Radix Wallet'}
       </Text>
     </div>
   )

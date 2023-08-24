@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react"
-import { parseJson } from "../helpers/parse-json"
+import { useCallback, useState } from 'react'
+import { parseJson } from '../helpers/parse-json'
 
 export const useFetch = <T = any>() => {
   const [state, setState] = useState<

@@ -1,22 +1,22 @@
-import { shortenAddress } from "@/app/helpers/shorten-address"
-import { useOutsideClick } from "@/app/hooks/useOutsideClick"
-import styles from "./AccountPicker.module.css"
-import { useEffect, useState } from "react"
-import { animated, useSpring } from "@react-spring/web"
-import { Text } from "../text/Text"
-import { Account as AccountType } from "@radixdlt/radix-dapp-toolkit"
+import { shortenAddress } from '@/app/helpers/shorten-address'
+import { useOutsideClick } from '@/app/hooks/useOutsideClick'
+import styles from './AccountPicker.module.css'
+import { useEffect, useState } from 'react'
+import { animated, useSpring } from '@react-spring/web'
+import { Text } from '../text/Text'
+import { Account as AccountType } from '@radixdlt/radix-dapp-toolkit'
 
 const Account = ({
   label,
   address,
   appearanceId,
   className,
-  variant = "default",
+  variant = 'default',
   selected,
   onClick,
 }: AccountType & {
   className?: string
-  variant?: "radio-button" | "select-button" | "default"
+  variant?: 'radio-button' | 'select-button' | 'default'
   selected?: boolean
   onClick?: (address: string) => void
 }) => (
@@ -47,7 +47,7 @@ const Dropdown = ({
       {accounts.length ? (
         accounts.map((account, index, arr) => (
           <Account
-            className={`${index === arr.length - 1 ? "" : "mb-05"} clickable`}
+            className={`${index === arr.length - 1 ? '' : 'mb-05'} clickable`}
             key={account.address}
             variant="radio-button"
             selected={selected?.address === account.address}
@@ -74,16 +74,16 @@ const Select = ({
   disabled?: boolean
 }) => (
   <div
-    className={`${styles.select} ${open ? styles.open : ""} ${
-      selected ? styles["selected"] : ""
-    } ${disabled ? styles["disabled"] : "clickable"}`}
+    className={`${styles.select} ${open ? styles.open : ''} ${
+      selected ? styles['selected'] : ''
+    } ${disabled ? styles['disabled'] : 'clickable'}`}
     onClick={onClick}
   >
     {selected ? (
       <Account
         {...selected}
         variant="select-button"
-        className={`${open ? styles.open : ""}`}
+        className={`${open ? styles.open : ''}`}
       />
     ) : (
       <span
@@ -91,14 +91,14 @@ const Select = ({
           disabled ? styles.disabled : styles.placeholder
         }`}
       >
-        {disabled ? "Connect your wallet" : "Select an account"}
+        {disabled ? 'Connect your wallet' : 'Select an account'}
       </span>
     )}
   </div>
 )
 
-const closedStyle = { opacity: 0, transform: "translateY(-10px)" }
-const openStyle = { opacity: 1, transform: "translateY(0px)" }
+const closedStyle = { opacity: 0, transform: 'translateY(-10px)' }
+const openStyle = { opacity: 1, transform: 'translateY(0px)' }
 
 export const AccountPicker = ({
   accounts,
@@ -122,7 +122,7 @@ export const AccountPicker = ({
   }))
 
   const selectedAccount = accounts.find(
-    (account) => account.address === selected
+    (account) => account.address === selected,
   )
 
   const openIntent = openControl !== undefined ? openControl : open
@@ -136,7 +136,7 @@ export const AccountPicker = ({
   }, [open, openControl, openIntent, api])
 
   return (
-    <div className={`${styles["account-picker"]} ${className}`} ref={ref}>
+    <div className={`${styles['account-picker']} ${className}`} ref={ref}>
       <Select
         open={disabled ? false : openIntent}
         onClick={() => {

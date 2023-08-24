@@ -1,5 +1,5 @@
-import { ChangeEvent, ReactNode, useRef } from "react"
-import styles from "./Input.module.css"
+import { ChangeEvent, ReactNode, useRef } from 'react'
+import styles from './Input.module.css'
 
 export const Input = ({
   children,
@@ -9,6 +9,7 @@ export const Input = ({
   className,
   error,
   tokenBalance,
+  hint,
 }: {
   className?: string
   children: ReactNode
@@ -17,6 +18,7 @@ export const Input = ({
   onChange?: (ev: ChangeEvent<HTMLInputElement>) => void
   error?: string
   tokenBalance?: string
+  hint?: string
 }) => {
   const ref = useRef<HTMLInputElement>(null)
   const inputElement = ref.current!
@@ -26,18 +28,18 @@ export const Input = ({
     <div
       className={[
         styles.wrapper,
-        isDisabled ? styles.disabled : "",
-        error ? styles.error : "",
+        isDisabled ? styles.disabled : '',
+        error ? styles.error : '',
         className,
-      ].join(" ")}
+      ].join(' ')}
     >
       <input
         ref={ref}
         className={[
           styles.input,
-          isDisabled ? styles.disabled : "",
-          error ? styles.error : "",
-        ].join(" ")}
+          isDisabled ? styles.disabled : '',
+          error ? styles.error : '',
+        ].join(' ')}
         type="number"
         min="0"
         value={value}
@@ -48,7 +50,7 @@ export const Input = ({
         }}
       />
       <span
-        className={[styles.text, isDisabled ? styles.disabled : ""].join(" ")}
+        className={[styles.text, isDisabled ? styles.disabled : ''].join(' ')}
         onClick={() => {
           ref.current?.focus()
           ref.current?.select()
@@ -57,12 +59,15 @@ export const Input = ({
         {children}
       </span>
       {tokenBalance !== undefined && !error ? (
-        <span className={styles["token-balance"]}>
+        <span className={styles['token-balance']}>
           Balance: {tokenBalance} {children}
         </span>
       ) : null}
       {error && !isDisabled ? (
-        <span className={styles["error-message"]}>{error}</span>
+        <span className={styles['error-message']}>{error}</span>
+      ) : null}
+      {hint !== undefined && !tokenBalance && !error ? (
+        <span className={styles['hint']}>{hint}</span>
       ) : null}
     </div>
   )

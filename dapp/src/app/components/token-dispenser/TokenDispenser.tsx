@@ -1,13 +1,13 @@
-"use client"
-import { AccountPicker } from "../base-components/account-picker/AccountPicker"
-import { Card } from "../base-components/card"
-import { Tag } from "../base-components/tag"
-import { Text } from "../base-components/text"
-import styles from "./TokenDispenser.module.css"
-import { useEffect, useState } from "react"
-import { Button } from "../base-components/button"
-import { WalletDataStateAccount } from "@radixdlt/radix-dapp-toolkit"
-import { TokenDispenserModal } from "./TokenDispenserModal"
+'use client'
+import { AccountPicker } from '../base-components/account-picker/AccountPicker'
+import { Card } from '../base-components/card'
+import { Tag } from '../base-components/tag'
+import { Text } from '../base-components/text'
+import styles from './TokenDispenser.module.css'
+import { useEffect, useState } from 'react'
+import { Button } from '../base-components/button'
+import { WalletDataStateAccount } from '@radixdlt/radix-dapp-toolkit'
+import { TokenDispenserModal } from './TokenDispenserModal'
 
 export const TokenDispenser = ({
   accounts,
@@ -25,7 +25,7 @@ export const TokenDispenser = ({
   useEffect(() => {
     if (selectedAccount) {
       const selectedAccountExists = accounts.some(
-        (account) => account.address === selectedAccount
+        (account) => account.address === selectedAccount,
       )
       if (!selectedAccountExists) setState({ selectedAccount: undefined })
     }
@@ -34,7 +34,7 @@ export const TokenDispenser = ({
   const isButtonDisabled = !hasXrd || !selectedAccount || accounts.length === 0
 
   return (
-    <Card className={styles.card} outerClassName={styles["outer-card"]}>
+    <Card className={styles.card} outerClassName={styles['outer-card']}>
       <div>
         <Text variant="header" className="mb-01">
           Gumball Club Token Dispenser

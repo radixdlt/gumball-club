@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react"
-import { RadixContext, Radix } from "./radix-context"
+import React, { ReactNode } from 'react'
+import { RadixContext, Radix } from './radix-context'
 
 export const RadixProvider = ({
   value,

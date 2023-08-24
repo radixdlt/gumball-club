@@ -1,16 +1,44 @@
-"use client"
+'use client'
 
-import styles from "./GumballMachine.module.css"
-import { AccountPicker } from "../../../base-components/account-picker/AccountPicker"
-import { Input } from "../../../base-components/input/Input"
-import { Border } from "../../../base-components/border/Border"
-import { ReactNode, useEffect, useState } from "react"
-import { Button } from "../../../base-components/button"
-import { AccountWithTokens } from "@/app/hooks/useAccounts"
-import { config } from "@/app/config"
-import BigNumber from "bignumber.js"
+import styles from './GumballMachine.module.css'
+import { AccountPicker } from '../../../base-components/account-picker/AccountPicker'
+import { Input } from '../../../base-components/input/Input'
+import { Border } from '../../../base-components/border/Border'
+import { ReactNode, useEffect, useState } from 'react'
+import { Button } from '../../../base-components/button'
+import { AccountWithTokens } from '@/app/hooks/useAccounts'
+import { config } from '@/app/config'
+import BigNumber from 'bignumber.js'
+import {
+  getMemberCard,
+  hasMemberCard as hasMemberCardFn,
+} from '@/app/helpers/hasMemberCard'
+import { NonFungibleResource } from '@/app/transformers/addTokens'
+
+export type MachineOptionsProps = {
+  id: 'gumball' | 'candy' | 'member'
+  accounts: AccountWithTokens[]
+  outputTokenName: string
+  inputTokenName: string
+  image: ReactNode
+  onSubmit: (value: {
+    selectedAccountAddress: string
+    inputTokenValue: number
+    outputTokenValue: number
+    memberCard?: NonFungibleResource
+  }) => void
+  price: number
+  priceCalculationFn?: (
+    inputTokenValue: number,
+    price: number,
+    hasMemberCard: boolean,
+  ) => number
+  disabled?: boolean
+  defaultInputTokenValue?: number
+}
 
 export const MachineOptions = ({
+  id,
   accounts,
   outputTokenName,
   inputTokenName,
@@ -20,44 +48,44 @@ export const MachineOptions = ({
   disabled,
   defaultInputTokenValue = 0,
   priceCalculationFn,
-}: {
-  accounts: AccountWithTokens[]
-  outputTokenName: string
-  inputTokenName: string
-  image: ReactNode
-  onSubmit: (value: {
-    selectedAccount: string
-    inputTokenValue: number
-    outputTokenValue: number
-  }) => void
-  price: number
-  priceCalculationFn?: (inputTokenValue: number, price: number) => number
-  disabled?: boolean
-  defaultInputTokenValue?: number
-}) => {
+}: MachineOptionsProps) => {
   const isDisabled = accounts.length === 0
-  const [{ selectedAccount, inputTokenValue, isValid }, setState] = useState<{
-    selectedAccount?: string
-    inputTokenValue: number
-    isValid: boolean
-  }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
-
-  const outputTokenValue = priceCalculationFn
-    ? priceCalculationFn(inputTokenValue, price)
-    : Math.floor(inputTokenValue / price)
+  const [{ selectedAccountAddress, inputTokenValue, isValid }, setState] =
+    useState<{
+      selectedAccountAddress?: string
+      inputTokenValue: number
+      isValid: boolean
+    }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
 
   const gcTokens = accounts.find(
-    (account) => selectedAccount === account.address
+    (account) => selectedAccountAddress === account.address,
   )?.fungibleTokens[config.addresses.gumballClubTokensResource]?.value
 
   const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
+  const accountMap = accounts.reduce<Record<string, AccountWithTokens>>(
+    (acc, account) => ({ ...acc, [account.address]: account }),
+    {},
+  )
+
+  const selectedAccount = accountMap[selectedAccountAddress || '']
+
+  const memberCard = selectedAccount
+    ? getMemberCard(selectedAccount)
+    : undefined
+
+  const hasMemberCard = !!memberCard
+
+  const outputTokenValue = priceCalculationFn
+    ? priceCalculationFn(inputTokenValue, price, hasMemberCard)
+    : Math.floor(inputTokenValue / price)
+
   useEffect(() => {
     setState((prev) => ({
       ...prev,
-      isValid: !!selectedAccount && outputTokenValue >= 1,
+      isValid: !!selectedAccountAddress && outputTokenValue >= 1,
     }))
-  }, [selectedAccount, outputTokenValue, setState])
+  }, [selectedAccountAddress, outputTokenValue, setState])
 
   return (
     <>
@@ -67,9 +95,13 @@ export const MachineOptions = ({
           <AccountPicker
             className="mb-2"
             accounts={accounts}
-            selected={selectedAccount}
-            onSelect={(selectedAccount) =>
-              setState((prev) => ({ ...prev, selectedAccount }))
+            selected={selectedAccountAddress}
+            onSelect={(selectedAccountAddress) =>
+              setState((prev) => ({
+                ...prev,
+                selectedAccountAddress,
+                inputTokenValue: 0,
+              }))
             }
           />
           <Input
@@ -84,15 +116,23 @@ export const MachineOptions = ({
             className="mb-1"
             tokenBalance={gcTokens}
             error={
-              invalidInput && selectedAccount
-                ? "Not enough GC Tokens in account"
+              invalidInput && selectedAccountAddress
+                ? 'Not enough GC Tokens in account'
                 : undefined
             }
           >
             {inputTokenName}
           </Input>
           <Border className="mb-1" />
-          <Input disabled value={outputTokenValue}>
+          <Input
+            disabled
+            value={outputTokenValue}
+            hint={
+              hasMemberCard && id !== 'member'
+                ? 'Includes 50% GC Member Card discount'
+                : undefined
+            }
+          >
             {outputTokenName}
           </Input>
         </div>
@@ -103,14 +143,15 @@ export const MachineOptions = ({
         onClick={() => {
           if (isValid) {
             onSubmit({
-              selectedAccount: selectedAccount!,
+              selectedAccountAddress: selectedAccountAddress!,
               inputTokenValue,
               outputTokenValue,
+              memberCard,
             })
             setState((prev) => ({
               ...prev,
               inputTokenValue: defaultInputTokenValue,
-              selectedAccount: undefined,
+              selectedAccountAddress: undefined,
             }))
           }
         }}

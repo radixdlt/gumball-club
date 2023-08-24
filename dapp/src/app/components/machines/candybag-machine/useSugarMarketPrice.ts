@@ -1,10 +1,10 @@
-import { config } from "@/app/config"
-import { useDappToolkit } from "@/app/hooks/useDappToolkit"
-import { useCallback, useEffect, useState } from "react"
+import { config } from '@/app/config'
+import { useDappToolkit } from '@/app/hooks/useDappToolkit'
+import { useCallback, useEffect, useState } from 'react'
 
 export const useSugarMarketPrice = () => {
   const dAppToolkit = useDappToolkit()
-  const [startingTime, setStartingTime] = useState("0")
+  const [startingTime, setStartingTime] = useState('0')
 
   useEffect(() => {
     dAppToolkit.gatewayApi.state.innerClient
@@ -16,7 +16,7 @@ export const useSugarMarketPrice = () => {
       .then(
         (response): string =>
           (response.items[0].details as any)?.state?.programmatic_json.fields[0]
-            .value || "0"
+            .value || '0',
       )
       .then(setStartingTime)
   }, [setStartingTime, dAppToolkit])

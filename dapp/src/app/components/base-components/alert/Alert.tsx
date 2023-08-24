@@ -1,4 +1,4 @@
-import styles from "./Alert.module.css"
+import styles from './Alert.module.css'
 
 export const Alert = ({
   variant,
@@ -6,10 +6,10 @@ export const Alert = ({
   text,
   button,
   title,
-  className = "",
+  className = '',
 }: {
   className?: string
-  variant: "info"
+  variant: 'info'
   title: string
   text: React.ReactNode
   button?: React.ReactNode

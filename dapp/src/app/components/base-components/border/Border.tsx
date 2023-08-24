@@ -1,4 +1,4 @@
-import styles from "./Border.module.css";
+import styles from './Border.module.css'
 
 export const Border = ({ className }: { className?: string }) => (
   <div className={`${styles.border} ${className}`}>
@@ -6,4 +6,4 @@ export const Border = ({ className }: { className?: string }) => (
     <i className={styles.arrow}></i>
     <div className={styles.line}></div>
   </div>
-);
+)

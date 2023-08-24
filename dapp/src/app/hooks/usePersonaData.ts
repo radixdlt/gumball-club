@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { useDappToolkit } from "./useDappToolkit"
-import { PersonaDataName } from "@radixdlt/radix-dapp-toolkit"
+import { useEffect, useState } from 'react'
+import { useDappToolkit } from './useDappToolkit'
+import { PersonaDataName } from '@radixdlt/radix-dapp-toolkit'
 
 export const usePersonaData = () => {
   const dAppToolkit = useDappToolkit()
@@ -21,7 +21,7 @@ export const usePersonaData = () => {
         }>((acc, item) => ({ ...acc, [item.entry]: item.fields }), {})
 
         setState(entires)
-      }
+      },
     )
 
     return () => {

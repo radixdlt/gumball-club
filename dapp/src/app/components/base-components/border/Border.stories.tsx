@@ -1,18 +1,18 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from '@storybook/react'
 
-import { Border } from "./Border";
+import { Border } from './Border'
 
 const meta = {
-  title: "Gumball Club/Base components/Border",
+  title: 'Gumball Club/Base components/Border',
   component: Border,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
-  tags: ["autodocs"],
-} satisfies Meta<typeof Border>;
+  tags: ['autodocs'],
+} satisfies Meta<typeof Border>
 
-export default meta;
-type Story = StoryObj<typeof meta>;
+export default meta
+type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {},
@@ -21,4 +21,4 @@ export const Primary: Story = {
       <Border {...args} />
     </div>
   ),
-};
+}

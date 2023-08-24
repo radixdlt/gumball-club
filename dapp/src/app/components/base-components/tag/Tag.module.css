@@ -14,8 +14,12 @@
   background: var(--pink);
 }
 
+.tag.green {
+  background: var(--green);
+}
+
 .tag.market::before {
-  content: "";
+  content: '';
   width: 0.9rem;
   height: 0.95rem;
   align-self: center;

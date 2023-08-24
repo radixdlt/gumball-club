@@ -1,7 +1,8 @@
-import { useCallback } from "react"
-import { TransactionManifests } from "../radix/transaction-manifests"
-import { config } from "../config"
-import { useSendTransaction } from "./useSendTransaction copy"
+import { useCallback } from 'react'
+import { TransactionManifests } from '../radix/transaction-manifests'
+import { config } from '../config'
+import { useSendTransaction } from './useSendTransaction copy'
+import { NonFungibleResource } from '../transformers/addTokens'
 
 export const useSendTransactionManifest = () => {
   const transactionManifests = TransactionManifests(config.addresses)
@@ -11,20 +12,36 @@ export const useSendTransactionManifest = () => {
     () => ({
       dispenseGcTokens: (accountAddress: string) =>
         sendTransaction(transactionManifests.dispenseGcTokens(accountAddress)),
-      buyGumball: (accountAddress: string, gcTokenValue: number) =>
+      buyGumball: (
+        accountAddress: string,
+        gcTokenValue: number,
+        memberCard?: NonFungibleResource,
+      ) =>
         sendTransaction(
-          transactionManifests.buyGumball(accountAddress, gcTokenValue)
+          transactionManifests.buyGumball(
+            accountAddress,
+            gcTokenValue,
+            memberCard,
+          ),
         ),
-      buyCandy: (accountAddress: string, gcTokenValue: number) =>
+      buyCandy: (
+        accountAddress: string,
+        gcTokenValue: number,
+        memberCard?: NonFungibleResource,
+      ) =>
         sendTransaction(
-          transactionManifests.buyCandy(accountAddress, gcTokenValue)
+          transactionManifests.buyCandy(
+            accountAddress,
+            gcTokenValue,
+            memberCard,
+          ),
         ),
 
       buyMemberCard: (accountAddress: string, gcTokenValue: number) =>
         sendTransaction(
-          transactionManifests.buyMemberCard(accountAddress, gcTokenValue)
+          transactionManifests.buyMemberCard(accountAddress, gcTokenValue),
         ),
     }),
-    [sendTransaction, transactionManifests]
+    [sendTransaction, transactionManifests],
   )
 }

@@ -1,25 +1,25 @@
-import { ReactNode, MouseEvent } from "react"
-import styles from "./Button.module.css"
+import { ReactNode, MouseEvent } from 'react'
+import styles from './Button.module.css'
 
 export const Button = ({
   children,
   disabled,
-  icon = "none",
+  icon = 'none',
   onClick,
-  className = "",
+  className = '',
 }: {
   children: ReactNode
   disabled?: boolean
-  icon?: "external-link" | "none"
+  icon?: 'external-link' | 'none'
   onClick?: (ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => void
   className?: string
 }) => {
   const iconClass = icon
-    ? { "external-link": styles["external-link"], none: "" }[icon]
-    : ""
+    ? { 'external-link': styles['external-link'], none: '' }[icon]
+    : ''
 
   const handleOnClick = (
-    ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+    ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => {
     if (disabled || !onClick) return
     onClick(ev)
