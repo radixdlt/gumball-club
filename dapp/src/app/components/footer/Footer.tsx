@@ -1,6 +1,13 @@
 import { config } from '@/app/config'
 import styles from './Footer.module.css'
 import Image from 'next/image'
+import ExternalLink from '../../../../public/assets/external-link.png'
+import Twitter from '../../../../public/assets/twitter.svg'
+import Github from '../../../../public/assets/github.svg'
+import Telegram from '../../../../public/assets/telegram.svg'
+import Discord from '../../../../public/assets/discord.svg'
+import Email from '../../../../public/assets/email.svg'
+import RunsOnRadixImage from '../../../../public/assets/runs-on-radix.svg'
 
 const LearnMore = () => (
   <div className={styles['learn-more']}>
@@ -12,7 +19,7 @@ const LearnMore = () => (
     >
       Radix Developer Console
       <Image
-        src="/assets/external-link.svg"
+        src={ExternalLink}
         width={20}
         height={20}
         alt="developer console link"
@@ -21,7 +28,7 @@ const LearnMore = () => (
     <a href="https://www.radixdlt.com" className={styles.link} target="_blank">
       About Radix
       <Image
-        src="/assets/external-link.svg"
+        src={ExternalLink}
         width={20}
         height={20}
         alt="developer console link"
@@ -36,35 +43,35 @@ const Socials = () => (
     <div className={styles['socials-links']}>
       {[
         {
-          iconPath: '/assets/twitter.svg',
+          iconPath: Twitter,
           url: 'https://x.com/RadixDLT',
           height: 24,
           width: 24,
           alt: 'X link',
         },
         {
-          iconPath: '/assets/github.svg',
+          iconPath: Github,
           url: 'https://github.com/radixdlt',
           height: 24,
           width: 24,
           alt: 'Github link',
         },
         {
-          iconPath: '/assets/telegram.svg',
+          iconPath: Telegram,
           url: 'https://t.me/radix_dlt',
           height: 24,
           width: 24,
           alt: 'Telegram link',
         },
         {
-          iconPath: '/assets/discord.svg',
+          iconPath: Discord,
           url: 'https://discord.gg/radixdlt',
           height: 24,
           width: 24,
           alt: 'Discord link',
         },
         {
-          iconPath: '/assets/email.svg',
+          iconPath: Email,
           url: 'mailto:hello@radixdlt.com',
           height: 24,
           width: 24,
@@ -88,7 +95,7 @@ const RunsOnRadix = () => (
   <div className={styles['runs-on-radix']}>
     <a href="https://www.radixdlt.com/full-stack" target="_blank">
       <Image
-        src="/assets/runs-on-radix.svg"
+        src={RunsOnRadixImage}
         width={119.483}
         height={48.081}
         alt="developer console link"
