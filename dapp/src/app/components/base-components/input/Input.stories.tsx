@@ -56,3 +56,19 @@ export const Hint: Story = {
     hint: 'Includes 50% GC Member Card discount',
   },
 }
+
+export const ComplexLabel: Story = {
+  args: {
+    value: 200,
+    children: (
+      <div>
+        Candies
+        <div>
+          <strong>Estimated</strong> at market price
+        </div>
+      </div>
+    ),
+    disabled: false,
+    hint: 'Includes 50% GC Member Card discount',
+  },
+}

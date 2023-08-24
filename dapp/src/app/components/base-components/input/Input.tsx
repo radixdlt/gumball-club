@@ -10,6 +10,7 @@ export const Input = ({
   error,
   tokenBalance,
   hint,
+  after = null,
 }: {
   className?: string
   children: ReactNode
@@ -19,6 +20,7 @@ export const Input = ({
   error?: string
   tokenBalance?: string
   hint?: string
+  after?: ReactNode
 }) => {
   const ref = useRef<HTMLInputElement>(null)
   const inputElement = ref.current!
@@ -69,6 +71,7 @@ export const Input = ({
       {hint !== undefined && !tokenBalance && !error ? (
         <span className={styles['hint']}>{hint}</span>
       ) : null}
+      {after}
     </div>
   )
 }

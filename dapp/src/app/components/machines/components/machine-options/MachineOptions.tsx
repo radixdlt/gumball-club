@@ -132,8 +132,28 @@ export const MachineOptions = ({
                 ? 'Includes 50% GC Member Card discount'
                 : undefined
             }
+            after={
+              id === 'candy' && selectedAccount ? (
+                <div
+                  className={styles.guarantees}
+                  style={{ bottom: hasMemberCard ? '-3.5rem' : '-2.5rem' }}
+                >
+                  Set your own guarantees on estimated returns in your Radix
+                  Wallet!
+                </div>
+              ) : null
+            }
           >
-            {outputTokenName}
+            {id === 'candy' ? (
+              <div>
+                Candies
+                <div className="small">
+                  <strong>Estimated</strong> <span>at market price</span>
+                </div>
+              </div>
+            ) : (
+              outputTokenName
+            )}
           </Input>
         </div>
       </div>
