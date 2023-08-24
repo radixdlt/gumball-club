@@ -19,7 +19,7 @@ export const Button = ({
     : ''
 
   const handleOnClick = (
-    ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+    ev: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
   ) => {
     if (disabled || !onClick) return
     onClick(ev)

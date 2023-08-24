@@ -122,7 +122,7 @@ export const AccountPicker = ({
   }))
 
   const selectedAccount = accounts.find(
-    (account) => account.address === selected,
+    (account) => account.address === selected
   )
 
   const openIntent = openControl !== undefined ? openControl : open

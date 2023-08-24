@@ -15,33 +15,33 @@ export const useSendTransactionManifest = () => {
       buyGumball: (
         accountAddress: string,
         gcTokenValue: number,
-        memberCard?: NonFungibleResource,
+        memberCard?: NonFungibleResource
       ) =>
         sendTransaction(
           transactionManifests.buyGumball(
             accountAddress,
             gcTokenValue,
-            memberCard,
-          ),
+            memberCard
+          )
         ),
       buyCandy: (
         accountAddress: string,
         gcTokenValue: number,
-        memberCard?: NonFungibleResource,
+        memberCard?: NonFungibleResource
       ) =>
         sendTransaction(
           transactionManifests.buyCandy(
             accountAddress,
             gcTokenValue,
-            memberCard,
-          ),
+            memberCard
+          )
         ),
 
       buyMemberCard: (accountAddress: string, gcTokenValue: number) =>
         sendTransaction(
-          transactionManifests.buyMemberCard(accountAddress, gcTokenValue),
+          transactionManifests.buyMemberCard(accountAddress, gcTokenValue)
         ),
     }),
-    [sendTransaction, transactionManifests],
+    [sendTransaction, transactionManifests]
   )
 }

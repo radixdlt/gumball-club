@@ -23,4 +23,4 @@ export const Text = ({
     paragraph: <p className={className}>{children}</p>,
     'modal-header': <h3 className={`modal-header ${className}`}>{children}</h3>,
     'modal-text': <p className={`modal-text ${className}`}>{children}</p>,
-  })[variant]
+  }[variant])

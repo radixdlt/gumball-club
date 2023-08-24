@@ -8,12 +8,12 @@ export const hasMemberCard = (accounts: AccountWithTokens[]) =>
       Object.values(
         account.nonFungibleTokens[
           config.addresses.gumballClubMemberCardResource
-        ] || {},
-      ).length > 0,
+        ] || {}
+      ).length > 0
   )
 
 export const getMemberCard = (
-  account: AccountWithTokens,
+  account: AccountWithTokens
 ): NonFungibleResource | undefined => {
   const memberCards =
     account.nonFungibleTokens[config.addresses.gumballClubMemberCardResource]

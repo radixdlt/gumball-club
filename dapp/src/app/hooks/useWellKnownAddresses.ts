@@ -13,7 +13,7 @@ export const useWellKnownAddresses = () => {
         .getNetworkConfiguration()
         .then((response) => {
           setState(response.well_known_addresses)
-        }),
+        })
     )
   }, [dAppToolkit, fetch])
 

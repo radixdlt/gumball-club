@@ -16,7 +16,7 @@ export const useSugarMarketPrice = () => {
       .then(
         (response): string =>
           (response.items[0].details as any)?.state?.programmatic_json.fields[0]
-            .value || '0',
+            .value || '0'
       )
       .then(setStartingTime)
   }, [setStartingTime, dAppToolkit])

@@ -26,7 +26,7 @@ export const TransactionManifests = ({
   const buyGumball = (
     accountAddress: string,
     gcTokensValue: number,
-    memberCard?: NonFungibleResource,
+    memberCard?: NonFungibleResource
   ) =>
     memberCard
       ? `
@@ -85,7 +85,7 @@ export const TransactionManifests = ({
   const buyCandy = (
     accountAddress: string,
     gcTokensValue: number,
-    memberCard?: NonFungibleResource,
+    memberCard?: NonFungibleResource
   ) =>
     memberCard
       ? `

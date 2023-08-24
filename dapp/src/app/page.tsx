@@ -23,7 +23,7 @@ export default function Page() {
 
     radixDappToolkit.walletApi.setRequestData(
       DataRequestBuilder.accounts().atLeast(1),
-      DataRequestBuilder.personaData().fullName(),
+      DataRequestBuilder.personaData().fullName()
     )
 
     setState(radixDappToolkit)

@@ -21,7 +21,7 @@ export const usePersonaData = () => {
         }>((acc, item) => ({ ...acc, [item.entry]: item.fields }), {})
 
         setState(entires)
-      },
+      }
     )
 
     return () => {

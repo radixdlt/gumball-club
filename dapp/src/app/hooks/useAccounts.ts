@@ -19,7 +19,7 @@ const useWithTokens = (stateApi: State) => {
     (accounts: Account[]) =>
       stateApi
         .getEntityDetailsVaultAggregated(
-          accounts.map((account) => account.address),
+          accounts.map((account) => account.address)
         )
         .then((data) =>
           Promise.all(
@@ -33,16 +33,16 @@ const useWithTokens = (stateApi: State) => {
                   transformNonFungibleTokens(
                     item.non_fungible_resources,
                     accounts[index].address,
-                    stateApi,
+                    stateApi
                   ).then((nonFungibleTokens) => ({
                     ...values,
                     nonFungibleTokens,
-                  })),
-                ),
-            ),
-          ),
+                  }))
+                )
+            )
+          )
         ),
-    [stateApi],
+    [stateApi]
   )
 }
 
@@ -69,7 +69,7 @@ export const useAccounts = () => {
             .catch(() => {
               setState({ accounts: [], status: 'error', hasLoaded: true })
             })
-        }),
+        })
       )
       .subscribe()
 

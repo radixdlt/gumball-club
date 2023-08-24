@@ -55,14 +55,14 @@ export const Home = () => {
   const hasXrd = accounts.some(
     (account) =>
       account.fungibleTokens[xrdAddress] &&
-      new BigNumber(account.fungibleTokens[xrdAddress].value).gt(0),
+      new BigNumber(account.fungibleTokens[xrdAddress].value).gt(0)
   )
 
   const isAccountsLoading = status === 'pending'
 
   const hasGcTokens = hasFungibleTokens(
     accounts,
-    config.addresses.gumballClubTokensResource,
+    config.addresses.gumballClubTokensResource
   )
 
   const handleDismissModal = () => {
@@ -84,13 +84,13 @@ export const Home = () => {
   const handleShowModal = (
     showModal: 'tokenDispenser' | 'gumball' | 'candy' | 'member',
     selectedAccountAddress: string,
-    outputTokenValue?: number,
+    outputTokenValue?: number
   ) =>
     setState((prev) => ({
       ...prev,
       showModal,
       account: accounts.find(
-        (account) => account.address === selectedAccountAddress,
+        (account) => account.address === selectedAccountAddress
       ),
       outputTokenValue,
     }))
@@ -119,7 +119,7 @@ export const Home = () => {
               dispenseGcTokens(selectedAccountAddress)
                 .map(refresh)
                 .map(() =>
-                  handleShowModal('tokenDispenser', selectedAccountAddress),
+                  handleShowModal('tokenDispenser', selectedAccountAddress)
                 )
             }}
           />
@@ -138,8 +138,8 @@ export const Home = () => {
                     handleShowModal(
                       'gumball',
                       selectedAccountAddress,
-                      outputTokenValue,
-                    ),
+                      outputTokenValue
+                    )
                   )
               }}
             />
@@ -158,8 +158,8 @@ export const Home = () => {
                     handleShowModal(
                       'candy',
                       selectedAccountAddress,
-                      outputTokenValue,
-                    ),
+                      outputTokenValue
+                    )
                   )
               }}
             />
@@ -177,8 +177,8 @@ export const Home = () => {
                       handleShowModal(
                         'member',
                         selectedAccountAddress,
-                        outputTokenValue,
-                      ),
+                        outputTokenValue
+                      )
                     )
                 }
               />

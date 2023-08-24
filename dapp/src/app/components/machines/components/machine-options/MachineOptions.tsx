@@ -31,7 +31,7 @@ export type MachineOptionsProps = {
   priceCalculationFn?: (
     inputTokenValue: number,
     price: number,
-    hasMemberCard: boolean,
+    hasMemberCard: boolean
   ) => number
   disabled?: boolean
   defaultInputTokenValue?: number
@@ -58,14 +58,14 @@ export const MachineOptions = ({
     }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
 
   const gcTokens = accounts.find(
-    (account) => selectedAccountAddress === account.address,
+    (account) => selectedAccountAddress === account.address
   )?.fungibleTokens[config.addresses.gumballClubTokensResource]?.value
 
   const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
   const accountMap = accounts.reduce<Record<string, AccountWithTokens>>(
     (acc, account) => ({ ...acc, [account.address]: account }),
-    {},
+    {}
   )
 
   const selectedAccount = accountMap[selectedAccountAddress || '']

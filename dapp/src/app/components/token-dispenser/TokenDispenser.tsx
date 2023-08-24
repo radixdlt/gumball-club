@@ -25,7 +25,7 @@ export const TokenDispenser = ({
   useEffect(() => {
     if (selectedAccount) {
       const selectedAccountExists = accounts.some(
-        (account) => account.address === selectedAccount,
+        (account) => account.address === selectedAccount
       )
       if (!selectedAccountExists) setState({ selectedAccount: undefined })
     }
