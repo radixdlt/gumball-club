@@ -8,6 +8,8 @@ import { useConnectButtonState } from '@/app/hooks/useConnectButtonState'
 import { Tooltip } from '../base-components/tooltip/Tooltip'
 import { usePersona } from '@/app/hooks/usePersona'
 import { usePersonaData } from '@/app/hooks/usePersonaData'
+import ConnectArrow from '../../../../public/assets/connect-arrow.svg'
+import Logo from '../../../../public/assets/logo.png'
 
 declare global {
   namespace JSX {
@@ -23,7 +25,7 @@ declare global {
 const ConnectHelper = () => (
   <Image
     className={styles['connect-arrow']}
-    src="/assets/connect-arrow.svg"
+    src={ConnectArrow}
     height={104}
     width={251}
     alt="connect helper"
@@ -90,7 +92,7 @@ export const Header = ({
   return (
     <header className={`${className}`}>
       <div className={`${styles.header} `}>
-        <Image src="/assets/logo.png" height={42} width={139} alt="logo" />
+        <Image src={Logo} height={42} width={139} alt="logo" />
         <div className={styles['radix-connect-button']}>
           <radix-connect-button ref={ref} />
           {showConnectHelper ? <ConnectHelper /> : null}
