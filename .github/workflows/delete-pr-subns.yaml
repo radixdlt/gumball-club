@@ -45,6 +45,8 @@ jobs:
       pull-requests: read
     steps:
     - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+    - name: Dump context
+      uses: crazy-max/ghaction-dump-context@v2
     - uses: unfor19/install-aws-cli-action@v1
       with:
         version: 2
