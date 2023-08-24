@@ -7,7 +7,7 @@ on:
 
 jobs:
   delete-pr-subns:
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event.action == 'closed' }}
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -23,7 +23,7 @@ jobs:
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
           role-to-assume: ${{ secrets.DEPLOY_PR_IAM_ROLE }}
           aws-region: eu-west-2
@@ -53,7 +53,7 @@ jobs:
       with:
         version: "v1.25.6"
     - name: Configure AWS credentials for deployment
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
       with:
         role-to-assume: ${{ secrets.DEPLOY_RELEASES_IAM_ROLE }}
         aws-region: eu-west-2
