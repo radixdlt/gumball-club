@@ -65,7 +65,7 @@ jobs:
                                 --alias ${{ secrets.CLUSTER_NAME }} \
                                 --region eu-west-2
 
-        BRANCH_NAME=${{ github.ref_name }}
+        BRANCH_NAME=${{ github.event.ref }}
         NORMALIZED_BRANCH_NAME=${BRANCH_NAME/\//-}
 
         kubectl delete subns gumball-club-$NORMALIZED_BRANCH_NAME -n gumball-club-ci-releases
