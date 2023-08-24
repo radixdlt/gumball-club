@@ -22,6 +22,7 @@
     "next": "13.4.13",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "sharp": "^0.32.5",
     "typescript": "5.1.6"
   },
   "devDependencies": {
@@ -34,7 +35,9 @@
     "@storybook/react": "^7.2.1",
     "@storybook/testing-library": "^0.2.0",
     "eslint-plugin-storybook": "^0.6.13",
-    "storybook": "^7.2.1"
+    "file-loader": "^6.2.0",
+    "storybook": "^7.2.1",
+    "url-loader": "^4.1.1"
   },
   "repository": {
     "type": "git",

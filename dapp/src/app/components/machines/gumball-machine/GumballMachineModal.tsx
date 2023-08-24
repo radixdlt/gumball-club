@@ -3,6 +3,7 @@ import { Button } from '../../base-components/button'
 import { Modal } from '../../base-components/modal/Modal'
 import { Text } from '../../base-components/text/Text'
 import Image from 'next/image'
+import GumballToken from '@/../public/assets/gumball-token.png'
 
 export const GumballMachineModal = ({
   onDismiss,
@@ -21,7 +22,7 @@ export const GumballMachineModal = ({
         width="146"
         height="146"
         alt="gc token icon"
-        src="/assets/gumball-token.png"
+        src={GumballToken}
         className="mb-1"
       />
       <Text variant="modal-header" className="mb-1">

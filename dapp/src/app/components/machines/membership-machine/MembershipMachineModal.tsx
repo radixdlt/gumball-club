@@ -3,6 +3,7 @@ import { Button } from '../../base-components/button'
 import { Modal } from '../../base-components/modal/Modal'
 import { Text } from '../../base-components/text/Text'
 import Image from 'next/image'
+import MemberCard from '@/../public/assets/member-card.png'
 
 export const MembershipMachineModal = ({
   onDismiss,
@@ -21,7 +22,7 @@ export const MembershipMachineModal = ({
         width="256"
         height="256"
         alt="candy bag"
-        src="/assets/member-card.png"
+        src={MemberCard}
         className="mb-1"
       />
       <Text variant="modal-header" className="mb-1">

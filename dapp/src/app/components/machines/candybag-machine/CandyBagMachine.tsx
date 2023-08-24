@@ -10,6 +10,7 @@ import { AccountWithTokens } from '@/app/hooks/useAccounts'
 import { useSugarMarketPrice } from './useSugarMarketPrice'
 import { useEffect, useState } from 'react'
 import { hasMemberCard as hasMemberCardFn } from '@/app/helpers/hasMemberCard'
+import CandyMachineImage from '../../../../../public/assets/candy-machine.png'
 
 export const CandyBagMachine = ({
   accounts,
@@ -75,12 +76,7 @@ export const CandyBagMachine = ({
         id="candy"
         price={candyPrice}
         image={
-          <Image
-            src="/assets/candy-machine.png"
-            alt="me"
-            width="176"
-            height="282"
-          />
+          <Image src={CandyMachineImage} alt="me" width="176" height="282" />
         }
         priceCalculationFn={(inputTokenValue, price, accountHasMemberCard) =>
           accountHasMemberCard

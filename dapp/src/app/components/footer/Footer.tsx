@@ -1,7 +1,7 @@
 import { config } from '@/app/config'
 import styles from './Footer.module.css'
 import Image from 'next/image'
-import ExternalLink from '../../../../public/assets/external-link.png'
+import ExternalLink from '../../../../public/assets/external-link.svg'
 import Twitter from '../../../../public/assets/twitter.svg'
 import Github from '../../../../public/assets/github.svg'
 import Telegram from '../../../../public/assets/telegram.svg'

@@ -3,6 +3,7 @@ import { Button } from '../base-components/button'
 import { Modal } from '../base-components/modal/Modal'
 import { Text } from '../base-components/text/Text'
 import Image from 'next/image'
+import GcToken from '@/../public/assets/gc-token.png'
 
 export const TokenDispenserModal = ({
   onDismiss,
@@ -19,7 +20,7 @@ export const TokenDispenserModal = ({
         width="200"
         height="200"
         alt="gc token icon"
-        src="/assets/gc-token.png"
+        src={GcToken}
         className="mb-1"
       />
       <Text variant="modal-header" className="mb-1">

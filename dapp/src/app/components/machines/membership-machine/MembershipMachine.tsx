@@ -8,6 +8,7 @@ import {
 import { MachineHeader } from '../components/machine-header/MachineHeader'
 import styles from './MembershipMachine.module.css'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
+import MemberCardMachine from '@/../public/assets/membership-machine.png'
 
 export const MembershipMachine = ({
   accounts,
@@ -30,12 +31,7 @@ export const MembershipMachine = ({
         defaultInputTokenValue={5}
         disabled
         image={
-          <Image
-            src="/assets/membership-machine.png"
-            alt="me"
-            width="172"
-            height="308"
-          />
+          <Image src={MemberCardMachine} alt="me" width="172" height="308" />
         }
         accounts={accounts}
         inputTokenName="GC Tokens"

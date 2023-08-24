@@ -3,8 +3,6 @@ const dns = require('dns')
 dns.setDefaultResultOrder('ipv4first')
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'standalone',
-}
+const nextConfig = {}
 
 module.exports = nextConfig

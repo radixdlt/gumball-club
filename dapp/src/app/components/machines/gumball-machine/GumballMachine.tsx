@@ -8,6 +8,7 @@ import {
 import { MachineHeader } from '../components/machine-header/MachineHeader'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
 import { hasMemberCard as hasMemberCardFn } from '@/app/helpers/hasMemberCard'
+import GumballMachineImage from '../../../../../public/assets/gumball-machine.png'
 
 export const GumballMachine = ({
   accounts,
@@ -44,12 +45,7 @@ export const GumballMachine = ({
         id="gumball"
         price={2}
         image={
-          <Image
-            src="/assets/gumball-machine.png"
-            alt="me"
-            width="190"
-            height="305"
-          />
+          <Image src={GumballMachineImage} alt="me" width="190" height="305" />
         }
         priceCalculationFn={(inputTokenValue, price, accountHasMemberCard) =>
           accountHasMemberCard
