@@ -100,7 +100,7 @@ export const MachineOptions = ({
               setState((prev) => ({
                 ...prev,
                 selectedAccountAddress,
-                inputTokenValue: 0,
+                inputTokenValue: defaultInputTokenValue,
               }))
             }
           />
