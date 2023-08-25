@@ -65,9 +65,7 @@ export const Input = ({
           Balance: {tokenBalance} {children}
         </span>
       ) : null}
-      {error && !isDisabled ? (
-        <span className={styles['error-message']}>{error}</span>
-      ) : null}
+      {error ? <span className={styles['error-message']}>{error}</span> : null}
       {hint !== undefined && !tokenBalance && !error ? (
         <span className={styles['hint']}>{hint}</span>
       ) : null}
