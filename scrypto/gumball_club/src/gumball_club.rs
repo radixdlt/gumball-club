@@ -84,6 +84,9 @@ mod gumball_club {
                     init {
                         "name" => "Gumball Club Tokens", locked;
                         "symbol" => "GC", locked;
+                        "icon_url" => "https://github.com/xstelea/cautious-waffle/blob/44757b011f11f4e330e7fb149dc109c405c3ae00/gc-token.png?raw=true", locked;
+                        "info_url" => "https://gumball-club-dev.rdx-works-main.extratools.works", locked;
+                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -117,6 +120,9 @@ mod gumball_club {
                         "name" => "Gumball Club Member Card", locked;
                         "description" => "Use this Gumball Club Member Card to get 50% discount on our sweet machines", locked;
                         "tags" => vec!["badge"], locked;
+                        "info_url" => "https://gumball-club-dev.rdx-works-main.extratools.works", locked;
+                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
+                        "icon_url" => "https://github.com/xstelea/cautious-waffle/blob/44757b011f11f4e330e7fb149dc109c405c3ae00/membership-card.png?raw=true", locked;
                     }
                 })
                 .mint_roles(mint_roles!(
@@ -159,6 +165,7 @@ mod gumball_club {
                 init {
                     "name" => "GumballClub Component", locked;
                     "description" => "Use this component to dispense Gumball Club tokens and buy membership cards!", locked;
+                    "dapp_definition" => "account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x", locked;
                 }
             ))
             .with_address(address_reservation)
@@ -176,8 +183,7 @@ mod gumball_club {
         /// --RETURNS--
         /// * `Bucket` - Returns a `Bucket` of Gumball Club token at hardcoded amount of 20.
         pub fn dispense_gc_tokens(&mut self) -> Bucket {
-            // Currently mint amount hard coded to 100 for testing purposes.
-            let gumball_club_tokens = self.gumball_club_token_manager.mint(dec!(100));
+            let gumball_club_tokens = self.gumball_club_token_manager.mint(dec!(20));
 
             return gumball_club_tokens
         }
@@ -208,7 +214,8 @@ mod gumball_club {
             let member_card = self.member_card_manager
                 .mint_non_fungible(
                     &NonFungibleLocalId::integer(self.gumball_club_member_counter),
-                    GumballClubMember {}
+                    GumballClubMember {
+                    }
                 );
 
             return (member_card, payment)
