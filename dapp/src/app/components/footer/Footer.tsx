@@ -17,12 +17,12 @@ const LearnMore = () => (
       className={styles.link}
       target="_blank"
     >
-      Radix Developer Console
+      Radix Dashboard
       <Image
         src={ExternalLink}
         width={20}
         height={20}
-        alt="developer console link"
+        alt="dashboard link"
       ></Image>
     </a>
     <a href="https://www.radixdlt.com" className={styles.link} target="_blank">
@@ -31,7 +31,7 @@ const LearnMore = () => (
         src={ExternalLink}
         width={20}
         height={20}
-        alt="developer console link"
+        alt="about radix link"
       ></Image>
     </a>
   </div>

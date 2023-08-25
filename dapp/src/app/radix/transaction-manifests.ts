@@ -12,8 +12,9 @@ export const TransactionManifests = ({
             Address("${gumballClubComponent}")
             "dispense_gc_tokens"
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
+            Decimal("100")
             Bucket("bucket1")
         ;
         CALL_METHOD

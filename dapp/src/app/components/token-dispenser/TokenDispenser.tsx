@@ -31,7 +31,7 @@ export const TokenDispenser = ({
     }
   }, [selectedAccount, accounts])
 
-  const isButtonDisabled = !hasXrd || !selectedAccount || accounts.length === 0
+  const isButtonDisabled = !selectedAccount || accounts.length === 0
 
   return (
     <Card className={styles.card} outerClassName={styles['outer-card']}>
