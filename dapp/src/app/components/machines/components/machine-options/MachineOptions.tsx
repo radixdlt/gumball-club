@@ -133,7 +133,7 @@ export const MachineOptions = ({
                 : undefined
             }
             after={
-              id === 'candy' && selectedAccount ? (
+              id === 'candy' && inputTokenValue > 0 && selectedAccount ? (
                 <div
                   className={styles.guarantees}
                   style={{ bottom: hasMemberCard ? '-3.5rem' : '-2.5rem' }}
