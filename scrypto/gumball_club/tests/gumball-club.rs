@@ -10,7 +10,7 @@ pub struct Account {
 }
 
 pub struct TestEnvironment {
-    test_runner: TestRunner,
+    test_runner: DefaultTestRunner,
     account: Account,
     owner_badge: ResourceAddress,
     package_address: PackageAddress,
@@ -22,7 +22,7 @@ pub struct TestEnvironment {
 impl TestEnvironment {
 
     pub fn instantiate_test() -> Self {
-        let mut test_runner = TestRunner::builder().build();
+        let mut test_runner = TestRunnerBuilder::new().build();
 
         // Create an account
         let (public_key, _private_key, account_address) = test_runner.new_allocated_account();
@@ -36,6 +36,8 @@ impl TestEnvironment {
         );
 
         let package_address = test_runner.compile_and_publish("../sugar_price_oracle");
+
+        println!("Package: {}", package_address.display(&AddressBech32Encoder::for_simulator()));
 
         let manifest = ManifestBuilder::new()
             .call_function(
@@ -99,8 +101,8 @@ impl TestEnvironment {
     ) -> TransactionReceipt {
 
         dump_manifest_to_file_system(
-            &manifest,
             manifest_names,
+            &manifest,
             "./transaction_manifest/gumball_club",
             Some(name),
             network
@@ -180,13 +182,6 @@ impl TestEnvironment {
             &NetworkDefinition::simulator()
         )
     }
-
-    pub fn inspect_account(&mut self, resource_address: ResourceAddress) -> Decimal {
-        self.test_runner.account_balance(
-            self.account.account_address, 
-            resource_address
-        ).unwrap()
-    }
 }
 
 #[test]
@@ -206,14 +201,13 @@ fn dispense_gc_tokens() {
 
     let commit = receipt.expect_commit_success();
     
-    // Hard coded for 100 for now.
     assert_eq!(
         commit.balance_changes(),
         &indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
+                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
+                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
             ),
             test_environment.account.account_address.into() => indexmap!(
                 test_environment.gumball_club_token => BalanceChange::Fungible(dec!("100"))
@@ -235,9 +229,9 @@ fn buy_member_card() {
         commit.balance_changes(),
         &indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
+                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
+                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
             ),
             test_environment.account.account_address.into() => indexmap!(
                 test_environment.member_card_badge => BalanceChange::NonFungible{ added: btreeset!(NonFungibleLocalId::integer(1)), removed: btreeset!()},
@@ -248,5 +242,4 @@ fn buy_member_card() {
             )
         )
     );
-
 }

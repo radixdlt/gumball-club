@@ -5,7 +5,7 @@ CALL_METHOD
     Decimal("1")
 ;
 CALL_METHOD
-    Address("component_sim1cq632lktf4ahc8t5ell0tlveuyw802slf7jv535ede6df4eg005jxw")
+    Address("component_sim1cqy506cl8tuwrjwhm92j5vhseccpuvg26p0djdlkeguw6uawla29uu")
     "change_member_card"
     Address("resource_sim1t52gf0ls4dn5k0jzm8vev7wxaur4t0fxersg8ugeypuqm4ea3h9jyz")
 ;

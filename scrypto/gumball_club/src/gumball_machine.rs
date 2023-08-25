@@ -88,7 +88,9 @@ mod gumball_machine {
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
             let (address_reservation, component_address) = 
-                Runtime::allocate_component_address(Runtime::blueprint_id());
+                Runtime::allocate_component_address(
+                    BlueprintId::new(&Runtime::package_address(), "GumballMachine")
+                );
 
             assert_ne!(
                 payment_token_address, member_card_address,
@@ -219,10 +221,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < self.price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount() / self.price_per_gumball).round(0, RoundingMode::ToZero)
+                (payment.amount().safe_div(self.price_per_gumball))
+                .unwrap()
+                .round(0, RoundingMode::ToZero)
              };
 
-            let total_gumball_price = total_gumball_amount * self.price_per_gumball;
+            let total_gumball_price = 
+                total_gumball_amount
+                .safe_mul(self.price_per_gumball)
+                .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
             let our_share = payment.take(total_gumball_price);
@@ -268,8 +275,16 @@ mod gumball_machine {
             
             // Calculates the discounted price per gumball based on hardcoded discount
             // value of 50%.
-            let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let discounted_price_per_gumball = self.price_per_gumball * discount_percent;
+            let discount_percent = 
+                (dec!(100).safe_sub(self.discount_amount))
+                .and_then(|x| {
+                    x.safe_div(dec!(100))
+                })
+                .unwrap();
+            let discounted_price_per_gumball = 
+                self.price_per_gumball
+                .safe_mul(discount_percent)
+                .unwrap();
 
             // Calculate the total amount of gumball based on the amount of payment sent.
             // The conditional statement is used whereby if the payment is less than
@@ -280,10 +295,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < discounted_price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount() / discounted_price_per_gumball).round(0, RoundingMode::ToZero)
+                (payment.amount().safe_div(discounted_price_per_gumball))
+                .unwrap()
+                .round(0, RoundingMode::ToZero)
              };
 
-            let total_gumball_price = total_gumball_amount * discounted_price_per_gumball;
+            let total_gumball_price = 
+                total_gumball_amount
+                .safe_mul(discounted_price_per_gumball)
+                .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
             let our_share = payment.take(total_gumball_price);
