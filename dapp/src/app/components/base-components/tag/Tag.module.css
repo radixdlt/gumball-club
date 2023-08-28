@@ -1,0 +1,29 @@
+.tag {
+  font-size: 0.75rem;
+  color: var(--blue);
+  border-radius: 8px;
+  padding: 0.25rem 0.625rem;
+  display: inline-flex;
+}
+
+.tag.blue {
+  background: var(--blue-100);
+}
+
+.tag.pink {
+  background: var(--pink);
+}
+
+.tag.green {
+  background: var(--green);
+}
+
+.tag.market::before {
+  content: '';
+  width: 0.9rem;
+  height: 0.95rem;
+  align-self: center;
+  background: url(/assets/market.svg) no-repeat center;
+  background-size: cover;
+  margin-right: 0.3rem;
+}

@@ -1,0 +1,133 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;400;500;600;700&family=Inter:wght@400;600&display=swap');
+
+html {
+  /* text */
+  --font-size: 16px;
+  --font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  padding: 1rem;
+
+  /* colors */
+  --blue: #1b2b8a;
+  --blue-100: #f3f6ff;
+  --blue-900: #233876;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-900: #111928;
+  --white: #fff;
+  --yellow: #fbe08e;
+  --yellow-100: #fee8a7;
+  --background: #fbfcff;
+  --pink: #fff1fe;
+  --red: #f05252;
+  --green: #e3ffe2;
+  --green-200: #1fb871;
+
+  /* shadows */
+  --shadow-sm: 0px 1px 2px 0px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 2px 4px -2px rgba(0, 0, 0, 0.05),
+    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0px 4px 6px 0px rgba(0, 0, 0, 0.05),
+    0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+  background: var(--background);
+}
+
+h1 {
+  font-size: 1.88rem;
+  color: var(--blue);
+  font-weight: 600;
+  line-height: 150%;
+  margin: 0;
+}
+
+h3 {
+  font-size: 1.25rem;
+  color: var(--blue);
+  font-weight: 600;
+  line-height: 150%;
+  margin: 0;
+}
+
+p.subtitle {
+  font-size: 1rem;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+p {
+  font-size: 0.88rem;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+h3.modal-header {
+  font-size: 1.125rem;
+  color: var(--blue);
+  font-weight: 600;
+  line-height: 150%;
+  white-space: nowrap;
+}
+
+p.modal-text {
+  font-size: 1rem;
+  color: var(--gray-900);
+  line-height: 150%;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+.small {
+  font-size: 0.8rem;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.mb-01 {
+  margin-bottom: 0.1rem;
+}
+
+.mb-025 {
+  margin-bottom: 0.25rem;
+}
+
+.mb-05 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-1 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+radix-connect-button {
+  z-index: 1000;
+}

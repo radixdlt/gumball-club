@@ -135,6 +135,8 @@ mod gumball_machine {
                         "name" => "Gumball".to_owned(), locked;
                         "symbol" => "GUM".to_owned(), locked;
                         "description" => "A delicious gumball".to_owned(), locked;
+                        "icon_url" => "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/gumball.png".to_owned(), locked;
+                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -165,6 +167,7 @@ mod gumball_machine {
                 init {
                     "name" => "GumballMachine Component", locked;
                     "description" => "Use this component to purchase delicious gumballs!", locked;
+                    "dapp_definition" => "account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x", locked;
                 }
             ))
             .with_address(address_reservation)

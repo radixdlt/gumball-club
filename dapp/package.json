@@ -1,0 +1,64 @@
+{
+  "name": "gumball-club",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "format": " npx prettier --cache --write src"
+  },
+  "dependencies": {
+    "@radixdlt/radix-dapp-toolkit": "^0.6.0-fig.9",
+    "@react-spring/web": "^9.7.3",
+    "@types/node": "20.4.8",
+    "@types/react": "18.2.19",
+    "@types/react-dom": "18.2.7",
+    "bignumber.js": "^9.1.1",
+    "eslint": "8.46.0",
+    "eslint-config-next": "13.4.13",
+    "next": "13.4.13",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sharp": "^0.32.5",
+    "typescript": "5.1.6"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.2.1",
+    "@storybook/addon-interactions": "^7.2.1",
+    "@storybook/addon-links": "^7.2.1",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.2.1",
+    "@storybook/nextjs": "^7.2.1",
+    "@storybook/react": "^7.2.1",
+    "@storybook/testing-library": "^0.2.0",
+    "eslint-plugin-storybook": "^0.6.13",
+    "file-loader": "^6.2.0",
+    "storybook": "^7.2.1",
+    "url-loader": "^4.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RDXWorks/gumball_club.git"
+  },
+  "authors": [
+    "Alex Stelea <alex.stelea@rdx.works>",
+    "Dawid Sowa <dawid.sowa@rdx.works>"
+  ],
+  "keywords": [
+    "radix",
+    "dapp",
+    "toolkit",
+    "dlt",
+    "web3",
+    "dApp",
+    "crypto",
+    "DeFi"
+  ],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
