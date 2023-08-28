@@ -59,8 +59,10 @@ mod gumball_club {
 
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
-            let (address_reservation, component_address) =
-                Runtime::allocate_component_address(Runtime::blueprint_id());       
+            let (address_reservation, component_address) = 
+                Runtime::allocate_component_address(
+                    BlueprintId::new(&Runtime::package_address(), "GumballClub")
+                );     
 
             // The resource definition for the candy token. This resource has divisibility
             // set to maximum of 18 as the Gumball Club token is designed to be fractionalized.
@@ -128,6 +130,10 @@ mod gumball_club {
                 .mint_roles(mint_roles!(
                     minter => rule!(require(global_caller(component_address)));
                     minter_updater => rule!(deny_all);
+                ))
+                .burn_roles(burn_roles!(
+                    burner => rule!(allow_all);
+                    burner_updater => rule!(deny_all);
                 ))
                 .create_with_no_initial_supply();
             

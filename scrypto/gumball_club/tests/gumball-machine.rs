@@ -11,9 +11,10 @@ pub struct Account {
 }
 
 pub struct TestEnvironment {
-    test_runner: TestRunner,
+    test_runner: DefaultTestRunner,
     account: Account,
     owner_badge: ResourceAddress,
+    package_address: PackageAddress,
     gumball_machine_component: ComponentAddress,
     gumball_club_token: ResourceAddress,
     member_card_badge: ResourceAddress,
@@ -23,7 +24,7 @@ pub struct TestEnvironment {
 impl TestEnvironment {
 
     pub fn instantiate_test() -> Self {
-        let mut test_runner = TestRunner::builder().build();
+        let mut test_runner = TestRunnerBuilder::new().build();
 
         // Create an account
         let (public_key, _private_key, account_address) = test_runner.new_allocated_account();  
@@ -124,6 +125,7 @@ impl TestEnvironment {
             test_runner,
             account,
             owner_badge,
+            package_address,
             gumball_machine_component,
             gumball_club_token,
             member_card_badge,
@@ -140,8 +142,8 @@ impl TestEnvironment {
     ) -> TransactionReceipt {
 
         dump_manifest_to_file_system(
-            &manifest,
             manifest_names,
+            &manifest,
             "./transaction_manifest/gumball_machine",
             Some(name),
             network
@@ -151,6 +153,34 @@ impl TestEnvironment {
         self.test_runner.execute_manifest_ignoring_fee(
             manifest, 
             vec![NonFungibleGlobalId::from_public_key(&self.account.public_key)]
+        )
+    }
+
+    pub fn instantiate_gumball_machine(
+        &mut self,
+        owner_role: OwnerRole,
+        payment_token_address: ResourceAddress,
+        member_card_address: ResourceAddress,
+        price_per_gumball: Decimal,
+    ) -> TransactionReceipt {
+        let manifest = ManifestBuilder::new()
+            .call_function(
+                self.package_address, 
+                "GumballMachine", 
+                "instantiate_gumball_machine", 
+                manifest_args!(
+                    owner_role,
+                    payment_token_address,
+                    member_card_address,
+                    price_per_gumball
+                )
+            );
+
+        self.execute_manifest_ignoring_fee(
+            manifest.object_names(),
+            manifest.build(),
+            "instantiate_gumball_machine",
+            &NetworkDefinition::simulator()
         )
     }
 
@@ -301,14 +331,23 @@ impl TestEnvironment {
             &NetworkDefinition::simulator(),
         )
     }
+}
 
-    pub fn inspect_account(&mut self, resource_address: ResourceAddress) -> Decimal {
-        self.test_runner.account_balance(
-            self.account.account_address, 
-            resource_address
-        ).unwrap()
+#[test]
+fn instantiate_gumball_machine() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+    let owner_badge = test_environment.owner_badge;
+    let gumball_club_token = test_environment.gumball_club_token;
+    let member_card = test_environment.member_card_badge;
 
-    }
+    let receipt = test_environment.instantiate_gumball_machine(
+        OwnerRole::Updatable(rule!(require(owner_badge))), 
+        gumball_club_token, 
+        member_card, 
+        dec!(5)
+    );
+
+    receipt.expect_commit_success();
 }
 
 #[test]
@@ -339,9 +378,9 @@ fn buy_gumball() {
         commit.balance_changes(),
         &indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
+                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
+                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
             ),
             test_environment.account.account_address.into() => indexmap!(
                 test_environment.gumball_token => BalanceChange::Fungible(dec!("2")),
@@ -372,9 +411,9 @@ fn buy_gumball_with_member_card() {
         commit.balance_changes(),
         &indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(commit.fee_summary.expected_reward_if_single_validator())),
+                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
             test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(-(commit.fee_summary.total_cost()))
+                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
             ),
             account_address.into() => indexmap!(
                 gumball_token => BalanceChange::Fungible(dec!("2")),

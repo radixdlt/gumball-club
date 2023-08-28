@@ -78,7 +78,6 @@ mod gumball_machine {
         /// pre-configured `payment_token_address` and `member_card_address` provided by the `GumballClub`. 
         /// If you wish to instantiate the `GumballMachine` on its own, then you must specify its own 
         /// `payment_token_address` and `member_card_address` for your own purpose.
-
         pub fn instantiate_gumball_machine(
             owner_role: OwnerRole,
             payment_token_address: ResourceAddress, 
@@ -89,7 +88,29 @@ mod gumball_machine {
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
             let (address_reservation, component_address) = 
-                Runtime::allocate_component_address(Runtime::blueprint_id());
+                Runtime::allocate_component_address(
+                    BlueprintId::new(&Runtime::package_address(), "GumballMachine")
+                );
+
+            assert_ne!(
+                payment_token_address, member_card_address,
+                "payment_token_address cannot be the same as the member_card_address"
+            );
+
+            // Ideally it would be nice to assert the `ResourceAddress` of the `OwnerRole` without
+            // needing to account different `OwnerRole` variation.
+
+            assert!(
+                !(
+                    (owner_role == OwnerRole::Fixed(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Fixed(rule!(require(member_card_address))))
+                    &&
+                    (owner_role == OwnerRole::Updatable(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Updatable(rule!(require(member_card_address))))
+                ),
+                "`OwnerRole` mapping cannot map to either payment_token_address nor member_card_address"
+            );
+            
 
             // The resource definition for the candy token. This resource has divisibility
             // set to 0 to ensure candies sold are whole candies and cannot be fractionalized.
@@ -203,10 +224,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < self.price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount() / self.price_per_gumball).round(0, RoundingMode::ToZero)
+                (payment.amount().safe_div(self.price_per_gumball))
+                .unwrap()
+                .round(0, RoundingMode::ToZero)
              };
 
-            let total_gumball_price = total_gumball_amount * self.price_per_gumball;
+            let total_gumball_price = 
+                total_gumball_amount
+                .safe_mul(self.price_per_gumball)
+                .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
             let our_share = payment.take(total_gumball_price);
@@ -252,8 +278,16 @@ mod gumball_machine {
             
             // Calculates the discounted price per gumball based on hardcoded discount
             // value of 50%.
-            let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let discounted_price_per_gumball = self.price_per_gumball * discount_percent;
+            let discount_percent = 
+                (dec!(100).safe_sub(self.discount_amount))
+                .and_then(|x| {
+                    x.safe_div(dec!(100))
+                })
+                .unwrap();
+            let discounted_price_per_gumball = 
+                self.price_per_gumball
+                .safe_mul(discount_percent)
+                .unwrap();
 
             // Calculate the total amount of gumball based on the amount of payment sent.
             // The conditional statement is used whereby if the payment is less than
@@ -264,10 +298,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < discounted_price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount() / discounted_price_per_gumball).round(0, RoundingMode::ToZero)
+                (payment.amount().safe_div(discounted_price_per_gumball))
+                .unwrap()
+                .round(0, RoundingMode::ToZero)
              };
 
-            let total_gumball_price = total_gumball_amount * discounted_price_per_gumball;
+            let total_gumball_price = 
+                total_gumball_amount
+                .safe_mul(discounted_price_per_gumball)
+                .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
             let our_share = payment.take(total_gumball_price);

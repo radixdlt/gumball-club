@@ -1,18 +1,18 @@
 use scrypto::prelude::*;
 
-/// WARNING: This component can't dispense candies until the SugarPriceOracle package is set up and 
-/// hardcoded correctly.
+// WARNING: This component can't dispense candies until the SugarPriceOracle package is set up and 
+// hardcoded correctly.
 
 #[blueprint]
-/// Would we rather want to store this in the struct?
-/// I think this would mean that we may need to store it as Global<AnyComponent>
-/// This would give customizeability to allow the OWNER to change oracles, but maybe not
-/// every oracle will be a Global<SugarPriceOracle>?
-/// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
+// Would we rather want to store this in the struct?
+// I think this would mean that we may need to store it as Global<AnyComponent>
+// This would give customizeability to allow the OWNER to change oracles, but maybe not
+// every oracle will be a Global<SugarPriceOracle>?
+// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
     extern_blueprint!(
-        // "package_sim1p4nkwqqnqt8cfnhns58gah77m5xlpqk4fl6q6gg2gqhsk38yjnf84q",
-        "package_tdx_22_1phyr3jdse2emxeuxa4md6ajcqgkure5e8ljpc42xpcfdheh5s7ef57",
+        "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
+        // "package_tdx_22_1phyr3jdse2emxeuxa4md6ajcqgkure5e8ljpc42xpcfdheh5s7ef57",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -93,8 +93,25 @@ mod candy_machine {
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
             let (address_reservation, component_address) = 
-                Runtime::allocate_component_address(Runtime::blueprint_id());
+                Runtime::allocate_component_address(
+                    BlueprintId::new(&Runtime::package_address(), "CandyMachine")
+                );   
             
+            assert_ne!(
+                payment_token_address, member_card_address,
+                "payment_token_address cannot be the same as the member_card_address"
+            );
+
+            assert!(
+                !(
+                    (owner_role == OwnerRole::Fixed(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Fixed(rule!(require(member_card_address))))
+                    &&
+                    (owner_role == OwnerRole::Updatable(rule!(require(payment_token_address))) ||
+                     owner_role == OwnerRole::Updatable(rule!(require(member_card_address))))
+                ),
+                "`OwnerRole` mapping cannot map to either payment_token_address nor member_card_address"
+            );
             // The resource definition for the candy token. This resource has divisibility
             // set to 0 to ensure candies sold are whole candies and cannot be fractionalized.
 
@@ -164,11 +181,11 @@ mod candy_machine {
         /// --RETURNS--
         /// * `Decimal` - The price of candies in `Decimal` type.
         pub fn get_price(&mut self) -> Decimal {
-            let mut sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
+            let sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                // "component_sim1cqfjcpw68asmc7w76gk34ylvrch8u4ujxg0aa8rn4sf2qf92hvmxn8"
-                "component_tdx_22_1czrxv0u7963hz32q059a5ug5ffvmgna8dvv2mr4t9xrsf80dsdre54"
+                "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
+                // "component_tdx_22_1czrxv0u7963hz32q059a5ug5ffvmgna8dvv2mr4t9xrsf80dsdre54"
             );
 
             sugar_price_oracle.get_price()
@@ -212,9 +229,16 @@ mod candy_machine {
             // refunded and no candys will be returned. If the payment is sufficient,
             // then the total candy amount is calculated and rounded down to ensure
             // only whole candys can be minted.
-            let total_candy_amount = (payment.amount() * price_per_candy).round(0, RoundingMode::ToZero);
-             
-            let total_candy_price = total_candy_amount * price_per_candy;
+            let total_candy_amount = 
+                (payment.amount().safe_mul(price_per_candy))
+                .unwrap()
+                .round(0, RoundingMode::ToZero);
+
+            let total_candy_price = if total_candy_amount == dec!(0) {
+                dec!(0)
+            } else {
+                payment.amount()
+            };
             
             let our_share = payment.take(total_candy_price);
 
@@ -254,12 +278,29 @@ mod candy_machine {
             );
             
             let price_per_candy = self.get_price();
-            let discount_percent = (dec!(100) - self.discount_amount) / dec!(100);
-            let discounted_price_per_candy = price_per_candy * discount_percent;
-
-            let total_candy_amount = (payment.amount() * discounted_price_per_candy).round(0, RoundingMode::ToZero);
             
-            let total_candy_price = total_candy_amount * discounted_price_per_candy;
+            let discount_percent = 
+                (dec!(100).safe_sub(self.discount_amount))
+                .and_then(|x| {
+                    x.safe_div(dec!(100))
+                })
+                .unwrap();
+
+            let discounted_price_per_candy = 
+                price_per_candy
+                .safe_mul(discount_percent)
+                .unwrap();
+
+            let total_candy_amount = 
+                (payment.amount().safe_mul(discounted_price_per_candy))
+                .unwrap()
+                .round(0, RoundingMode::ToZero);
+
+            let total_candy_price = if total_candy_amount == dec!(0) {
+                dec!(0)
+            } else {
+                payment.amount()
+            };
 
             let our_share = payment.take(total_candy_price);
 

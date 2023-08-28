@@ -28,9 +28,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.3.3"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "630be753d4e58660abd17930c71b647fe46c27ea6b63cc59e1e3851406972e42"
+checksum = "b4682ae6287fcf752ecaabbfcc7b6f9b72aa33933dc23a554d853aea8eea8635"
 
 [[package]]
 name = "blake2"
@@ -114,9 +114,9 @@ dependencies = [
 
 [[package]]
 name = "cc"
-version = "1.0.81"
+version = "1.0.83"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c6b2562119bf28c3439f7f02db99faf0aa1a8cdfe5772a2ee155d32227239f0"
+checksum = "f1174fb0b6ec23863f8b971027804a42614e347eafb0a95bf0b12cdae21fc4d0"
 dependencies = [
  "libc",
 ]
@@ -531,9 +531,9 @@ dependencies = [
 
 [[package]]
 name = "moka"
-version = "0.9.8"
+version = "0.9.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19ca9b167ed904bc89a2f64c4be5014615c26fd9c4ddd2042c6094744c7df11a"
+checksum = "b28455ac4363046076054a7e9cfbd7f168019c29dba32a625f59fc0aeffaaea4"
 dependencies = [
  "crossbeam-channel",
  "crossbeam-epoch",
@@ -554,7 +554,7 @@ dependencies = [
 [[package]]
 name = "native-sdk"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "radix-engine-common",
  "radix-engine-derive",
@@ -565,9 +565,9 @@ dependencies = [
 
 [[package]]
 name = "num-bigint"
-version = "0.4.3"
+version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f93ab6289c7b344a8a9f60f88d80aa20032336fe78da341afc91c8a2341fc75f"
+checksum = "608e7659b5c3d7cba262d894801b9ec9d00de989e8a82bd4bef91d08da45cdc0"
 dependencies = [
  "autocfg",
  "num-integer",
@@ -672,9 +672,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.32"
+version = "1.0.33"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50f3b39ccfb720540debaa0164757101c08ecb8d326b15358ce76a62c7e85965"
+checksum = "5267fca4496028628a95160fc423a33e8b2e6af8a5302579e322e4b520293cae"
 dependencies = [
  "proc-macro2",
 ]
@@ -682,7 +682,7 @@ dependencies = [
 [[package]]
 name = "radix-engine"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bitflags 1.3.2",
  "colored",
@@ -699,7 +699,7 @@ dependencies = [
  "sbor",
  "serde_json",
  "strum",
- "syn 2.0.28",
+ "syn 2.0.29",
  "transaction",
  "utils",
  "wasm-instrument",
@@ -710,7 +710,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-common"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bech32",
  "blake2",
@@ -731,7 +731,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-derive"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -742,7 +742,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-interface"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bitflags 1.3.2",
  "const-sha1",
@@ -761,7 +761,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-profiling"
 version = "0.9.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "fixedstr",
 ]
@@ -769,7 +769,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-queries"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "hex",
  "itertools",
@@ -785,7 +785,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-store-interface"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "hex",
  "itertools",
@@ -799,7 +799,7 @@ dependencies = [
 [[package]]
 name = "radix-engine-stores"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "hex",
  "itertools",
@@ -863,7 +863,7 @@ dependencies = [
 [[package]]
 name = "resources-tracker-macro"
 version = "0.1.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -882,11 +882,11 @@ dependencies = [
 
 [[package]]
 name = "rustix"
-version = "0.38.6"
+version = "0.38.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1ee020b1716f0a80e2ace9b03441a749e402e86712f15f16fe8a8f75afac732f"
+checksum = "19ed4fa021d81c8392ce04db050a3da9a60299050b7ae1cf482d862b54a7218f"
 dependencies = [
- "bitflags 2.3.3",
+ "bitflags 2.4.0",
  "errno",
  "libc",
  "linux-raw-sys",
@@ -917,7 +917,7 @@ dependencies = [
 [[package]]
 name = "sbor"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "const-sha1",
  "hex",
@@ -931,7 +931,7 @@ dependencies = [
 [[package]]
 name = "sbor-derive"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "proc-macro2",
  "sbor-derive-common",
@@ -940,7 +940,7 @@ dependencies = [
 [[package]]
 name = "sbor-derive-common"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "const-sha1",
  "itertools",
@@ -967,7 +967,7 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 [[package]]
 name = "scrypto"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bech32",
  "const-sha1",
@@ -989,7 +989,7 @@ dependencies = [
 [[package]]
 name = "scrypto-derive"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1004,7 +1004,7 @@ dependencies = [
 [[package]]
 name = "scrypto-schema"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bitflags 1.3.2",
  "radix-engine-common",
@@ -1015,7 +1015,7 @@ dependencies = [
 [[package]]
 name = "scrypto-unit"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "radix-engine",
  "radix-engine-interface",
@@ -1060,29 +1060,29 @@ dependencies = [
 
 [[package]]
 name = "serde"
-version = "1.0.180"
+version = "1.0.186"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ea67f183f058fe88a4e3ec6e2788e003840893b91bac4559cabedd00863b3ed"
+checksum = "9f5db24220c009de9bd45e69fb2938f4b6d2df856aa9304ce377b3180f83b7c1"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.180"
+version = "1.0.186"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "24e744d7782b686ab3b73267ef05697159cc0e5abbed3f47f9933165e5219036"
+checksum = "5ad697f7e0b65af4983a4ce8f56ed5b357e8d3c36651bf6a7e13639c17b8e670"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.28",
+ "syn 2.0.29",
 ]
 
 [[package]]
 name = "serde_json"
-version = "1.0.104"
+version = "1.0.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "076066c5f1078eac5b722a31827a8832fe108bed65dfa75e233c89f8206e976c"
+checksum = "693151e1ac27563d6dbcec9dee9fbd5da8539b20fa14ad3752b2e6d363ace360"
 dependencies = [
  "itoa",
  "ryu",
@@ -1176,9 +1176,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.28"
+version = "2.0.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "04361975b3f5e348b2189d8dc55bc942f278b2d482a6a0365de5bdd62d351567"
+checksum = "c324c494eba9d92503e6f1ef2e6df781e78f6a7705a0202d9801b198807d518a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1193,9 +1193,9 @@ checksum = "7b2093cf4c8eb1e67749a6762251bc9cd836b6fc171623bd0a9d324d37af2417"
 
 [[package]]
 name = "tempfile"
-version = "3.7.0"
+version = "3.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5486094ee78b2e5038a6382ed7645bc084dc2ec433426ca4c3cb61e2007b8998"
+checksum = "cb94d2f3cc536af71caac6b6fcebf65860b347e7ce0cc9ebe8f70d3e521054ef"
 dependencies = [
  "cfg-if",
  "fastrand",
@@ -1206,28 +1206,28 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.44"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "611040a08a0439f8248d1990b111c95baa9c704c805fa1f62104b39655fd7f90"
+checksum = "97a802ec30afc17eee47b2855fc72e0c4cd62be9b4efe6591edde0ec5bd68d8f"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.44"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "090198534930841fab3a5d1bb637cde49e339654e606195f8d9c76eeb081dc96"
+checksum = "6bb623b56e39ab7dcd4b1b98bb6c8f8d907ed255b18de254088016b27a8ee19b"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.28",
+ "syn 2.0.29",
 ]
 
 [[package]]
 name = "transaction"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "bech32",
  "ed25519-dalek",
@@ -1255,9 +1255,9 @@ checksum = "497961ef93d974e23eb6f433eb5fe1b7930b659f06d12dec6fc44a8f554c0bba"
 
 [[package]]
 name = "unicase"
-version = "2.6.0"
+version = "2.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50f37be617794602aabbeee0be4f259dc1778fabe05e2d67ee8f79326d5cb4f6"
+checksum = "f7d2d4dafb69621809a81864c9c1b864479e1235c0dd4e199924b9742439ed89"
 dependencies = [
  "version_check",
 ]
@@ -1271,7 +1271,7 @@ checksum = "301abaae475aa91687eb82514b328ab47a211a533026cb25fc3e519b86adfc3c"
 [[package]]
 name = "utils"
 version = "0.12.0"
-source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=fig-715722bf65#715722bf65a5c18302894b7a9c6a823e67e1e22c"
+source = "git+https://github.com/radixdlt/radixdlt-scrypto?tag=grape-d605b3a#d605b3a2b668b72e68e4541934d624545548aa57"
 dependencies = [
  "indexmap 2.0.0-pre",
  "serde",
@@ -1466,9 +1466,9 @@ dependencies = [
 
 [[package]]
 name = "windows-targets"
-version = "0.48.1"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05d4b17490f70499f20b9e791dcf6a299785ce8af4d709018206dc5b4953e95f"
+checksum = "9a2fa6e2155d7247be68c096456083145c183cbbbc2764150dda45a87197940c"
 dependencies = [
  "windows_aarch64_gnullvm",
  "windows_aarch64_msvc",
@@ -1481,45 +1481,45 @@ dependencies = [
 
 [[package]]
 name = "windows_aarch64_gnullvm"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
+checksum = "2b38e32f0abccf9987a4e3079dfb67dcd799fb61361e53e2882c3cbaf0d905d8"
 
 [[package]]
 name = "windows_aarch64_msvc"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
+checksum = "dc35310971f3b2dbbf3f0690a219f40e2d9afcf64f9ab7cc1be722937c26b4bc"
 
 [[package]]
 name = "windows_i686_gnu"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
+checksum = "a75915e7def60c94dcef72200b9a8e58e5091744960da64ec734a6c6e9b3743e"
 
 [[package]]
 name = "windows_i686_msvc"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
+checksum = "8f55c233f70c4b27f66c523580f78f1004e8b5a8b659e05a4eb49d4166cca406"
 
 [[package]]
 name = "windows_x86_64_gnu"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
+checksum = "53d40abd2583d23e4718fddf1ebec84dbff8381c07cae67ff7768bbf19c6718e"
 
 [[package]]
 name = "windows_x86_64_gnullvm"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
+checksum = "0b7b52767868a23d5bab768e390dc5f5c55825b6d30b86c844ff2dc7414044cc"
 
 [[package]]
 name = "windows_x86_64_msvc"
-version = "0.48.0"
+version = "0.48.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+checksum = "ed94fce61571a4006852b7389a063ab983c02eb1bb37b47f8272ce92d06d9538"
 
 [[package]]
 name = "zeroize"
@@ -1538,5 +1538,5 @@ checksum = "ce36e65b0d2999d2aafac989fb249189a141aee1f53c612c1f37d72631959f69"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.28",
+ "syn 2.0.29",
 ]

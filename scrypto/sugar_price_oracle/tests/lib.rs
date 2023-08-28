@@ -10,7 +10,7 @@ pub struct Account {
 }
 
 pub struct TestEnvironment {
-    test_runner: TestRunner,
+    test_runner: DefaultTestRunner,
     account: Account,
     package_address: PackageAddress,
     sugar_price_oracle_component: ComponentAddress,
@@ -19,7 +19,8 @@ pub struct TestEnvironment {
 impl TestEnvironment {
 
     pub fn instantiate_test() -> Self {
-        let mut test_runner = TestRunner::builder().with_custom_genesis(
+        let mut test_runner = TestRunnerBuilder::new()
+        .with_custom_genesis(
             CustomGenesis::default(Epoch::of(1), CustomGenesis::default_consensus_manager_config())
         )
         .without_trace()
@@ -65,8 +66,8 @@ impl TestEnvironment {
     ) -> TransactionReceipt {
 
         dump_manifest_to_file_system(
-            &manifest,
             manifest_names,
+            &manifest,
             "./transaction_manifest",
             Some(name),
             network
