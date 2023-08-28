@@ -226,17 +226,16 @@ mod candy_machine {
             // refunded and no candys will be returned. If the payment is sufficient,
             // then the total candy amount is calculated and rounded down to ensure
             // only whole candys can be minted.
-            let total_candy_amount = if payment.amount() < price_per_candy {
-                dec!(0)
-            } else { 
-                (payment.amount().safe_div(price_per_candy))
+            let total_candy_amount = 
+                (payment.amount().safe_mul(price_per_candy))
                 .unwrap()
-                .round(0, RoundingMode::ToZero)
+                .round(0, RoundingMode::ToZero);
+
+            let total_candy_price = if total_candy_amount == dec!(0) {
+                dec!(0)
+            } else {
+                payment.amount()
             };
-            
-            let total_candy_price = 
-                total_candy_amount.safe_mul(price_per_candy)
-                .unwrap();
             
             let our_share = payment.take(total_candy_price);
 
@@ -289,17 +288,16 @@ mod candy_machine {
                 .safe_mul(discount_percent)
                 .unwrap();
 
-            let total_candy_amount = if payment.amount() < discounted_price_per_candy {
-                dec!(0)
-            } else { 
-                (payment.amount().safe_div(discounted_price_per_candy))
+            let total_candy_amount = 
+                (payment.amount().safe_mul(discounted_price_per_candy))
                 .unwrap()
-                .round(0, RoundingMode::ToZero)
-            };
+                .round(0, RoundingMode::ToZero);
 
-            let total_candy_price =
-                total_candy_amount.safe_mul(discounted_price_per_candy)
-                .unwrap();
+            let total_candy_price = if total_candy_amount == dec!(0) {
+                dec!(0)
+            } else {
+                payment.amount()
+            };
 
             let our_share = payment.take(total_candy_price);
 

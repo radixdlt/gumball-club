@@ -42,9 +42,14 @@ mod sugar_price_oracle {
                     .unwrap();
 
                 let price_during_first_half =
-                    linear_increase
-                    .safe_add(epsilon)
-                    .unwrap();
+                    if linear_increase == dec!(0) {
+                        linear_increase
+                        .safe_add(epsilon)
+                        .unwrap()
+                    } else {
+                        linear_increase
+                    };
+                    
 
                 return price_during_first_half.round(2, RoundingMode::ToZero)
 
@@ -83,9 +88,6 @@ mod sugar_price_oracle {
                 let price_during_second_half =
                     max_value
                     .safe_sub(proportion_of_time_passed)
-                    .and_then(|price| {
-                        price.safe_add(epsilon)
-                    })
                     .unwrap();
 
                 return price_during_second_half.round(2, RoundingMode::ToZero)

@@ -406,17 +406,17 @@ pub fn buy_candy() {
         let price_vec: Vec<Decimal> = 
             vec![
                 dec!("0.1"),
-                dec!("1.76"),
-                dec!("3.43"),
-                dec!("5.1"),
-                dec!("3.43"),
-                dec!("1.76"),
+                dec!("1.66"),
+                dec!("3.33"),
+                dec!("5"),
+                dec!("3.33"),
+                dec!("1.66"),
                 dec!("0.1"),
-                dec!("1.76"),
-                dec!("3.43"),
-                dec!("5.1"),
-                dec!("3.43"),
-                dec!("1.76"),
+                dec!("1.66"),
+                dec!("3.33"),
+                dec!("5"),
+                dec!("3.33"),
+                dec!("1.66"),
                 dec!("0.1"),
                 ];
 
@@ -428,14 +428,9 @@ pub fn buy_candy() {
 
         let candy_amount = 
             dec!(5) // Payment amount
-            .safe_div(price_vec[index])
+            .safe_mul(price_vec[index])
             .unwrap()
             .round(0, RoundingMode::ToZero);
-
-        let gumball_club_payment = 
-            candy_amount
-            .safe_mul(price_vec[index])
-            .unwrap();
 
         let mut balance_changes = indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
@@ -449,14 +444,14 @@ pub fn buy_candy() {
             balance_changes.insert(
                 test_environment.account.account_address.into(),
                 indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_payment.safe_neg().unwrap()),
+                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount)
                 )
             );
         
             balance_changes.insert(
                 test_environment.candy_machine_component.into(),
-                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_payment))
+                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
             );
         }
         
@@ -491,17 +486,17 @@ pub fn buy_candy_with_member_card() {
         let price_vec: Vec<Decimal> = 
             vec![
                 dec!("0.1"),
-                dec!("1.76"),
-                dec!("3.43"),
-                dec!("5.1"),
-                dec!("3.43"),
-                dec!("1.76"),
+                dec!("1.66"),
+                dec!("3.33"),
+                dec!("5"),
+                dec!("3.33"),
+                dec!("1.66"),
                 dec!("0.1"),
-                dec!("1.76"),
-                dec!("3.43"),
-                dec!("5.1"),
-                dec!("3.43"),
-                dec!("1.76"),
+                dec!("1.66"),
+                dec!("3.33"),
+                dec!("5"),
+                dec!("3.33"),
+                dec!("1.66"),
                 dec!("0.1"),
                 ];
 
@@ -519,14 +514,9 @@ pub fn buy_candy_with_member_card() {
             .unwrap();
 
         let candy_amount = 
-            (dec!(5).safe_div(discounted_price_per_candy))
+            (dec!(5).safe_mul(discounted_price_per_candy))
             .unwrap()
             .round(0, RoundingMode::ToZero);
-
-        let gumball_club_token_payment = 
-            candy_amount
-            .safe_mul(discounted_price_per_candy)
-            .unwrap();
 
         let mut balance_changes = indexmap!(
             CONSENSUS_MANAGER.into() => indexmap!(
@@ -540,14 +530,14 @@ pub fn buy_candy_with_member_card() {
             balance_changes.insert(
                 test_environment.account.account_address.into(),
                 indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_payment.safe_neg().unwrap()),
+                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount)
                 )
             );
         
             balance_changes.insert(
                 test_environment.candy_machine_component.into(),
-                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(gumball_club_token_payment))
+                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
             );
         }
         
