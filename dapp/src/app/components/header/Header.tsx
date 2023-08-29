@@ -9,7 +9,7 @@ import { Tooltip } from '../base-components/tooltip/Tooltip'
 import { usePersona } from '@/app/hooks/usePersona'
 import { usePersonaData } from '@/app/hooks/usePersonaData'
 import ConnectArrow from '../../../../public/assets/connect-arrow.svg'
-import Logo from '../../../../public/assets/logo.png'
+import Logo from '../../../../public/assets/logo.svg'
 
 declare global {
   namespace JSX {
