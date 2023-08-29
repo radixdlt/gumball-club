@@ -6,6 +6,8 @@ export const TransactionManifests = ({
   gumballClubTokensResource,
   gumballMachineComponent,
   candyMachineComponent,
+  gumballResource,
+  gumballClubMemberCardResource,
 }: ResourceAddresses) => {
   const dispenseGcTokens = (accountAddress: string) => `
         CALL_METHOD
@@ -14,13 +16,13 @@ export const TransactionManifests = ({
         ;
         TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
-            Decimal("100")
-            Bucket("bucket1")
+            Decimal("20")
+            Bucket("gcTokensBucket")
         ;
         CALL_METHOD
             Address("${accountAddress}")
             "deposit"
-            Bucket("bucket1")
+            Bucket("gcTokensBucket")
         ;
     `
 
@@ -54,10 +56,14 @@ export const TransactionManifests = ({
             "buy_gumball_with_member_card"
             Bucket("gumball_club_token_bucket")
         ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballResource}")
+            Bucket("gumball_bucket")
+        ;
         CALL_METHOD
             Address("${accountAddress}")
-            "deposit_batch"
-            Expression("ENTIRE_WORKTOP")
+            "deposit"
+            Bucket("gumball_bucket")
         ;
         `
       : `
@@ -76,10 +82,14 @@ export const TransactionManifests = ({
             "buy_gumball"
             Bucket("gumball_club_token_bucket")
         ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballResource}")
+            Bucket("gumball_bucket")
+        ;
         CALL_METHOD
             Address("${accountAddress}")
-            "deposit_batch"
-            Expression("ENTIRE_WORKTOP")
+            "deposit"
+            Bucket("gumball_bucket")
         ;
   `
 
@@ -157,10 +167,14 @@ export const TransactionManifests = ({
         "buy_member_card"
         Bucket("gumball_club_token_bucket")
     ;
+    TAKE_ALL_FROM_WORKTOP
+        Address("${gumballClubMemberCardResource}")
+        Bucket("member_card_bucket")
+    ;
     CALL_METHOD
         Address("${accountAddress}")
-        "deposit_batch"
-        Expression("ENTIRE_WORKTOP")
+        "deposit"
+        Bucket("member_card_bucket")
     ;
   `
 

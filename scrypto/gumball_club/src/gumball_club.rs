@@ -86,9 +86,9 @@ mod gumball_club {
                     init {
                         "name" => "Gumball Club Tokens", locked;
                         "symbol" => "GC", locked;
-                        "icon_url" => "https://github.com/xstelea/cautious-waffle/blob/44757b011f11f4e330e7fb149dc109c405c3ae00/gc-token.png?raw=true", locked;
+                        "icon_url" => "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/gc-token.png", locked;
                         "info_url" => "https://gumball-club-dev.rdx-works-main.extratools.works", locked;
-                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
+                        "dapp_definitions" => vec!["account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr"], locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -123,8 +123,8 @@ mod gumball_club {
                         "description" => "Use this Gumball Club Member Card to get 50% discount on our sweet machines", locked;
                         "tags" => vec!["badge"], locked;
                         "info_url" => "https://gumball-club-dev.rdx-works-main.extratools.works", locked;
-                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
-                        "icon_url" => "https://github.com/xstelea/cautious-waffle/blob/44757b011f11f4e330e7fb149dc109c405c3ae00/membership-card.png?raw=true", locked;
+                        "dapp_definitions" => vec!["account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr"], locked;
+                        "icon_url" => "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/membership-card.png", locked;
                     }
                 })
                 .mint_roles(mint_roles!(
@@ -171,7 +171,7 @@ mod gumball_club {
                 init {
                     "name" => "GumballClub Component", locked;
                     "description" => "Use this component to dispense Gumball Club tokens and buy membership cards!", locked;
-                    "dapp_definition" => "account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x", locked;
+                    "dapp_definition" => "account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr", locked;
                 }
             ))
             .with_address(address_reservation)

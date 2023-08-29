@@ -11,8 +11,8 @@ use scrypto::prelude::*;
 // This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
     extern_blueprint!(
-        "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
-        // "package_tdx_22_1phyr3jdse2emxeuxa4md6ajcqgkure5e8ljpc42xpcfdheh5s7ef57",
+        // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
+        "package_tdx_21_1p4e6uhw6qt09s083ufv4508lpplclqps8rf2yz5952r6zmxjm3hqks",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -135,8 +135,8 @@ mod candy_machine {
                         "name" => "Candy Token".to_owned(), locked;
                         "symbol" => "CANDY".to_owned(), locked;
                         "description" => "A delicious sugar packed candy!".to_owned(), locked;
-                        "dapp_definitions" => vec!["account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x"], locked;
-                        "icon_url" => "https://github.com/xstelea/cautious-waffle/blob/44757b011f11f4e330e7fb149dc109c405c3ae00/candy.png?raw=true".to_owned(), locked;
+                        "dapp_definitions" => vec!["account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr"], locked;
+                        "icon_url" => "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/candy.png".to_owned(), locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -165,7 +165,7 @@ mod candy_machine {
                 init {
                     "name" => "CandyMachine Component", locked;
                     "description" => "Use this component to purchase sweet candies!", locked;
-                    "dapp_definition" => "account_tdx_22_12yvngv0e8z09j8634nh2nlqa06zk09x87nw3gu4wdj6wr8e70qvr0x", locked;
+                    "dapp_definition" => "account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr", locked;
                 }
             ))
             .with_address(address_reservation)
@@ -184,8 +184,8 @@ mod candy_machine {
             let sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
-                // "component_tdx_22_1czrxv0u7963hz32q059a5ug5ffvmgna8dvv2mr4t9xrsf80dsdre54"
+                // "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
+                "component_tdx_21_1cz3pg8x5us0d743lp2q305y88ny7z7zps6lztamdrl4kw6frs45num"
             );
 
             sugar_price_oracle.get_price()

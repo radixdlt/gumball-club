@@ -20,24 +20,26 @@ export const config = {
   dAppDefinitionAddress,
   addresses: {
     sugarOraclePackage:
-      'package_tdx_22_1phyr3jdse2emxeuxa4md6ajcqgkure5e8ljpc42xpcfdheh5s7ef57',
+      'package_tdx_21_1p4e6uhw6qt09s083ufv4508lpplclqps8rf2yz5952r6zmxjm3hqks',
     sugarOracleComponent:
-      'component_tdx_22_1czrxv0u7963hz32q059a5ug5ffvmgna8dvv2mr4t9xrsf80dsdre54',
+      'component_tdx_21_1cz3pg8x5us0d743lp2q305y88ny7z7zps6lztamdrl4kw6frs45num',
     gumballClubPackage:
-      'package_tdx_22_1phxh5ml99kcu5q7qdagfkysgh5puutyys8s73q9lkpaa8v9zv3fda7',
+      'package_tdx_21_1p4d5d7wmj2y88rg5avhxymd407rnpr3j59d2ftnajc48f5p650ncga',
+    ownerNft:
+      'resource_tdx_21_1ntazz6arzqfqw4359arvamuynesaz44wcal6krd635kvd2jgc6v9dv:#1#',
     gumballClubComponent:
-      'component_tdx_22_1czz04v9wacxyrymrjjklf792y38080qwgf807yu7lhcf4gw7vxapqg',
+      'component_tdx_21_1cr5d2thk76rd8zrsvg067kn856vdssgu7jgkpjw5n7sadu8u50a2s0',
     gumballMachineComponent:
-      'component_tdx_22_1cqqmxua230ghx5dppn2jhsl0h2aewdknaukmy2g47szztrdj3q9p63',
+      'component_tdx_21_1cpxtfszl4x73cltntlgr7jr7lsf340uf4jmhmtvlexegkclpmneefd',
     candyMachineComponent:
-      'component_tdx_22_1cp05agcmhskzglqe4hrf2k9u5yg2ukydr8zasp9d4cgczkd5qe70mq',
+      'component_tdx_21_1crqd24ryv37u4tq3gmyscmj6j5krk0aedt6n7dvntgten09ckm5lp4',
     gumballClubTokensResource:
-      'resource_tdx_22_1t4a0lqqv0kyf0gm9y4qclfqfgguqfn5n4pvszjj25surzscjlyp0s5',
+      'resource_tdx_21_1thd9jsajjhs2px5pw59yla0j83mxwutxqtagzhrrjf782ea267ls4c',
     gumballClubMemberCardResource:
-      'resource_tdx_22_1nge4mk9xq5k8j0mle20kx0lk4q5x0hlmhy02u2wkd8jafqkm0wajnj',
+      'resource_tdx_21_1ngqtqhtyy7kjzalft9eukr33hsh3rd4lyvg4g84z2fl48ksy0re2dl',
     gumballResource:
-      'resource_tdx_22_1t5h8hm4ymclt7gxdqggrgwh3y5dap3xcrdqm55fp9x4n8e5tju5eyu',
+      'resource_tdx_21_1t5ea5uzg64jvg42hl40nn58223c4fgjhtye974xrnxd7nsywzetqt4',
     candyTokenResource:
-      'resource_tdx_22_1t5gp9965ege3tlkp2lehk0jx4azzlzu3n4g0dry2mm07hferh6jaah',
+      'resource_tdx_21_1th6qdxvqdvxzr22wn4pt07dszcam6ecwjyxmrdunuvmqrnxdp8tj4d',
   },
 }
