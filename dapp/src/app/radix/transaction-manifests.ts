@@ -65,6 +65,15 @@ export const TransactionManifests = ({
             "deposit"
             Bucket("gumball_bucket")
         ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballClubTokensResource}")
+            Bucket("gc_bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit"
+            Bucket("gc_bucket")
+        ;
         `
       : `
         CALL_METHOD
@@ -90,6 +99,15 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "deposit"
             Bucket("gumball_bucket")
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballClubTokensResource}")
+            Bucket("gc_bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit"
+            Bucket("gc_bucket")
         ;
   `
 
@@ -128,6 +146,15 @@ export const TransactionManifests = ({
             "deposit_batch"
             Expression("ENTIRE_WORKTOP")
         ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballClubTokensResource}")
+            Bucket("gc_bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit"
+            Bucket("gc_bucket")
+        ;
   `
       : `
         CALL_METHOD
@@ -149,6 +176,15 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "deposit_batch"
             Expression("ENTIRE_WORKTOP")
+        ;
+        TAKE_ALL_FROM_WORKTOP
+            Address("${gumballClubTokensResource}")
+            Bucket("gc_bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit"
+            Bucket("gc_bucket")
         ;
     `
   const buyMemberCard = (accountAddress: string, gcTokensValue: number) => `
