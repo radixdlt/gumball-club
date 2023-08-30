@@ -135,8 +135,6 @@ mod candy_machine {
                         "name" => "Candy Token".to_owned(), locked;
                         "symbol" => "CANDY".to_owned(), locked;
                         "description" => "A delicious sugar packed candy!".to_owned(), locked;
-                        "dapp_definitions" => vec!["account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr"], locked;
-                        "icon_url" => "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/candy.png".to_owned(), locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -165,7 +163,6 @@ mod candy_machine {
                 init {
                     "name" => "CandyMachine Component", locked;
                     "description" => "Use this component to purchase sweet candies!", locked;
-                    "dapp_definition" => "account_tdx_21_129cwwv8whdeywlm396tdz92zuxhpv62k53qgdj6t5d88uzn7wa9svr", locked;
                 }
             ))
             .with_address(address_reservation)
