@@ -64,7 +64,7 @@ impl TestEnvironment {
                 manifest_args!(
                     OwnerRole::Updatable(rule!(require(owner_badge))),
                     dec!(5),
-                    dec!(1),
+                    dec!(2),
                 )
             )
             .build();
@@ -236,8 +236,8 @@ impl TestEnvironment {
             .create_proof_from_account_of_non_fungibles(
                 self.account.account_address, 
                 self.member_card_badge, 
-                &btreeset!(NonFungibleLocalId::integer(1)
-            ))
+                [NonFungibleLocalId::integer(1)]
+            )
             .withdraw_from_account(
                 self.account.account_address, 
                 self.gumball_club_token, 
@@ -360,7 +360,7 @@ fn get_price() {
 
     assert_eq!(
         output, 
-        dec!(1),
+        dec!(2),
     );
 }
 
@@ -375,54 +375,41 @@ fn buy_gumball() {
     let commit = receipt.expect_commit_success();
 
     assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            ),
-            test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_token => BalanceChange::Fungible(dec!("2")),
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-2"))
-            ),
-            test_environment.gumball_machine_component.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("2"))
-            )
-        )
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()),
+        indexmap!(
+            test_environment.gumball_token => BalanceChange::Fungible(dec!("1")),
+            test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-2"))
+        ),
     );
+
+    assert_eq!(
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.gumball_machine_component.as_node_id()),
+        indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!("2")))
+    );
+
 }
 
 #[test]
 fn buy_gumball_with_member_card() {
     let mut test_environment = TestEnvironment::instantiate_test();
-    let account_address = test_environment.account.account_address;
-    let gumball_club_token = test_environment.gumball_club_token;
-    let gumball_token = test_environment.gumball_token;
-    let gumball_machine_component = test_environment.gumball_machine_component;
 
-    let receipt = test_environment.buy_gumball_with_member_card(dec!(1));
+    let receipt = test_environment.buy_gumball_with_member_card(dec!(2));
 
     println!("Transaction Receipt: {}", receipt.display(&AddressBech32Encoder::for_simulator()));
 
     let commit = receipt.expect_commit_success();
 
     assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            ),
-            account_address.into() => indexmap!(
-                gumball_token => BalanceChange::Fungible(dec!("2")),
-                gumball_club_token => BalanceChange::Fungible(dec!("-1"))
-            ),
-            gumball_machine_component.into() => indexmap!(
-                gumball_club_token => BalanceChange::Fungible(dec!("1"))
-            )
-        )
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()),
+        indexmap!(
+            test_environment.gumball_token => BalanceChange::Fungible(dec!("2")),
+            test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-2"))
+        ),
+    );
+
+    assert_eq!(
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.gumball_machine_component.as_node_id()),
+        indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!("2")))
     );
 }
 

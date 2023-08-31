@@ -34,12 +34,10 @@ The `GumballClub` has a few simple yet novel features:
 ## Blueprint Overview
 The GumballClub package is made up of 3 blueprints: `GumballClub`, `GumballMachine`, and `CandyMachine`. It relies on an external package `SugarPriceOracle` to feed the price of candy used by the `CandyMachine`.
 
-
+![Alt text](image-1.png)
 
 ### GumballClub Blueprint
 You can think of the `GumballClub` blueprint as the "master" blueprint. It is designed to instantiate all the component and create all the resources needed to build your `GumballClub` component backend out of the box and only a few configurations are needed to get it set up. Below will describe the instantiation process and the methods the `GumballClub` blueprint provides.
-
-![Alt text](image-1.png)
 
 **Instantiation** 
 
@@ -77,6 +75,11 @@ The `GumballClub` provides these methods:
 * `dispense_gc_tokens` - This method, when called, mints the caller with 20 Gumball Club tokens. A user may continuously call this method to mint more Gumball Club tokens, 20 at a time.
 
 * `buy_member_card` - This takes in a payment `Bucket` of Gumball Club tokens. For 5 Gumball Club tokens, the caller will receive 1 Member Card NFT badge.
+
+**Auth**
+
+The `GumballClub` has no roles or auth set up.
+
 
 ### GumballMachine Blueprint
 The `GumballMachine` blueprint facilitates the minting/selling of gumballs when users send in a payment. A member card can be used to provide special discounts on gumballs to its members. Owners of the component can configure resource and component metadata as well as access privilaged methods safeguarded by the Radix Engine auth model to change the price of gumballs, discounts, and more.

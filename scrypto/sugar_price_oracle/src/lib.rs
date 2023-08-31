@@ -48,10 +48,12 @@ mod sugar_price_oracle {
                         .unwrap()
                     } else {
                         linear_increase
-                    };
+                    }
+                    .safe_round(2, RoundingMode::ToZero)
+                    .unwrap();
                     
 
-                return price_during_first_half.round(2, RoundingMode::ToZero)
+                return price_during_first_half
 
             } else {
                 // Linear fall for the second half (30 minutes)
@@ -88,9 +90,11 @@ mod sugar_price_oracle {
                 let price_during_second_half =
                     max_value
                     .safe_sub(proportion_of_time_passed)
+                    .unwrap()
+                    .safe_round(2, RoundingMode::ToZero)
                     .unwrap();
 
-                return price_during_second_half.round(2, RoundingMode::ToZero)
+                return price_during_second_half
             };
         }
     }

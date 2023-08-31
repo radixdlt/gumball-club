@@ -43,13 +43,16 @@ export const useSugarMarketPrice = () => {
       let price = 0
 
       if (normalized_time < half_period)
-        price = (normalized_time * max_value) / half_period + epsilon
+        price = (normalized_time * max_value) / half_period 
       else
         price =
           max_value -
-          ((normalized_time - half_period) * max_value) / half_period +
-          epsilon
+          ((normalized_time - half_period) * max_value) / half_period
 
+      if (price === 0) {
+          price += epsilon;
+      }
+        
       return Math.floor(price * 100) / 100
     }
 

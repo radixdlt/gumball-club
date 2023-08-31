@@ -1,3 +1,3 @@
-mod gumball_club;
-mod gumball_machine;
-mod candy_machine;
+pub mod gumball_club;
+pub mod gumball_machine;
+pub mod candy_machine;

@@ -6,6 +6,7 @@ use radix_engine::transaction::TransactionReceipt;
 use radix_engine::transaction::BalanceChange;
 use scrypto::api::ObjectModuleId;
 
+
 pub struct Account {
     public_key: Secp256k1PublicKey,
     account_address: ComponentAddress,
@@ -239,8 +240,8 @@ impl TestEnvironment {
             .create_proof_from_account_of_non_fungibles(
                 self.account.account_address, 
                 self.member_card_badge, 
-                &btreeset!(NonFungibleLocalId::integer(1)
-            ))
+                [NonFungibleLocalId::integer(1)]
+            )
             .withdraw_from_account(
                 self.account.account_address, 
                 self.gumball_club_token, 
@@ -343,6 +344,8 @@ fn instantiate_candy_machine() {
         member_card, 
     );
 
+    
+
     receipt.expect_commit_success();
 }
 
@@ -430,33 +433,35 @@ pub fn buy_candy() {
             dec!(5) // Payment amount
             .safe_mul(price_vec[index])
             .unwrap()
-            .round(0, RoundingMode::ToZero);
-
-        let mut balance_changes = indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            )
-        );
+            .safe_round(0, RoundingMode::ToZero)
+            .unwrap();
         
         if candy_amount != dec!(0) {
-            balance_changes.insert(
-                test_environment.account.account_address.into(),
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
                     test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount)
                 )
             );
-        
-            balance_changes.insert(
-                test_environment.candy_machine_component.into(),
+    
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
                 indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
             );
-        }
-        
-        assert_eq!(commit.balance_changes(), &balance_changes);
 
+        } else {
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
+                indexmap!()
+            );
+    
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
+                indexmap!()
+            );
+        }
+    
         proposer_timestamp_ms += incremental_proposer_timestamp_ms;
         round += incremental_round;
     }
@@ -516,32 +521,34 @@ pub fn buy_candy_with_member_card() {
         let candy_amount = 
             (dec!(5).safe_mul(discounted_price_per_candy))
             .unwrap()
-            .round(0, RoundingMode::ToZero);
+            .safe_round(0, RoundingMode::ToZero)
+            .unwrap();
 
-        let mut balance_changes = indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            )
-        );
-        
         if candy_amount != dec!(0) {
-            balance_changes.insert(
-                test_environment.account.account_address.into(),
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
                     test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount)
                 )
             );
-        
-            balance_changes.insert(
-                test_environment.candy_machine_component.into(),
+    
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
                 indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
             );
+            
+        } else {
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
+                indexmap!()
+            );
+    
+            assert_eq!(
+                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
+                indexmap!()
+            );
         }
-        
-        assert_eq!(commit.balance_changes(), &balance_changes);
 
         proposer_timestamp_ms += incremental_proposer_timestamp_ms;
         round += incremental_round;

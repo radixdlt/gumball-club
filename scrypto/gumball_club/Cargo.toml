@@ -2,23 +2,31 @@
 name = "gumball_club"
 version = "0.1.0"
 edition = "2021"
+resolver = "2"
 
 [dependencies]
-sbor = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3-a31effd1" }
-scrypto = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3-a31effd1" }
+sbor = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+scrypto = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
 
 [dev-dependencies]
-transaction = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3-a31effd1" }
-radix-engine = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3-a31effd1" }
-scrypto-unit = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3-a31effd1" }
+transaction = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+radix-engine = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+scrypto-unit = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+scrypto-test = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+radix-engine-interface = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.0" }
+gumball_club = { path = ".", features = ["test"] }
 
 [profile.release]
-opt-level = 's'        # Optimize for size.
+opt-level = 'z'        # Optimize for size.
 lto = true             # Enable Link Time Optimization.
 codegen-units = 1      # Reduce number of codegen units to increase optimizations.
 panic = 'abort'        # Abort on panic.
-strip = "debuginfo"    # Strip debug info.
+strip = true    # Strip the symbols.
 overflow-checks = true # Panic in the case of an overflow.
+
+[features]
+default = []
+test = []
 
 [lib]
 crate-type = ["cdylib", "lib"]
