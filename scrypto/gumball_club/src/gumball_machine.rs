@@ -199,10 +199,11 @@ mod gumball_machine {
                 self.collected_tokens
                     .resource_manager()
                     .get_metadata("name")
-                    .unwrap_or(
-                        self.collected_tokens.resource_address()
-                        .to_string(&AddressBech32Encoder::for_simulator())
-                    );
+                    .unwrap()
+                    .unwrap_or_else(|| {
+                        let address = self.collected_tokens.resource_address();
+                        Runtime::bech32_encode_address(address)
+                    });
             
             // Asserts that the payment type is of the accepted payment resource.
             // This assert is not needed but can be used for friendly error messages.
@@ -260,10 +261,11 @@ mod gumball_machine {
                 self.collected_tokens
                     .resource_manager()
                     .get_metadata("name")
-                    .unwrap_or(
-                        self.collected_tokens.resource_address()
-                        .to_string(&AddressBech32Encoder::for_simulator())
-                    );    
+                    .unwrap()
+                    .unwrap_or_else(|| {
+                        let address = self.collected_tokens.resource_address();
+                        Runtime::bech32_encode_address(address)
+                    });  
 
             // Asserts that the payment type is of the accepted payment resource.
             // This assert is not needed but can be used for friendly error messages.
