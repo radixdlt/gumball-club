@@ -88,9 +88,7 @@ mod gumball_machine {
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
             let (address_reservation, component_address) = 
-                Runtime::allocate_component_address(
-                    BlueprintId::new(&Runtime::package_address(), "GumballMachine")
-                );
+                Runtime::allocate_component_address(GumballMachine::blueprint_id());
 
             assert_ne!(
                 payment_token_address, member_card_address,
@@ -224,7 +222,8 @@ mod gumball_machine {
              } else {
                 (payment.amount().safe_div(self.price_per_gumball))
                 .unwrap()
-                .round(0, RoundingMode::ToZero)
+                .safe_round(0, RoundingMode::ToZero)
+                .unwrap()
              };
 
             let total_gumball_price = 
@@ -299,7 +298,8 @@ mod gumball_machine {
              } else {
                 (payment.amount().safe_div(discounted_price_per_gumball))
                 .unwrap()
-                .round(0, RoundingMode::ToZero)
+                .safe_round(0, RoundingMode::ToZero)
+                .unwrap()
              };
 
             let total_gumball_price = 

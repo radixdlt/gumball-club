@@ -202,17 +202,10 @@ fn dispense_gc_tokens() {
     let commit = receipt.expect_commit_success();
     
     assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            ),
-            test_environment.account.account_address.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("100"))
-            ),
-        )
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()),
+        indexmap!(
+            test_environment.gumball_club_token => BalanceChange::Fungible(dec!("20"))
+        ),
     );
 }
 
@@ -226,20 +219,17 @@ fn buy_member_card() {
     let commit = receipt.expect_commit_success();
 
     assert_eq!(
-        commit.balance_changes(),
-        &indexmap!(
-            CONSENSUS_MANAGER.into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.expected_reward_if_single_validator())),
-            test_environment.test_runner.faucet_component().into() => indexmap!(
-                XRD => BalanceChange::Fungible(receipt.fee_summary.total_cost().safe_neg().unwrap())
-            ),
-            test_environment.account.account_address.into() => indexmap!(
-                test_environment.member_card_badge => BalanceChange::NonFungible{ added: btreeset!(NonFungibleLocalId::integer(1)), removed: btreeset!()},
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-5"))
-            ),
-            test_environment.gumball_club_component.into() => indexmap!(
-                test_environment.gumball_club_token => BalanceChange::Fungible(dec!("5"))
-            )
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()),
+        indexmap!(
+            test_environment.member_card_badge => BalanceChange::NonFungible{ added: btreeset!(NonFungibleLocalId::integer(1)), removed: btreeset!()},
+            test_environment.gumball_club_token => BalanceChange::Fungible(dec!("-5"))
+        )
+    );
+
+    assert_eq!(
+        test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.gumball_club_component.as_node_id()),
+        indexmap!(
+            test_environment.gumball_club_token => BalanceChange::Fungible(dec!("5"))
         )
     );
 }

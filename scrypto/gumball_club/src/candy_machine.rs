@@ -4,13 +4,9 @@ use scrypto::prelude::*;
 // hardcoded correctly.
 
 #[blueprint]
-// Would we rather want to store this in the struct?
-// I think this would mean that we may need to store it as Global<AnyComponent>
-// This would give customizeability to allow the OWNER to change oracles, but maybe not
-// every oracle will be a Global<SugarPriceOracle>?
-// This is currently a resim package, will need to re-hardcode to rcnet/Babylon PackageAddress
 mod candy_machine {
     extern_blueprint!(
+        // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
         // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
         "package_tdx_21_1p4e6uhw6qt09s083ufv4508lpplclqps8rf2yz5952r6zmxjm3hqks",
         SugarPriceOracle {
@@ -93,9 +89,7 @@ mod candy_machine {
             // Create a `GlobalAddressReservation` and `ComponentAddress` to use as the component's 
             // "virtual actor badge".
             let (address_reservation, component_address) = 
-                Runtime::allocate_component_address(
-                    BlueprintId::new(&Runtime::package_address(), "CandyMachine")
-                );   
+                Runtime::allocate_component_address(CandyMachine::blueprint_id());  
             
             assert_ne!(
                 payment_token_address, member_card_address,
@@ -230,7 +224,8 @@ mod candy_machine {
             let total_candy_amount = 
                 (payment.amount().safe_mul(price_per_candy))
                 .unwrap()
-                .round(0, RoundingMode::ToZero);
+                .safe_round(0, RoundingMode::ToZero)
+                .unwrap();
 
             let total_candy_price = if total_candy_amount == dec!(0) {
                 dec!(0)
@@ -293,7 +288,8 @@ mod candy_machine {
             let total_candy_amount = 
                 (payment.amount().safe_mul(discounted_price_per_candy))
                 .unwrap()
-                .round(0, RoundingMode::ToZero);
+                .safe_round(0, RoundingMode::ToZero)
+                .unwrap();
 
             let total_candy_price = if total_candy_amount == dec!(0) {
                 dec!(0)

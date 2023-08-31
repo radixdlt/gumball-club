@@ -126,7 +126,7 @@ fn instantiate_sugar_price_oracle() {
 #[test]
 fn get_price() {
     let mut test_environment = TestEnvironment::instantiate_test();
-
+    
     let final_time_ms: i64 = 7200000;
     let mut proposer_timestamp_ms: i64 = 0;
     let incremental_proposer_timestamp_ms: i64 = 600000;
