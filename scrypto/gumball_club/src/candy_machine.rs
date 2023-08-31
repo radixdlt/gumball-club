@@ -12,7 +12,7 @@ use scrypto::prelude::*;
 mod candy_machine {
     extern_blueprint!(
         // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
-        "package_tdx_21_1p4e6uhw6qt09s083ufv4508lpplclqps8rf2yz5952r6zmxjm3hqks",
+        "package_tdx_e_1phqfccrg7wl2vvsqv5agw8zfamexfuzrcrve6s8j33gqd2f8s64jv9",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -182,7 +182,7 @@ mod candy_machine {
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
                 // "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
-                "component_tdx_21_1cz3pg8x5us0d743lp2q305y88ny7z7zps6lztamdrl4kw6frs45num"
+                "component_tdx_e_1cqcmmjpaj0ql6eenmjud5px5tfju68wnyxpyhv4gkhhd6wmfly7xk5"
             );
 
             sugar_price_oracle.get_price()

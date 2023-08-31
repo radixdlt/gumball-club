@@ -19,27 +19,28 @@ export const config = {
   network,
   dAppDefinitionAddress,
   addresses: {
+    ownerNftResourceAddress:
+      'resource_tdx_e_1ntr7s7cn68d9zcj6kw4flqw5nqgw29w9ws2n7u3uand6wsf35t2a9p',
+    ownerNftId: '#1#',
     sugarOraclePackage:
-      'package_tdx_21_1p4e6uhw6qt09s083ufv4508lpplclqps8rf2yz5952r6zmxjm3hqks',
+      'package_tdx_e_1phqfccrg7wl2vvsqv5agw8zfamexfuzrcrve6s8j33gqd2f8s64jv9',
     sugarOracleComponent:
-      'component_tdx_21_1cz3pg8x5us0d743lp2q305y88ny7z7zps6lztamdrl4kw6frs45num',
+      'component_tdx_e_1cqcmmjpaj0ql6eenmjud5px5tfju68wnyxpyhv4gkhhd6wmfly7xk5',
     gumballClubPackage:
-      'package_tdx_21_1p4d5d7wmj2y88rg5avhxymd407rnpr3j59d2ftnajc48f5p650ncga',
-    ownerNft:
-      'resource_tdx_21_1ntazz6arzqfqw4359arvamuynesaz44wcal6krd635kvd2jgc6v9dv:#1#',
+      'package_tdx_e_1p58l8t49gzf67rt9kqhl5qrxvp26680j2kdpkcdxclz6afmdpn4uwr',
     gumballClubComponent:
-      'component_tdx_21_1cr5d2thk76rd8zrsvg067kn856vdssgu7jgkpjw5n7sadu8u50a2s0',
+      'component_tdx_e_1crzvfaasuqcqf0rgwqqhjv642ankz6az43cvpussar5wdzc84dwvtt',
     gumballMachineComponent:
-      'component_tdx_21_1cpxtfszl4x73cltntlgr7jr7lsf340uf4jmhmtvlexegkclpmneefd',
+      'component_tdx_e_1cpw88ndtv2kp60tsd2tkfmffzd2g75tm7ln3k394v4h6kp36sf9hgm',
     candyMachineComponent:
-      'component_tdx_21_1crqd24ryv37u4tq3gmyscmj6j5krk0aedt6n7dvntgten09ckm5lp4',
+      'component_tdx_e_1cpzuy74umt5tqc72j5y6av8u5w8vvc0dz6v2ps4m4xvr3c5r023av9',
     gumballClubTokensResource:
-      'resource_tdx_21_1thd9jsajjhs2px5pw59yla0j83mxwutxqtagzhrrjf782ea267ls4c',
+      'resource_tdx_e_1t4wjsrgz9t3hkd0kq889ckdpqzkhpeqsps4q46p3l3ptuwgc5sx9qv',
     gumballClubMemberCardResource:
-      'resource_tdx_21_1ngqtqhtyy7kjzalft9eukr33hsh3rd4lyvg4g84z2fl48ksy0re2dl',
+      'resource_tdx_e_1n2wfjn5gwkyfaln2w6gp9sz7k7wpmjfm09z3zpkx6a6hurtng8dlfu',
     gumballResource:
-      'resource_tdx_21_1t5ea5uzg64jvg42hl40nn58223c4fgjhtye974xrnxd7nsywzetqt4',
+      'resource_tdx_e_1t5jj6l0gts2ml8m27wzymrexfed3d70cx37munajgsyx327a75x65m',
     candyTokenResource:
-      'resource_tdx_21_1th6qdxvqdvxzr22wn4pt07dszcam6ecwjyxmrdunuvmqrnxdp8tj4d',
+      'resource_tdx_e_1thqxupu7p0pl56xvfp3uhuawraqhm4fnevypqdmtp7q4wxlqwrxaud',
   },
 }
