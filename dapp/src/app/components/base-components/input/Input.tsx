@@ -50,6 +50,9 @@ export const Input = ({
           if (onChange) onChange(ev)
           inputElement.value = Number(ev.target.value).toString()
         }}
+        onWheel={(ev) => {
+          ;(ev.target as HTMLInputElement).blur()
+        }}
       />
       <span
         className={[styles.text, isDisabled ? styles.disabled : ''].join(' ')}
