@@ -344,8 +344,6 @@ fn instantiate_candy_machine() {
         member_card, 
     );
 
-    
-
     receipt.expect_commit_success();
 }
 
@@ -421,13 +419,31 @@ pub fn buy_candy() {
                 dec!("3.33"),
                 dec!("1.66"),
                 dec!("0.1"),
-                ];
+            ];
 
         let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
 
-        if index > price_vec.len() {
+        if index >= price_vec.len() {
             index = 0;
         }
+
+        // Candy amount is hand-calculated by price * payment amount (Rounded to 0 decimal points to zero)
+        // Payment amount is assumed to be 5 GC per transaction for this test.
+        let candy_amount_vec: Vec<Decimal> = vec![
+            dec!("0"),
+            dec!("8"),
+            dec!("16"),
+            dec!("25"),
+            dec!("16"),
+            dec!("8"),
+            dec!("0"),
+            dec!("8"),
+            dec!("16"),
+            dec!("25"),
+            dec!("16"),
+            dec!("8"),
+            dec!("0"),
+        ];
 
         let candy_amount = 
             dec!(5) // Payment amount
@@ -435,13 +451,13 @@ pub fn buy_candy() {
             .unwrap()
             .safe_round(0, RoundingMode::ToZero)
             .unwrap();
-        
+
         if candy_amount != dec!(0) {
             assert_eq!(
                 test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
                     test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
-                    test_environment.candy_token => BalanceChange::Fungible(candy_amount)
+                    test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
                 )
             );
     
@@ -465,6 +481,7 @@ pub fn buy_candy() {
         proposer_timestamp_ms += incremental_proposer_timestamp_ms;
         round += incremental_round;
     }
+    
 }
 
 #[test]
@@ -515,8 +532,24 @@ pub fn buy_candy_with_member_card() {
 
         let discounted_price_per_candy = 
             price_vec[index]
-            .safe_mul(discount_percent)
+            .safe_div(discount_percent)
             .unwrap();
+
+        let candy_amount_vec: Vec<Decimal> = vec![
+            dec!("1"),
+            dec!("16"),
+            dec!("33"),
+            dec!("50"),
+            dec!("33"),
+            dec!("16"),
+            dec!("1"),
+            dec!("16"),
+            dec!("33"),
+            dec!("50"),
+            dec!("33"),
+            dec!("16"),
+            dec!("1"),
+        ];
 
         let candy_amount = 
             (dec!(5).safe_mul(discounted_price_per_candy))
@@ -529,7 +562,7 @@ pub fn buy_candy_with_member_card() {
                 test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
                     test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
-                    test_environment.candy_token => BalanceChange::Fungible(candy_amount)
+                    test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
                 )
             );
     
