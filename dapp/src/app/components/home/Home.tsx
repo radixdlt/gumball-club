@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import { useSendTransactionManifest } from '@/app/hooks/useSendTransactionManifest'
 import { hasFungibleTokens } from '@/app/helpers/getAccountTokens'
 import { config } from '@/app/config'
-import { HomeModule } from './components/HomeModule'
+import { HomeModule, ModalKind } from './components/HomeModule'
 
 export const Home = () => {
   const {
@@ -28,9 +28,10 @@ export const Home = () => {
 
   const [state, setState] = useState<
     Partial<{
-      showModal: 'tokenDispenser' | 'gumball' | 'candy' | 'member'
+      showModal: ModalKind
       account: AccountWithTokens
       outputTokenValue: number
+      shouldShowMemberRevealModal: boolean
     }>
   >()
 
@@ -65,7 +66,17 @@ export const Home = () => {
     config.addresses.gumballClubTokensResource
   )
 
-  const handleDismissModal = () => {
+  const hasGumTokens = hasFungibleTokens(
+    accounts,
+    config.addresses.gumballResource
+  )
+
+  const hasCandyTokens = hasFungibleTokens(
+    accounts,
+    config.addresses.candyTokenResource
+  )
+
+  const handleDismissModal = (onDismiss?: () => void) => {
     setState((prev) => ({
       ...prev,
       showModal: undefined,
@@ -77,6 +88,10 @@ export const Home = () => {
         ...prev,
         account: undefined,
         outputTokenValue: undefined,
+        shouldShowMemberRevealModal: false,
+        showModal: state?.shouldShowMemberRevealModal
+          ? 'memberReveal'
+          : undefined,
       }))
     }, 1000)
   }
@@ -84,7 +99,8 @@ export const Home = () => {
   const handleShowModal = (
     showModal: 'tokenDispenser' | 'gumball' | 'candy' | 'member',
     selectedAccountAddress: string,
-    outputTokenValue?: number
+    outputTokenValue?: number,
+    shouldShowMemberRevealModal?: boolean
   ) =>
     setState((prev) => ({
       ...prev,
@@ -93,6 +109,7 @@ export const Home = () => {
         (account) => account.address === selectedAccountAddress
       ),
       outputTokenValue,
+      shouldShowMemberRevealModal,
     }))
 
   return (
@@ -132,13 +149,16 @@ export const Home = () => {
                 outputTokenValue,
                 memberCard,
               }) => {
+                const shouldShowMemberRevealModal =
+                  !hasGumTokens && !hasCandyTokens
                 buyGumball(selectedAccountAddress, inputTokenValue, memberCard)
                   .map(refresh)
                   .map(() =>
                     handleShowModal(
                       'gumball',
                       selectedAccountAddress,
-                      outputTokenValue
+                      outputTokenValue,
+                      shouldShowMemberRevealModal
                     )
                   )
               }}
@@ -152,13 +172,16 @@ export const Home = () => {
                 outputTokenValue,
                 memberCard,
               }) => {
+                const shouldShowMemberRevealModal =
+                  !hasGumTokens && !hasCandyTokens
                 buyCandy(selectedAccountAddress, inputTokenValue, memberCard)
                   .map(refresh)
                   .map(() =>
                     handleShowModal(
                       'candy',
                       selectedAccountAddress,
-                      outputTokenValue
+                      outputTokenValue,
+                      shouldShowMemberRevealModal
                     )
                   )
               }}
