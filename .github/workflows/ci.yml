@@ -365,6 +365,6 @@ jobs:
                    apply
         env:
           CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
-          INGRESS_DOMAIN: gumball-club-dev.${{ secrets.PROD_INGRESS_DOMAIN }}
+          INGRESS_DOMAIN: ${{ secrets.PROD_INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
