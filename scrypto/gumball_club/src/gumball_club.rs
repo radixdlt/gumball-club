@@ -7,6 +7,7 @@ use crate::candy_machine::candy_machine::CandyMachineFunctions;
 /// The `NonFungibleData` structure of the member card NFT badge.
 #[derive(ScryptoSbor, NonFungibleData)]
 pub struct GumballClubMember {
+    key_image_url: Url,
 }
 
 #[blueprint]
@@ -213,6 +214,9 @@ mod gumball_club {
                 .mint_non_fungible(
                     &NonFungibleLocalId::integer(self.gumball_club_member_counter),
                     GumballClubMember {
+                        key_image_url: Url::of(
+                            "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/membership-card.png"
+                        )
                     }
                 );
 
