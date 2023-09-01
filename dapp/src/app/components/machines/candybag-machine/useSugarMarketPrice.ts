@@ -13,11 +13,15 @@ export const useSugarMarketPrice = () => {
           addresses: [config.addresses.sugarOracleComponent],
         },
       })
-      .then(
-        (response): string =>
-          (response.items[0].details as any)?.state?.programmatic_json.fields[0]
-            .value || '0'
-      )
+      .then((response): string => {
+        const sugarOracleStartingTime =
+          (
+            response.items[0].details as {
+              state: { fields: { value: string }[] }
+            }
+          ).state.fields[0].value || '0'
+        return sugarOracleStartingTime
+      })
       .then(setStartingTime)
   }, [setStartingTime, dAppToolkit])
 
