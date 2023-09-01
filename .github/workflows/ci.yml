@@ -359,7 +359,7 @@ jobs:
                                     --alias ${{ secrets.PROD_CLUSTER_NAME }} \
                                     --region eu-west-2
 
-          helmfile --environment dev --namespace gumball-club-prod \
+          helmfile --environment prod --namespace gumball-club-prod \
                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
                    --state-values-set "ci.ingressDomain=${{ env.PROD_INGRESS_DOMAIN }}" \
                    apply
