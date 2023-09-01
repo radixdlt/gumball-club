@@ -6,7 +6,8 @@ use crate::candy_machine::candy_machine::CandyMachineFunctions;
 
 /// The `NonFungibleData` structure of the member card NFT badge.
 #[derive(ScryptoSbor, NonFungibleData)]
-pub struct GumballClubMember {}
+pub struct GumballClubMember {
+}
 
 #[blueprint]
 mod gumball_club {
