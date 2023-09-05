@@ -7,8 +7,8 @@ use scrypto::prelude::*;
 mod candy_machine {
     extern_blueprint!(
         // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-        "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
-        // "package_tdx_e_1phqfccrg7wl2vvsqv5agw8zfamexfuzrcrve6s8j33gqd2f8s64jv9",
+        // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
+        "package_tdx_e_1phfaart4qhcee24wq2h7dsf3pexcjpcf5cl8phwftw07xqzu6hzgv4",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -175,8 +175,8 @@ mod candy_machine {
             let sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
-                // "component_tdx_e_1cqcmmjpaj0ql6eenmjud5px5tfju68wnyxpyhv4gkhhd6wmfly7xk5"
+                // "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
+                "component_tdx_e_1czwl5a29edry795zrsep2f2p0mvjlgnve5p7qk2q7mvpsh3gv9t3z7"
             );
 
             sugar_price_oracle.get_price()
@@ -222,9 +222,9 @@ mod candy_machine {
             // then the total candy amount is calculated and rounded down to ensure
             // only whole candys can be minted.
             let total_candy_amount = 
-                (payment.amount().safe_mul(price_per_candy))
+                (payment.amount().checked_mul(price_per_candy))
                 .unwrap()
-                .safe_round(0, RoundingMode::ToZero)
+                .checked_round(0, RoundingMode::ToZero)
                 .unwrap();
 
             let total_candy_price = if total_candy_amount == dec!(0) {
@@ -274,21 +274,21 @@ mod candy_machine {
             let price_per_candy = self.get_price();
             
             let discount_percent = 
-                (dec!(100).safe_sub(self.discount_amount))
+                (dec!(100).checked_sub(self.discount_amount))
                 .and_then(|x| {
-                    x.safe_div(dec!(100))
+                    x.checked_div(dec!(100))
                 })
                 .unwrap();
 
             let discounted_price_per_candy = 
                 price_per_candy
-                .safe_div(discount_percent)
+                .checked_div(discount_percent)
                 .unwrap();
 
             let total_candy_amount = 
-                (payment.amount().safe_mul(discounted_price_per_candy))
+                (payment.amount().checked_mul(discounted_price_per_candy))
                 .unwrap()
-                .safe_round(0, RoundingMode::ToZero)
+                .checked_round(0, RoundingMode::ToZero)
                 .unwrap();
 
             let total_candy_price = if total_candy_amount == dec!(0) {

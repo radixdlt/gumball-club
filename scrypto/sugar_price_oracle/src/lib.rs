@@ -34,28 +34,28 @@ mod sugar_price_oracle {
 
                 let proportion_of_time_passed =
                     dec_normalized_time
-                    .safe_div(dec_half_period)
+                    .checked_div(dec_half_period)
                     .unwrap();
 
                 let linear_increase =
                     proportion_of_time_passed
-                    .safe_mul(max_value)
+                    .checked_mul(max_value)
                     .unwrap();
 
                 // let linear_increase = 
                 //     scaled_normalized_time
-                //     .safe_div(dec_half_period)
+                //     .checked_div(dec_half_period)
                 //     .unwrap();
 
                 let price_during_first_half =
                     if linear_increase == dec!(0) {
                         linear_increase
-                        .safe_add(epsilon)
+                        .checked_add(epsilon)
                         .unwrap()
                     } else {
                         linear_increase
                     }
-                    .safe_round(2, RoundingMode::ToZero)
+                    .checked_round(2, RoundingMode::ToZero)
                     .unwrap();
                     
 
@@ -70,7 +70,7 @@ mod sugar_price_oracle {
                 // elapsed_time_in_second_half = dec_normalized_time - dec_half_period 
                 let elapsed_time_in_second_half = 
                     dec_normalized_time
-                    .safe_sub(dec_half_period)
+                    .checked_sub(dec_half_period)
                     .unwrap();
 
                 // This calculation represents the proportion of time passed within the second 
@@ -79,7 +79,7 @@ mod sugar_price_oracle {
                 // proportion_of_time_passed = elapsed_time_in_second_half / dec_half_period
                 let proportion_of_time_passed =
                     elapsed_time_in_second_half
-                    .safe_div(dec_half_period)
+                    .checked_div(dec_half_period)
                     .unwrap();
 
                 // This calculation represents the linear decrease in the price during the 
@@ -87,7 +87,7 @@ mod sugar_price_oracle {
                 // linear_decrease = proportion_of_time_passed * max_value
                 let linear_decrease = 
                     proportion_of_time_passed
-                    .safe_mul(max_value)
+                    .checked_mul(max_value)
                     .unwrap();
 
 
@@ -96,9 +96,9 @@ mod sugar_price_oracle {
                 // price_during_second_half = max_value - linear_decrease + epsilon
                 let price_during_second_half =
                     max_value
-                    .safe_sub(linear_decrease)
+                    .checked_sub(linear_decrease)
                     .unwrap()
-                    .safe_round(2, RoundingMode::ToZero)
+                    .checked_round(2, RoundingMode::ToZero)
                     .unwrap();
 
                 return price_during_second_half
