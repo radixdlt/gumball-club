@@ -5,15 +5,15 @@ edition = "2021"
 resolver = "2"
 
 [dependencies]
-sbor = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
-scrypto = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
+sbor = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
+scrypto = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
 
 [dev-dependencies]
-transaction = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
-radix-engine = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
-scrypto-unit = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
-scrypto-test = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
-radix-engine-interface = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "rcnet-v3.1-d414dad35e" }
+transaction = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
+radix-engine = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
+scrypto-unit = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
+scrypto-test = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
+radix-engine-interface = { git = "https://github.com/radixdlt/radixdlt-scrypto", tag = "v0.12.1" }
 sugar_price_oracle = { path = ".", features = ["test"] }
 
 [profile.release]

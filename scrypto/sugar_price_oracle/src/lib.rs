@@ -42,11 +42,6 @@ mod sugar_price_oracle {
                     .checked_mul(max_value)
                     .unwrap();
 
-                // let linear_increase = 
-                //     scaled_normalized_time
-                //     .checked_div(dec_half_period)
-                //     .unwrap();
-
                 let price_during_first_half =
                     if linear_increase == dec!(0) {
                         linear_increase
@@ -89,7 +84,6 @@ mod sugar_price_oracle {
                     proportion_of_time_passed
                     .checked_mul(max_value)
                     .unwrap();
-
 
                 // This calculation represents the price during the second half of the time period.
                 // We then add a small value epsilon such that it does not approach zero. 
