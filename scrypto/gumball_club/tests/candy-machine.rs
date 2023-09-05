@@ -447,16 +447,16 @@ pub fn buy_candy() {
 
         let candy_amount = 
             dec!(5) // Payment amount
-            .safe_mul(price_vec[index])
+            .checked_mul(price_vec[index])
             .unwrap()
-            .safe_round(0, RoundingMode::ToZero)
+            .checked_round(0, RoundingMode::ToZero)
             .unwrap();
 
         if candy_amount != dec!(0) {
             assert_eq!(
                 test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
+                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
                 )
             );
@@ -532,7 +532,7 @@ pub fn buy_candy_with_member_card() {
 
         let discounted_price_per_candy = 
             price_vec[index]
-            .safe_div(discount_percent)
+            .checked_div(discount_percent)
             .unwrap();
 
         let candy_amount_vec: Vec<Decimal> = vec![
@@ -552,16 +552,16 @@ pub fn buy_candy_with_member_card() {
         ];
 
         let candy_amount = 
-            (dec!(5).safe_mul(discounted_price_per_candy))
+            (dec!(5).checked_mul(discounted_price_per_candy))
             .unwrap()
-            .safe_round(0, RoundingMode::ToZero)
+            .checked_round(0, RoundingMode::ToZero)
             .unwrap();
 
         if candy_amount != dec!(0) {
             assert_eq!(
                 test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
                 indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).safe_neg().unwrap()),
+                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
                     test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
                 )
             );

@@ -215,7 +215,7 @@ mod gumball_club {
                     &NonFungibleLocalId::integer(self.gumball_club_member_counter),
                     GumballClubMember {
                         key_image_url: Url::of(
-                            "https://raw.githubusercontent.com/xstelea/cautious-waffle/44757b011f11f4e330e7fb149dc109c405c3ae00/membership-card.png"
+                            "https://gumball-club-dev.rdx-works-main.extratools.works/assets/member-card.png"
                         )
                     }
                 );

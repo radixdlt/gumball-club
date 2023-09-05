@@ -220,15 +220,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < self.price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount().safe_div(self.price_per_gumball))
+                (payment.amount().checked_div(self.price_per_gumball))
                 .unwrap()
-                .safe_round(0, RoundingMode::ToZero)
+                .checked_round(0, RoundingMode::ToZero)
                 .unwrap()
              };
 
             let total_gumball_price = 
                 total_gumball_amount
-                .safe_mul(self.price_per_gumball)
+                .checked_mul(self.price_per_gumball)
                 .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
@@ -277,14 +277,14 @@ mod gumball_machine {
             // Calculates the discounted price per gumball based on hardcoded discount
             // value of 50%.
             let discount_percent = 
-                (dec!(100).safe_sub(self.discount_amount))
+                (dec!(100).checked_sub(self.discount_amount))
                 .and_then(|x| {
-                    x.safe_div(dec!(100))
+                    x.checked_div(dec!(100))
                 })
                 .unwrap();
             let discounted_price_per_gumball = 
                 self.price_per_gumball
-                .safe_mul(discount_percent)
+                .checked_mul(discount_percent)
                 .unwrap();
 
             // Calculate the total amount of gumball based on the amount of payment sent.
@@ -296,15 +296,15 @@ mod gumball_machine {
             let total_gumball_amount = if payment.amount() < discounted_price_per_gumball {
                 dec!(0)
              } else {
-                (payment.amount().safe_div(discounted_price_per_gumball))
+                (payment.amount().checked_div(discounted_price_per_gumball))
                 .unwrap()
-                .safe_round(0, RoundingMode::ToZero)
+                .checked_round(0, RoundingMode::ToZero)
                 .unwrap()
              };
 
             let total_gumball_price = 
                 total_gumball_amount
-                .safe_mul(discounted_price_per_gumball)
+                .checked_mul(discounted_price_per_gumball)
                 .unwrap();
 
             // Takes the only the total cost of the gumballs from the payment `Bucket`.
