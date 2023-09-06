@@ -16,7 +16,7 @@ export const TokenDispenser = ({
   hasXrd: boolean
   accounts: WalletDataStateAccount[]
   onSubmit: (selectedAccount: string) => void
-  disableSendButton: boolean
+  disableSendButton?: boolean
 }) => {
   const [{ selectedAccount }, setState] = useState<{
     selectedAccount?: string

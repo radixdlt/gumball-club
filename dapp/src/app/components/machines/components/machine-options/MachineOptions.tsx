@@ -32,7 +32,7 @@ export type MachineOptionsProps = {
   ) => number
   disabled?: boolean
   defaultInputTokenValue?: number
-  disableSendButton: boolean
+  disableSendButton?: boolean
 }
 
 export const MachineOptions = ({
