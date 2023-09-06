@@ -17,7 +17,7 @@ export const GumballMachine = ({
 }: {
   accounts: AccountWithTokens[]
   onSubmit: MachineOptionsProps['onSubmit']
-  disableSendButton: boolean
+  disableSendButton?: boolean
 }) => {
   const hasMemberCard = hasMemberCardFn(accounts)
   const priceCalculationFn = (

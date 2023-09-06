@@ -16,7 +16,7 @@ export const MembershipMachine = ({
   disableSendButton,
 }: {
   accounts: AccountWithTokens[]
-  disableSendButton: boolean
+  disableSendButton?: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   return (

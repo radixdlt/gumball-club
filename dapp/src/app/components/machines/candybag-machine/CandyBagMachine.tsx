@@ -19,7 +19,7 @@ export const CandyBagMachine = ({
 }: {
   accounts: AccountWithTokens[]
   price: number
-  disableSendButton: boolean
+  disableSendButton?: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   const getPrice = useSugarMarketPrice()
