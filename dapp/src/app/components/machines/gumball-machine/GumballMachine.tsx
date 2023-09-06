@@ -13,11 +13,24 @@ import GumballMachineImage from '../../../../../public/assets/gumball-machine.pn
 export const GumballMachine = ({
   accounts,
   onSubmit,
+  disableSendButton,
 }: {
   accounts: AccountWithTokens[]
   onSubmit: MachineOptionsProps['onSubmit']
+  disableSendButton: boolean
 }) => {
   const hasMemberCard = hasMemberCardFn(accounts)
+  const priceCalculationFn = (
+    inputTokenValue: number,
+    price: number,
+    accountHasMemberCard: boolean
+  ) =>
+    accountHasMemberCard
+      ? Math.floor((inputTokenValue / price) * 2)
+      : Math.floor(inputTokenValue / price)
+
+  const price = 2
+
   return (
     <Card>
       <MachineHeader
@@ -42,20 +55,25 @@ export const GumballMachine = ({
         }
       />
       <MachineOptions
+        disableSendButton={disableSendButton}
         id="gumball"
-        price={2}
+        price={price}
         image={
           <Image src={GumballMachineImage} alt="me" width="190" height="305" />
         }
-        priceCalculationFn={(inputTokenValue, price, accountHasMemberCard) =>
-          accountHasMemberCard
-            ? Math.floor((inputTokenValue / price) * 2)
-            : Math.floor(inputTokenValue / price)
-        }
+        priceCalculationFn={priceCalculationFn}
         accounts={accounts}
         inputTokenName="GC Tokens"
         outputTokenName="Gumballs"
-        onSubmit={onSubmit}
+        onSubmit={(value) => {
+          const inputValueWithoutChange = value.memberCard
+            ? value.inputTokenValue
+            : Math.floor(value.inputTokenValue / price) * price
+          return onSubmit({
+            ...value,
+            inputTokenValue: inputValueWithoutChange,
+          })
+        }}
       ></MachineOptions>
     </Card>
   )

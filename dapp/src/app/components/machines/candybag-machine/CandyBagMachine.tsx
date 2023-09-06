@@ -15,10 +15,11 @@ import CandyMachineImage from '../../../../../public/assets/candy-machine.png'
 export const CandyBagMachine = ({
   accounts,
   onSubmit,
-  price,
+  disableSendButton,
 }: {
   accounts: AccountWithTokens[]
   price: number
+  disableSendButton: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   const getPrice = useSugarMarketPrice()
@@ -73,6 +74,7 @@ export const CandyBagMachine = ({
         }
       />
       <MachineOptions
+        disableSendButton={disableSendButton}
         id="candy"
         price={candyPrice}
         image={

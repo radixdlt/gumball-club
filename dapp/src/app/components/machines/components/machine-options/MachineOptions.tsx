@@ -9,10 +9,7 @@ import { Button } from '../../../base-components/button'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
 import { config } from '@/app/config'
 import BigNumber from 'bignumber.js'
-import {
-  getMemberCard,
-  hasMemberCard as hasMemberCardFn,
-} from '@/app/helpers/hasMemberCard'
+import { getMemberCard } from '@/app/helpers/hasMemberCard'
 import { NonFungibleResource } from '@/app/transformers/addTokens'
 
 export type MachineOptionsProps = {
@@ -35,6 +32,7 @@ export type MachineOptionsProps = {
   ) => number
   disabled?: boolean
   defaultInputTokenValue?: number
+  disableSendButton: boolean
 }
 
 export const MachineOptions = ({
@@ -48,6 +46,7 @@ export const MachineOptions = ({
   disabled,
   defaultInputTokenValue = 0,
   priceCalculationFn,
+  disableSendButton,
 }: MachineOptionsProps) => {
   const isDisabled = accounts.length === 0
   const [{ selectedAccountAddress, inputTokenValue, isValid }, setState] =
@@ -158,7 +157,7 @@ export const MachineOptions = ({
         </div>
       </div>
       <Button
-        disabled={!isValid || isDisabled || invalidInput}
+        disabled={!isValid || isDisabled || invalidInput || disableSendButton}
         icon="external-link"
         onClick={() => {
           if (isValid) {
@@ -171,7 +170,6 @@ export const MachineOptions = ({
             setState((prev) => ({
               ...prev,
               inputTokenValue: defaultInputTokenValue,
-              selectedAccountAddress: undefined,
             }))
           }
         }}

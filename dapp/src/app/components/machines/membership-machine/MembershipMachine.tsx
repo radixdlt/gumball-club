@@ -13,8 +13,10 @@ import MemberCardMachine from '@/../public/assets/membership-machine.png'
 export const MembershipMachine = ({
   accounts,
   onSubmit,
+  disableSendButton,
 }: {
   accounts: AccountWithTokens[]
+  disableSendButton: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   return (
@@ -26,6 +28,7 @@ export const MembershipMachine = ({
         textClass={styles.text}
       />
       <MachineOptions
+        disableSendButton={disableSendButton}
         id="member"
         price={5}
         defaultInputTokenValue={5}

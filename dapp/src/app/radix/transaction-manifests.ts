@@ -26,12 +26,18 @@ export const TransactionManifests = ({
         ;
     `
 
-  const buyGumball = (
-    accountAddress: string,
-    gcTokensValue: number,
+  const buyGumball = ({
+    accountAddress,
+    inputTokenValue,
+    outputTokenValue,
+    memberCard,
+  }: {
+    accountAddress: string
+    inputTokenValue: number
+    outputTokenValue: number
     memberCard?: NonFungibleResource
-  ) =>
-    memberCard
+  }) => {
+    const transactionManifest = memberCard
       ? `
         CALL_METHOD
             Address("${accountAddress}")
@@ -45,10 +51,11 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "withdraw"
             Address("${gumballClubTokensResource}")
-            Decimal("${gcTokensValue}")
+            Decimal("${inputTokenValue}")
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
+            Decimal("${inputTokenValue}")
             Bucket("gumball_club_token_bucket")
         ;
         CALL_METHOD
@@ -56,23 +63,15 @@ export const TransactionManifests = ({
             "buy_gumball_with_member_card"
             Bucket("gumball_club_token_bucket")
         ;
-        TAKE_ALL_FROM_WORKTOP
-            Address("${gumballResource}")
-            Bucket("gumball_bucket")
-        ;
-        CALL_METHOD
-            Address("${accountAddress}")
-            "deposit"
-            Bucket("gumball_bucket")
-        ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
-            Bucket("gc_bucket")
+            Decimal("${outputTokenValue}")
+            Bucket("gumball_bucket")
         ;
         CALL_METHOD
             Address("${accountAddress}")
             "deposit"
-            Bucket("gc_bucket")
+            Bucket("gumball_bucket")
         ;
         `
       : `
@@ -80,10 +79,11 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "withdraw"
             Address("${gumballClubTokensResource}")
-            Decimal("${gcTokensValue}")
+            Decimal("${inputTokenValue}")
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
+            Decimal("${inputTokenValue}")
             Bucket("gumball_club_token_bucket")
         ;
         CALL_METHOD
@@ -91,31 +91,30 @@ export const TransactionManifests = ({
             "buy_gumball"
             Bucket("gumball_club_token_bucket")
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballResource}")
+            Decimal("${outputTokenValue}")
             Bucket("gumball_bucket")
         ;
         CALL_METHOD
             Address("${accountAddress}")
             "deposit"
             Bucket("gumball_bucket")
-        ;
-        TAKE_ALL_FROM_WORKTOP
-            Address("${gumballClubTokensResource}")
-            Bucket("gc_bucket")
-        ;
-        CALL_METHOD
-            Address("${accountAddress}")
-            "deposit"
-            Bucket("gc_bucket")
         ;
   `
+    console.log(transactionManifest)
+    return transactionManifest
+  }
 
-  const buyCandy = (
-    accountAddress: string,
-    gcTokensValue: number,
+  const buyCandy = ({
+    accountAddress,
+    inputTokenValue,
+    memberCard,
+  }: {
+    accountAddress: string
+    inputTokenValue: number
     memberCard?: NonFungibleResource
-  ) =>
+  }) =>
     memberCard
       ? `
         CALL_METHOD
@@ -130,10 +129,11 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "withdraw"
             Address("${gumballClubTokensResource}")
-            Decimal("${gcTokensValue}")
+            Decimal("${inputTokenValue}")
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
+            Decimal("${inputTokenValue}")
             Bucket("gumball_club_token_bucket")
         ;
         CALL_METHOD
@@ -145,26 +145,18 @@ export const TransactionManifests = ({
             Address("${accountAddress}")
             "deposit_batch"
             Expression("ENTIRE_WORKTOP")
-        ;
-        TAKE_ALL_FROM_WORKTOP
-            Address("${gumballClubTokensResource}")
-            Bucket("gc_bucket")
-        ;
-        CALL_METHOD
-            Address("${accountAddress}")
-            "deposit"
-            Bucket("gc_bucket")
-        ;
-  `
+        ;  
+    `
       : `
         CALL_METHOD
             Address("${accountAddress}")
             "withdraw"
             Address("${gumballClubTokensResource}")
-            Decimal("${gcTokensValue}")
+            Decimal("${inputTokenValue}")
         ;
-        TAKE_ALL_FROM_WORKTOP
+        TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
+            Decimal("${inputTokenValue}")
             Bucket("gumball_club_token_bucket")
         ;
         CALL_METHOD
@@ -177,25 +169,23 @@ export const TransactionManifests = ({
             "deposit_batch"
             Expression("ENTIRE_WORKTOP")
         ;
-        TAKE_ALL_FROM_WORKTOP
-            Address("${gumballClubTokensResource}")
-            Bucket("gc_bucket")
-        ;
-        CALL_METHOD
-            Address("${accountAddress}")
-            "deposit"
-            Bucket("gc_bucket")
-        ;
     `
-  const buyMemberCard = (accountAddress: string, gcTokensValue: number) => `
+  const buyMemberCard = ({
+    accountAddress,
+    inputTokenValue,
+  }: {
+    accountAddress: string
+    inputTokenValue: number
+  }) => `
     CALL_METHOD
         Address("${accountAddress}")
         "withdraw"
         Address("${gumballClubTokensResource}")
-        Decimal("${gcTokensValue}")
+        Decimal("${inputTokenValue}")
     ;
-    TAKE_ALL_FROM_WORKTOP
+    TAKE_FROM_WORKTOP
         Address("${gumballClubTokensResource}")
+        Decimal("${inputTokenValue}")
         Bucket("gumball_club_token_bucket")
     ;
     CALL_METHOD
@@ -203,8 +193,9 @@ export const TransactionManifests = ({
         "buy_member_card"
         Bucket("gumball_club_token_bucket")
     ;
-    TAKE_ALL_FROM_WORKTOP
+    TAKE_FROM_WORKTOP
         Address("${gumballClubMemberCardResource}")
+        Decimal("1")
         Bucket("member_card_bucket")
     ;
     CALL_METHOD
