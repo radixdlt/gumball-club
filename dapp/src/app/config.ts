@@ -20,27 +20,27 @@ export const config = {
   dAppDefinitionAddress,
   addresses: {
     ownerNftResourceAddress:
-      'resource_tdx_e_1ntr7s7cn68d9zcj6kw4flqw5nqgw29w9ws2n7u3uand6wsf35t2a9p',
+      'resource_tdx_22_1nt8p5ul0z59dr8d2zlwpmha636urpt3rteqqptrdu5v7nr4r0ad6fn',
     ownerNftId: '#1#',
     sugarOraclePackage:
-      'package_tdx_e_1phqfccrg7wl2vvsqv5agw8zfamexfuzrcrve6s8j33gqd2f8s64jv9',
+      'package_tdx_22_1phpxmnmsy0smsfr45rchus24ve9qks3wk443eljk3kty7x0265j6uc',
     sugarOracleComponent:
-      'component_tdx_e_1cqcmmjpaj0ql6eenmjud5px5tfju68wnyxpyhv4gkhhd6wmfly7xk5',
+      'component_tdx_22_1cqkfzuxf9vdf5uacjdtqvgtcp6pwsn3pphrgh2ndk7kdujsredc6xx',
     gumballClubPackage:
-      'package_tdx_e_1p58l8t49gzf67rt9kqhl5qrxvp26680j2kdpkcdxclz6afmdpn4uwr',
+      'package_tdx_22_1p5cnytswfqytmna32rnpy9hq7wkeky0007wmhkgvx89jlkfg6yzj9p',
     gumballClubComponent:
-      'component_tdx_e_1crzvfaasuqcqf0rgwqqhjv642ankz6az43cvpussar5wdzc84dwvtt',
+      'component_tdx_22_1cqmwvdhry0tsth325r47d58d0d4aap0m79wt6fl6flehn4yr05d5hv',
     gumballMachineComponent:
-      'component_tdx_e_1cpw88ndtv2kp60tsd2tkfmffzd2g75tm7ln3k394v4h6kp36sf9hgm',
+      'component_tdx_22_1cp6yzct4yxp9gpn7vvf5a99mkfwn7l74vthxdawcfd9mtnrmzd0pm6',
     candyMachineComponent:
-      'component_tdx_e_1cpzuy74umt5tqc72j5y6av8u5w8vvc0dz6v2ps4m4xvr3c5r023av9',
+      'component_tdx_22_1crjcyncwpgq2x9kdcyxm7frnx5zj4gy0zm2ln0p4tj9c0ulhsltra0',
     gumballClubTokensResource:
-      'resource_tdx_e_1t4wjsrgz9t3hkd0kq889ckdpqzkhpeqsps4q46p3l3ptuwgc5sx9qv',
+      'resource_tdx_22_1t4egu7yxw0j7kanyzxjvgv0sw7jed0stpq8fr8lwvgcnp7zzjyynvk',
     gumballClubMemberCardResource:
-      'resource_tdx_e_1n2wfjn5gwkyfaln2w6gp9sz7k7wpmjfm09z3zpkx6a6hurtng8dlfu',
+      'resource_tdx_22_1t4egu7yxw0j7kanyzxjvgv0sw7jed0stpq8fr8lwvgcnp7zzjyynvk',
     gumballResource:
-      'resource_tdx_e_1t5jj6l0gts2ml8m27wzymrexfed3d70cx37munajgsyx327a75x65m',
+      'resource_tdx_22_1th3ekrvnvavs5m4d4gc73kk0xydq25p5w4c2zzhpcnjnhvywl03uza',
     candyTokenResource:
-      'resource_tdx_e_1thqxupu7p0pl56xvfp3uhuawraqhm4fnevypqdmtp7q4wxlqwrxaud',
+      'resource_tdx_22_1tkf4hwpykjzrpz587y4yj24r3vwtqpr2zr7y7xn5purn3z22rwp2v5',
   },
 }
