@@ -7,6 +7,7 @@ use crate::candy_machine::candy_machine::CandyMachineFunctions;
 /// The `NonFungibleData` structure of the member card NFT badge.
 #[derive(ScryptoSbor, NonFungibleData)]
 pub struct GumballClubMember {
+    name: String,
     key_image_url: Url,
 }
 
@@ -116,8 +117,8 @@ mod gumball_club {
                 ResourceBuilder::new_integer_non_fungible::<GumballClubMember>(owner_role.clone())
                 .metadata(metadata! {
                     init {
-                        "name" => "Gumball Club Member Card", locked;
-                        "description" => "Use this Gumball Club Member Card to get 50% discount on our sweet machines", locked;
+                        "name" => "Gumball Club Member Cards", locked;
+                        "description" => "Use a Gumball Club Member Card to get a 50% discount on purchases from sweet machines.", locked;
                         "tags" => vec!["badge"], locked;
                     }
                 })
@@ -214,6 +215,7 @@ mod gumball_club {
                 .mint_non_fungible(
                     &NonFungibleLocalId::integer(self.gumball_club_member_counter),
                     GumballClubMember {
+                        name: String::from("Your GC Member Card"),
                         key_image_url: Url::of(
                             "https://gumball-club-dev.rdx-works-main.extratools.works/assets/member-card.png"
                         )
