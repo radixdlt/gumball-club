@@ -35,11 +35,13 @@ export const TransactionManifests = ({
     inputTokenValue,
     outputTokenValue,
     memberCard,
+    change,
   }: {
     accountAddress: string
     inputTokenValue: number
     outputTokenValue: number
     memberCard?: NonFungibleResource
+    change?: number
   }) => {
     const transactionManifest = memberCard
       ? `
@@ -80,10 +82,12 @@ export const TransactionManifests = ({
         `
       : `
         CALL_METHOD
-            Address("${accountAddress}")
-            "withdraw"
-            Address("${gumballClubTokensResource}")
-            Decimal("${inputTokenValue}")
+          Address("${accountAddress}")
+          "withdraw"
+          Address("${gumballClubTokensResource}")
+          Decimal("${
+            change && change > 0 ? inputTokenValue + change : inputTokenValue
+          }")
         ;
         TAKE_FROM_WORKTOP
             Address("${gumballClubTokensResource}")
@@ -105,6 +109,22 @@ export const TransactionManifests = ({
             "deposit"
             Bucket("gumball_bucket")
         ;
+        ${
+          change && change > 0
+            ? `
+        TAKE_FROM_WORKTOP
+          Address("${gumballClubTokensResource}")
+          Decimal("${change}")
+          Bucket("change_bucket")
+        ;
+        CALL_METHOD
+            Address("${accountAddress}")
+            "deposit"
+            Bucket("change_bucket")
+        ;
+        `
+            : ``
+        }
   `
     console.log(transactionManifest)
     return transactionManifest

@@ -69,9 +69,11 @@ export const GumballMachine = ({
           const inputValueWithoutChange = value.memberCard
             ? value.inputTokenValue
             : Math.floor(value.inputTokenValue / price) * price
+          const change = value.inputTokenValue - value.outputTokenValue * price
           return onSubmit({
             ...value,
             inputTokenValue: inputValueWithoutChange,
+            change,
           })
         }}
       ></MachineOptions>

@@ -155,14 +155,17 @@ export const Home = () => {
                 inputTokenValue,
                 outputTokenValue,
                 memberCard,
+                change,
               }) => {
                 const shouldShowMemberRevealModal =
                   !hasGumTokens && !hasCandyTokens
+
                 buyGumball({
                   accountAddress: selectedAccountAddress,
                   inputTokenValue,
                   outputTokenValue,
                   memberCard,
+                  change,
                 })
                   .map(refresh)
                   .map(() =>

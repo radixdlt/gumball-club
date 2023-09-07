@@ -23,6 +23,7 @@ export type MachineOptionsProps = {
     inputTokenValue: number
     outputTokenValue: number
     memberCard?: NonFungibleResource
+    change?: number
   }) => void
   price: number
   priceCalculationFn?: (

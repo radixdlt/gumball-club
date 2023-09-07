@@ -19,6 +19,7 @@ export const useSendTransactionManifest = () => {
         memberCard?: NonFungibleResource
         inputTokenValue: number
         outputTokenValue: number
+        change?: number
       }) => sendTransaction(transactionManifests.buyGumball(input)),
       buyCandy: (input: {
         accountAddress: string
