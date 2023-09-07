@@ -191,16 +191,32 @@ export const Home = () => {
                   accountAddress: selectedAccountAddress,
                   inputTokenValue,
                   memberCard,
-                })
-                  .map(refresh)
-                  .map(() =>
-                    handleShowModal(
-                      'candy',
-                      selectedAccountAddress,
-                      outputTokenValue,
-                      shouldShowMemberRevealModal
-                    )
+                }).map((response) => {
+                  refresh()
+                  const actualTokenOutput = parseInt(
+                    response
+                      .events!.filter(
+                        (event) => event.type_name === 'DepositEvent'
+                      )
+                      .filter((event) =>
+                        event.fields.some(
+                          (field) =>
+                            field.type_name === 'ResourceAddress' &&
+                            field.value === config.addresses.candyTokenResource
+                        )
+                      )
+                      .map((event) => event.fields)
+                      .flat()
+                      .filter((field) => field.kind === 'Decimal')[0].value
                   )
+
+                  return handleShowModal(
+                    'candy',
+                    selectedAccountAddress,
+                    actualTokenOutput,
+                    shouldShowMemberRevealModal
+                  )
+                })
               }}
             />
             {(hasCandyTokens || hasGumTokens) && (

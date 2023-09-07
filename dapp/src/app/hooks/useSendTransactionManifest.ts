@@ -3,10 +3,12 @@ import { TransactionManifests } from '../radix/transaction-manifests'
 import { config } from '../config'
 import { useSendTransaction } from './useSendTransaction'
 import { NonFungibleResource } from '../transformers/addTokens'
+import { useGetCommittedDetails } from './useGetCommittedDetails'
 
 export const useSendTransactionManifest = () => {
   const transactionManifests = TransactionManifests(config.addresses)
   const sendTransaction = useSendTransaction()
+  const getCommittedDetails = useGetCommittedDetails()
 
   return useCallback(
     () => ({
@@ -22,13 +24,17 @@ export const useSendTransactionManifest = () => {
         accountAddress: string
         memberCard?: NonFungibleResource
         inputTokenValue: number
-      }) => sendTransaction(transactionManifests.buyCandy(input)),
+      }) =>
+        sendTransaction(transactionManifests.buyCandy(input)).andThen(
+          ({ transactionIntentHash }) =>
+            getCommittedDetails(transactionIntentHash)
+        ),
 
       buyMemberCard: (input: {
         accountAddress: string
         inputTokenValue: number
       }) => sendTransaction(transactionManifests.buyMemberCard(input)),
     }),
-    [sendTransaction, transactionManifests]
+    [sendTransaction, getCommittedDetails, transactionManifests]
   )
 }
