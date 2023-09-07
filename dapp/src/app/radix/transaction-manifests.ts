@@ -9,7 +9,8 @@ export const TransactionManifests = ({
   gumballResource,
   gumballClubMemberCardResource,
 }: ResourceAddresses) => {
-  const dispenseGcTokens = (accountAddress: string) => `
+  const dispenseGcTokens = (accountAddress: string) => {
+    const transactionManifest = `
         CALL_METHOD
             Address("${gumballClubComponent}")
             "dispense_gc_tokens"
@@ -25,6 +26,9 @@ export const TransactionManifests = ({
             Bucket("gcTokensBucket")
         ;
     `
+    console.log(transactionManifest)
+    return transactionManifest
+  }
 
   const buyGumball = ({
     accountAddress,
@@ -176,7 +180,8 @@ export const TransactionManifests = ({
   }: {
     accountAddress: string
     inputTokenValue: number
-  }) => `
+  }) => {
+    const transactionManifest = `
     CALL_METHOD
         Address("${accountAddress}")
         "withdraw"
@@ -204,6 +209,9 @@ export const TransactionManifests = ({
         Bucket("member_card_bucket")
     ;
   `
+    console.log(transactionManifest)
+    return transactionManifest
+  }
 
   return { dispenseGcTokens, buyGumball, buyCandy, buyMemberCard }
 }

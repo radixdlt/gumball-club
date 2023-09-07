@@ -158,7 +158,6 @@ export const Home = () => {
               }) => {
                 const shouldShowMemberRevealModal =
                   !hasGumTokens && !hasCandyTokens
-                debugger
                 buyGumball({
                   accountAddress: selectedAccountAddress,
                   inputTokenValue,
@@ -204,7 +203,7 @@ export const Home = () => {
                   )
               }}
             />
-            {hasGcTokens && (
+            {(hasCandyTokens || hasGumTokens) && (
               <MembershipMachine
                 disableSendButton={isConnectButtonPending}
                 accounts={accounts}

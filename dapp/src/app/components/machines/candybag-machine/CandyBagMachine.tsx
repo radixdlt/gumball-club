@@ -51,8 +51,8 @@ export const CandyBagMachine = ({
   return (
     <Card>
       <MachineHeader
-        header="Candy Bag Machine"
-        subtitle="Use GC Tokens to buy bags of candies! How many you get in each bag depends on the market price of sugar."
+        header="Candy Machine"
+        subtitle="Use GC Tokens to buy candies! How many you get depends on the market price of sugar."
         tags={
           <div
             style={{
