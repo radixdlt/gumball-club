@@ -68,7 +68,7 @@ export const TransactionManifests = ({
             Bucket("gumball_club_token_bucket")
         ;
         TAKE_FROM_WORKTOP
-            Address("${gumballClubTokensResource}")
+            Address("${gumballResource}")
             Decimal("${outputTokenValue}")
             Bucket("gumball_bucket")
         ;
