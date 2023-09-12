@@ -321,7 +321,7 @@ jobs:
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
 
-  deploy-prod:
+  deploy-mainnet:
     if: github.event_name == 'release' && !github.event.release.prerelease
     runs-on: ubuntu-latest
     needs:
@@ -349,21 +349,21 @@ jobs:
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
-          role-to-assume: ${{ secrets.DEPLOY_PROD_IAM_ROLE }}
+          role-to-assume: ${{ secrets.DEPLOY_MAINNET_IAM_ROLE }}
           aws-region: eu-west-2
       - name: Deploy application
         working-directory: deploy/helm
         run: |
-          aws eks update-kubeconfig --name ${{ secrets.PROD_CLUSTER_NAME }} \
-                                    --alias ${{ secrets.PROD_CLUSTER_NAME }} \
+          aws eks update-kubeconfig --name ${{ secrets.MAINNET_CLUSTER_NAME }} \
+                                    --alias ${{ secrets.MAINNET_CLUSTER_NAME }} \
                                     --region eu-west-2
 
-          helmfile --environment prod --namespace gumball-club-prod \
+          helmfile --environment mainnet --namespace gumball-club-mainnet \
                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                   --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
+                   --state-values-set "ci.ingressDomain=${{ env.MAINNET_INGRESS_DOMAIN }}" \
                    apply
         env:
           CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
-          INGRESS_DOMAIN: ${{ secrets.PROD_INGRESS_DOMAIN }}
+          INGRESS_DOMAIN: ${{ secrets.MAINNET_INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
