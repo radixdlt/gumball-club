@@ -13,7 +13,7 @@ repositories:
 environments:
   dev: {}
   pr: {}
-  prod: {}
+  mainnet: {}
 releases:
   - name: gumball-club
     chart: ./gumball-club

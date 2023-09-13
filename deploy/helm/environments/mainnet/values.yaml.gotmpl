@@ -7,10 +7,11 @@ ingress:
           pathType: Prefix
 
 alertmanager:
-  env: "prod"
+  env: "mainnet"
   nameOverride: "gumball-club-amcfg"
   slackConfig:
-    channel: "feed--alerts-dapps-prod"
+    channel: "feed--alerts-dapps-mainnet"
   secrets:
     region: eu-west-2
-    name: "rtlj-prod/eks/dapps/dev/alertmanager-integration-keys"
+    name: "rtlj-prod/eks/dapps/mainnet/alertmanager-integration-keys"
+  enable_pagerduty_notifications: true
