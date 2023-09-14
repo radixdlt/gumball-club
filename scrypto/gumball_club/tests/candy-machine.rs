@@ -406,19 +406,19 @@ pub fn buy_candy() {
 
         let price_vec: Vec<Decimal> = 
             vec![
-                dec!("0.1"),
-                dec!("1.66"),
-                dec!("3.33"),
-                dec!("5"),
-                dec!("3.33"),
-                dec!("1.66"),
-                dec!("0.1"),
-                dec!("1.66"),
-                dec!("3.33"),
-                dec!("5"),
-                dec!("3.33"),
-                dec!("1.66"),
-                dec!("0.1"),
+                dec!("10"),
+                dec!("16.66"),
+                dec!("13.33"),
+                dec!("20"),
+                dec!("13.33"),
+                dec!("16.66"),
+                dec!("10"),
+                dec!("16.66"),
+                dec!("13.33"),
+                dec!("20"),
+                dec!("13.33"),
+                dec!("16.66"),
+                dec!("10"),
             ];
 
         let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
@@ -430,20 +430,21 @@ pub fn buy_candy() {
         // Candy amount is hand-calculated by price * payment amount (Rounded to 0 decimal points to zero)
         // Payment amount is assumed to be 5 GC per transaction for this test.
         let candy_amount_vec: Vec<Decimal> = vec![
-            dec!("0"),
-            dec!("8"),
-            dec!("16"),
-            dec!("25"),
-            dec!("16"),
-            dec!("8"),
-            dec!("0"),
-            dec!("8"),
-            dec!("16"),
-            dec!("25"),
-            dec!("16"),
-            dec!("8"),
-            dec!("0"),
+            dec!("50"),
+            dec!("83"),
+            dec!("66"),
+            dec!("100"),
+            dec!("66"),
+            dec!("83"),
+            dec!("50"),
+            dec!("83"),
+            dec!("66"),
+            dec!("100"),
+            dec!("66"),
+            dec!("83"),
+            dec!("50"),
         ];
+
 
         let candy_amount = 
             dec!(5) // Payment amount
@@ -507,23 +508,23 @@ pub fn buy_candy_with_member_card() {
 
         let price_vec: Vec<Decimal> = 
             vec![
-                dec!("0.1"),
-                dec!("1.66"),
-                dec!("3.33"),
-                dec!("5"),
-                dec!("3.33"),
-                dec!("1.66"),
-                dec!("0.1"),
-                dec!("1.66"),
-                dec!("3.33"),
-                dec!("5"),
-                dec!("3.33"),
-                dec!("1.66"),
-                dec!("0.1"),
-                ];
+                dec!("20"),
+                dec!("33.32"),
+                dec!("26.66"),
+                dec!("40"),
+                dec!("26.66"),
+                dec!("33.32"),
+                dec!("20"),
+                dec!("33.32"),
+                dec!("26.66"),
+                dec!("40"),
+                dec!("26.66"),
+                dec!("33.32"),
+                dec!("20"),
+            ];
 
         let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
-
+    
         if index >= price_vec.len() {
             index = 0;
         }
@@ -536,19 +537,19 @@ pub fn buy_candy_with_member_card() {
             .unwrap();
 
         let candy_amount_vec: Vec<Decimal> = vec![
-            dec!("1"),
-            dec!("16"),
-            dec!("33"),
-            dec!("50"),
-            dec!("33"),
-            dec!("16"),
-            dec!("1"),
-            dec!("16"),
-            dec!("33"),
-            dec!("50"),
-            dec!("33"),
-            dec!("16"),
-            dec!("1"),
+            dec!("100"),
+            dec!("166"),
+            dec!("133"),
+            dec!("200"),
+            dec!("133"),
+            dec!("166"),
+            dec!("100"),
+            dec!("166"),
+            dec!("133"),
+            dec!("200"),
+            dec!("133"),
+            dec!("166"),
+            dec!("100"),
         ];
 
         let candy_amount = 

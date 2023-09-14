@@ -26,8 +26,8 @@ mod sugar_price_oracle {
             let dec_normalized_time = Decimal::from(time % (2 * half_period));
             let dec_half_period = Decimal::from(half_period);
 
-            let max_value = dec!(5);
-            let epsilon = dec!("0.10");
+            let max_value = dec!("20");
+            let epsilon = dec!("10");
         
             if dec_normalized_time < dec_half_period {
                 // Linear rise for the first half (30 minutes)
@@ -43,18 +43,18 @@ mod sugar_price_oracle {
                     .unwrap();
 
                 let price_during_first_half =
-                    if linear_increase == dec!(0) {
+                    if linear_increase < epsilon {
                         linear_increase
                         .checked_add(epsilon)
                         .unwrap()
                     } else {
                         linear_increase
-                    }
-                    .checked_round(2, RoundingMode::ToZero)
-                    .unwrap();
+                    };
                     
-
-                return price_during_first_half
+                return 
+                price_during_first_half
+                .checked_round(2, RoundingMode::ToZero)
+                .unwrap()
 
             } else {
                 // Linear fall for the second half (30 minutes)
@@ -87,15 +87,23 @@ mod sugar_price_oracle {
 
                 // This calculation represents the price during the second half of the time period.
                 // We then add a small value epsilon such that it does not approach zero. 
-                // price_during_second_half = max_value - linear_decrease + epsilon
+                // price_during_second_half = max_value - linear_decrease
                 let price_during_second_half =
                     max_value
                     .checked_sub(linear_decrease)
-                    .unwrap()
-                    .checked_round(2, RoundingMode::ToZero)
+                    .and_then(|result| {
+                        if result < epsilon {
+                            result.checked_add(epsilon)
+                        } else {
+                            Some(result)
+                        }
+                    })
                     .unwrap();
 
-                return price_during_second_half
+                return 
+                price_during_second_half
+                .checked_round(2, RoundingMode::ToZero)
+                .unwrap()
             };
         }
     }
