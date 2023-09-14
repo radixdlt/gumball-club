@@ -11,7 +11,7 @@
     "format": " npx prettier --cache --write src"
   },
   "dependencies": {
-    "@radixdlt/radix-dapp-toolkit": "0.6.1",
+    "@radixdlt/radix-dapp-toolkit": "0.7.2-dev-rc3.1.1",
     "@react-spring/web": "^9.7.3",
     "@types/node": "20.4.8",
     "@types/react": "18.2.19",
