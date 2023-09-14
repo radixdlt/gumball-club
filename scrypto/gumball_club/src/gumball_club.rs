@@ -82,10 +82,11 @@ mod gumball_club {
             // This resource has no finite supply.
             let gumball_club_token_manager: ResourceManager = 
                 ResourceBuilder::new_fungible(owner_role.clone())
-                .divisibility(DIVISIBILITY_MAXIMUM)
+                .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
                         "name" => "Gumball Club Tokens", locked;
+                        "description" => "Use GC tokens to purchase gumballs and candies from the sweet machines", locked;
                         "symbol" => "GC", locked;
                     }
                 ))
@@ -184,7 +185,7 @@ mod gumball_club {
         /// * `Bucket` - Returns a `Bucket` of Gumball Club token at hardcoded amount of 20.
         pub fn dispense_gc_tokens(&mut self) -> Bucket {
             let gumball_club_tokens = self.gumball_club_token_manager.mint(dec!(20));
-
+            
             return gumball_club_tokens
         }
 

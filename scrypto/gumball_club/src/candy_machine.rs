@@ -8,7 +8,7 @@ mod candy_machine {
     extern_blueprint!(
         // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
         // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
-        "package_tdx_e_1phfaart4qhcee24wq2h7dsf3pexcjpcf5cl8phwftw07xqzu6hzgv4",
+        "package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -176,7 +176,7 @@ mod candy_machine {
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
                 // "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
-                "component_tdx_e_1czwl5a29edry795zrsep2f2p0mvjlgnve5p7qk2q7mvpsh3gv9t3z7"
+                "component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd"
             );
 
             sugar_price_oracle.get_price()
@@ -192,7 +192,7 @@ mod candy_machine {
         /// * `(Bucket, Bucket)` - Returns a tuple of `Bucket`:
         /// 1. Any refunded/leftover payments to the user.
         /// 2. The `Bucket` of candy.
-        pub fn buy_candy(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {    
+        pub fn buy_candy(&mut self, payment: Bucket) -> Bucket {    
 
             let resource_name_metadata: String = 
                 self.collected_tokens
@@ -216,28 +216,15 @@ mod candy_machine {
             let price_per_candy = self.get_price();
 
             // Calculate the total amount of candy based on the amount of payment sent.
-            // The conditional statement is used whereby if the payment is less than
-            // the unit price of the candy, then the full amount of payment will be
-            // refunded and no candys will be returned. If the payment is sufficient,
-            // then the total candy amount is calculated and rounded down to ensure
-            // only whole candys can be minted.
             let total_candy_amount = 
                 (payment.amount().checked_mul(price_per_candy))
                 .unwrap()
                 .checked_round(0, RoundingMode::ToZero)
                 .unwrap();
 
-            let total_candy_price = if total_candy_amount == dec!(0) {
-                dec!(0)
-            } else {
-                payment.amount()
-            };
-            
-            let our_share = payment.take(total_candy_price);
+            self.collected_tokens.put(payment);
 
-            self.collected_tokens.put(our_share);
-
-            return (self.candy_token_manager.mint(total_candy_amount), payment)
+            return self.candy_token_manager.mint(total_candy_amount)
         }
 
         /// * `buy_candy_with_member_card` - Authorized method for `member` role which requires a `Proof` of 
@@ -251,7 +238,7 @@ mod candy_machine {
         /// * `(Bucket, Bucket)` - Returns a tuple of `Bucket`:
         /// 1. Any refunded/leftover payments to the user.
         /// 2. The `Bucket` of candy.
-        pub fn buy_candy_with_member_card(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
+        pub fn buy_candy_with_member_card(&mut self, payment: Bucket) -> Bucket {
 
             let resource_name_metadata: String = 
                 self.collected_tokens
@@ -291,17 +278,9 @@ mod candy_machine {
                 .checked_round(0, RoundingMode::ToZero)
                 .unwrap();
 
-            let total_candy_price = if total_candy_amount == dec!(0) {
-                dec!(0)
-            } else {
-                payment.amount()
-            };
+            self.collected_tokens.put(payment);
 
-            let our_share = payment.take(total_candy_price);
-
-            self.collected_tokens.put(our_share);
-
-            (self.candy_token_manager.mint(total_candy_amount), payment)
+            return self.candy_token_manager.mint(total_candy_amount)
 
         }
 

@@ -192,7 +192,7 @@ mod gumball_machine {
         /// 1. Any refunded/leftover payments to the user.
         /// 2. The `Bucket` of gumballs.
         pub fn buy_gumball(&mut self, mut payment: Bucket) -> (Bucket, Bucket) {
-
+            
             let resource_name_metadata: String = 
                 self.collected_tokens
                     .resource_manager()
