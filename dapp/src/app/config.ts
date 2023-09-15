@@ -19,28 +19,25 @@ export const config = {
   network,
   dAppDefinitionAddress,
   addresses: {
-    ownerNftResourceAddress:
-      'resource_tdx_e_1ntd98ysjjkztskaxcctmqf2ja23c9fx3x4syxv5rsp98mlcmxgcx9y',
-    ownerNftId: '#1#',
     sugarOraclePackage:
       'package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp',
     sugarOracleComponent:
       'component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd',
     gumballClubPackage:
-      'package_tdx_e_1p5jnrp4a3d8r4gue8fds20vmzdfzvcd7m2qz6rdyphky5qm24hmtlr',
+      'package_tdx_e_1p4736u00d9jdw52v9h8ger9ylkva4w43508elfc97dg2funpa3j64y',
     gumballClubComponent:
-      'component_tdx_e_1cqwewayh8g5ema484typ7ayuq4clrsxjlptf3j2p54jpzplnjv5nv5',
+      'component_tdx_e_1cqn4yn0exm3xwlt22u89rg3rl52xjqg2tkyd2ge6qw4t2ve9fcxkcy',
     gumballMachineComponent:
-      'component_tdx_e_1crna224gxvp4sgja96t8nyztxp388j82rq96j25x4c0qzcwx5wh00v',
+      'component_tdx_e_1cryje9hzjj8wxdg0p7kev3da094q9xzxjr7lspjl3uddv87v7kacfn',
     candyMachineComponent:
-      'component_tdx_e_1cq5h42uaknunxz82ylnh5nje9le3dn0tmds2ptm7eqxttdug6tpk88',
+      'component_tdx_e_1cphatvktw870crtdmjq36xqrhagx5w984gzdj2l63rluhk7cf3zx3d',
     gumballClubTokensResource:
-      'resource_tdx_e_1tkyrtwrx8smdw6vc8pr4pyjjlxmaz6uuzwwrya8swgtq7lrq8apudc',
+      'resource_tdx_e_1t4u6p6s7l23mggag2hqz6cxqeza4vzmzx4negylfjcl9hxpk7tjxac',
     gumballClubMemberCardResource:
-      'resource_tdx_e_1nfftq8sv52sq6hr0u4spq5agyxudtmndzk6uzas4p84rx8k86puu2s',
+      'resource_tdx_e_1nfm2eyt7c5xzzqj6uplrwwskknm28remt6jfcpg0dmrjpmzvzyx89g',
     gumballResource:
-      'resource_tdx_e_1tk9szja5jqzrvwyhayvg30393v3zavdkwm0gkq5pak676wlph25lcz',
+      'resource_tdx_e_1t40qd3pex7a99savn6krw8vlfymcz0k9e2xh5mhl86ztklr862pum7',
     candyTokenResource:
-      'resource_tdx_e_1t5xm932hch9vqwq55mxv7n2xaepcpcyhcqrz08ea5exga72028vxfr',
+      'resource_tdx_e_1tkmq34m97d3wfmlcgenp5ftz7f8sukldmzermgvpd30z57esfrjdg4',
   },
 }
