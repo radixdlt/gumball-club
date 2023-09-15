@@ -15,7 +15,7 @@ export const useConnectButtonState = () => {
     return () => {
       subscription.unsubscribe()
     }
-  })
+  }, [dAppToolkit])
 
   return state
 }
