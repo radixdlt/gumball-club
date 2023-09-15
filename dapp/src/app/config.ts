@@ -23,24 +23,24 @@ export const config = {
       'resource_tdx_e_1ntd98ysjjkztskaxcctmqf2ja23c9fx3x4syxv5rsp98mlcmxgcx9y',
     ownerNftId: '#1#',
     sugarOraclePackage:
-      'package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp',
+      'package_tdx_e_1phkdmj3l52uedvd87f6hpugz0yky3ky0e7qllqpajyey2hywzxpnng',
     sugarOracleComponent:
-      'component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd',
+      'component_tdx_e_1cr6nll8qsmzml28u52r37e0welrardrfd356h7s68053z6mrgl6xew',
     gumballClubPackage:
-      'package_tdx_e_1p5jnrp4a3d8r4gue8fds20vmzdfzvcd7m2qz6rdyphky5qm24hmtlr',
+      'package_tdx_e_1phy0kqg0ne55vfn2nzy70vdtvxc0uec6x90pmejz0qxqs7x9l35n2v',
     gumballClubComponent:
-      'component_tdx_e_1cqwewayh8g5ema484typ7ayuq4clrsxjlptf3j2p54jpzplnjv5nv5',
+      'component_tdx_e_1cqvlkppqxxatnwhk2prt864n9zq2u40xpwf2rdcm7jlcg3v98njmuq',
     gumballMachineComponent:
-      'component_tdx_e_1crna224gxvp4sgja96t8nyztxp388j82rq96j25x4c0qzcwx5wh00v',
+      'component_tdx_e_1cq4en0lp9qkaj7u65jeftx77rmqmnhr0pw9a6ywngf8he0q8cmyekm',
     candyMachineComponent:
-      'component_tdx_e_1cq5h42uaknunxz82ylnh5nje9le3dn0tmds2ptm7eqxttdug6tpk88',
+      'component_tdx_e_1czdndltgxm46sdfkgxe4age8a7txqy5zerrf08hnyktx35xuwaumrn',
     gumballClubTokensResource:
-      'resource_tdx_e_1tkyrtwrx8smdw6vc8pr4pyjjlxmaz6uuzwwrya8swgtq7lrq8apudc',
+      'resource_tdx_e_1t4qt745x3xkpaerncelgrk3nwmpnsr9kpxpyt93h8mez4wuys39386',
     gumballClubMemberCardResource:
-      'resource_tdx_e_1nfftq8sv52sq6hr0u4spq5agyxudtmndzk6uzas4p84rx8k86puu2s',
+      'resource_tdx_e_1ng7mat8vafrrrxj8prdyu9k0934mf0s6elapg5932q3e303ruzmy0e',
     gumballResource:
-      'resource_tdx_e_1tk9szja5jqzrvwyhayvg30393v3zavdkwm0gkq5pak676wlph25lcz',
+      'resource_tdx_e_1thm34j4udestlh3fjmupny7jsf853ryk2yxuswllvefzemcqh6fdmp',
     candyTokenResource:
-      'resource_tdx_e_1t5xm932hch9vqwq55mxv7n2xaepcpcyhcqrz08ea5exga72028vxfr',
+      'resource_tdx_e_1tktaxsrc7zt7hvkkxnfxc2g9l44thzxfz3q4wpy6twsuyct0ypwesu',
   },
 }
