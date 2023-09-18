@@ -24,20 +24,18 @@ const useWithTokens = (stateApi: State) => {
         .then((data) =>
           Promise.all(
             data.map((item, index) =>
-              transformFungibleTokens(item.fungible_resources, stateApi)
+              transformFungibleTokens(item.fungible_resources)
                 .then((fungibleTokens) => ({
                   ...accounts[index],
                   fungibleTokens,
                 }))
                 .then((values) =>
-                  transformNonFungibleTokens(
-                    item.non_fungible_resources,
-                    accounts[index].address,
-                    stateApi
-                  ).then((nonFungibleTokens) => ({
-                    ...values,
-                    nonFungibleTokens,
-                  }))
+                  transformNonFungibleTokens(item.non_fungible_resources).then(
+                    (nonFungibleTokens) => ({
+                      ...values,
+                      nonFungibleTokens,
+                    })
+                  )
                 )
             )
           )
