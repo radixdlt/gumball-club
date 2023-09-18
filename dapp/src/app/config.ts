@@ -27,20 +27,20 @@ export const config = {
     sugarOracleComponent:
       'component_tdx_e_1cr6nll8qsmzml28u52r37e0welrardrfd356h7s68053z6mrgl6xew',
     gumballClubPackage:
-      'package_tdx_e_1phy0kqg0ne55vfn2nzy70vdtvxc0uec6x90pmejz0qxqs7x9l35n2v',
+      'package_tdx_e_1p4cecwpk2qmmr4rf5qrtpdgpfavcthlh68yfln8tzg6syq930j5jut',
     gumballClubComponent:
-      'component_tdx_e_1cqvlkppqxxatnwhk2prt864n9zq2u40xpwf2rdcm7jlcg3v98njmuq',
+      'component_tdx_e_1cz9ttfqlq0c2s4yel07sp2ma028jmnjdhte0f7s82gtzr3ghagfzfa',
     gumballMachineComponent:
-      'component_tdx_e_1cq4en0lp9qkaj7u65jeftx77rmqmnhr0pw9a6ywngf8he0q8cmyekm',
+      'component_tdx_e_1cpjt5upsa0mmldktll4u8gv40mk964lq5nkfcpgsj2xhcq4rn22qqs',
     candyMachineComponent:
-      'component_tdx_e_1czdndltgxm46sdfkgxe4age8a7txqy5zerrf08hnyktx35xuwaumrn',
+      'component_tdx_e_1cze0a0hd499nx4ygrtp2w89nvnrvt08x9a5h2vgnh7et364c46ckpw',
     gumballClubTokensResource:
-      'resource_tdx_e_1t4qt745x3xkpaerncelgrk3nwmpnsr9kpxpyt93h8mez4wuys39386',
+      'resource_tdx_e_1tht8tdfywzrjx6dva4gdfr92ngxgndadavh0c30uxfqc5slkgkckws',
     gumballClubMemberCardResource:
-      'resource_tdx_e_1ng7mat8vafrrrxj8prdyu9k0934mf0s6elapg5932q3e303ruzmy0e',
+      'resource_tdx_e_1nf33wdde57tzk5uwwzzfce82atexd59r4pj3x2fskymekhlk7tl26v',
     gumballResource:
-      'resource_tdx_e_1thm34j4udestlh3fjmupny7jsf853ryk2yxuswllvefzemcqh6fdmp',
+      'resource_tdx_e_1t4vfa6vx2phulymsu49qm7uqr3qj5ng6j7m9tc2hvlq00we5qqc302',
     candyTokenResource:
-      'resource_tdx_e_1tktaxsrc7zt7hvkkxnfxc2g9l44thzxfz3q4wpy6twsuyct0ypwesu',
+      'resource_tdx_e_1t46dwp38cln3qw43ctzsvhe0eldu2ffr3q4p5j9c3d5er96q96t3aa',
   },
 }
