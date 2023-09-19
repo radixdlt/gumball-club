@@ -21,7 +21,7 @@ export const config = {
   addresses: {
     sugarOraclePackageAddress:
       'package_tdx_e_1pknq7sn5agctwrjhclw6a3r9ux65lngdy5s4j8k5penyt3pgp50k8f',
-    sugarOracleComponentAddress:
+    sugarOracleComponent:
       'component_tdx_e_1cpc7u49ehzd5hwwmr565es390rk8m43kvu93l4xjnrl4z99rww60ps',
     gumballClubPackage:
       'package_tdx_e_1phc3m9q6kkq0erkqe49e3yg8dgahkj74us566flz3xymju7l4rdm08',
