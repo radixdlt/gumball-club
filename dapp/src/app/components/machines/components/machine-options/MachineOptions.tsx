@@ -57,18 +57,18 @@ export const MachineOptions = ({
       isValid: boolean
     }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
 
-  const gcTokens = accounts.find(
-    (account) => selectedAccountAddress === account.address
-  )?.fungibleTokens[config.addresses.gumballClubTokensResource]?.value
-
-  const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
-
   const accountMap = accounts.reduce<Record<string, AccountWithTokens>>(
     (acc, account) => ({ ...acc, [account.address]: account }),
     {}
   )
 
   const selectedAccount = accountMap[selectedAccountAddress || '']
+
+  const gcTokens =
+    selectedAccount?.fungibleTokens[config.addresses.gumballClubTokensResource]
+      ?.value
+
+  const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
   const memberCard = selectedAccount
     ? getMemberCard(selectedAccount)
