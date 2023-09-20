@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import '@radixdlt/dapps-dropdown'
 import styles from './Header.module.css'
 import { Hero } from '../base-components/hero/Hero'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
@@ -15,6 +16,10 @@ declare global {
   namespace JSX {
     interface IntrinsicElements {
       'radix-connect-button': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement>,
+        HTMLElement
+      >
+      'radix-dapps-dropdown': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       >
@@ -93,20 +98,23 @@ export const Header = ({
     <header className={`${className}`}>
       <div className={`${styles.header} `}>
         <Image src={Logo} height={42} width={139} alt="logo" />
-        <div className={styles['radix-connect-button']}>
-          <radix-connect-button ref={ref} />
-          {showConnectHelper ? <ConnectHelper /> : null}
-          {showTooltip && (
-            <Tooltip
-              className={styles.tooltip}
-              onClose={() =>
-                setState((prev) => ({ ...prev, hideTooltip: true }))
-              }
-            >
-              You have a request waiting! Open your Radix Wallet mobile app to
-              review and approve.
-            </Tooltip>
-          )}
+        <div className={`${styles['header-right']}`}>
+          <div className={styles['radix-connect-button']}>
+            <radix-connect-button ref={ref} />
+            {showConnectHelper ? <ConnectHelper /> : null}
+            {showTooltip && (
+              <Tooltip
+                className={styles.tooltip}
+                onClose={() =>
+                  setState((prev) => ({ ...prev, hideTooltip: true }))
+                }
+              >
+                You have a request waiting! Open your Radix Wallet mobile app to
+                review and approve.
+              </Tooltip>
+            )}
+          </div>
+          <radix-dapps-dropdown></radix-dapps-dropdown>
         </div>
       </div>
       <Hero persona={persona} personaDataName={personaData.fullName} />

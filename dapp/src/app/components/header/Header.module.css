@@ -15,13 +15,19 @@
   position: relative;
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
 .connect-arrow {
   position: absolute;
   top: calc(100% + 1rem);
   right: calc(100% - 50%);
 }
 
-@media screen and (max-width: 744px) {
+@media screen and (max-width: 1170px) {
   .connect-arrow {
     display: none;
   }
