@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 
 const font = Inter({
   weight: ['400', '600'],
@@ -20,6 +21,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script src="https://www.googletagmanager.com/gtag/js?id=GTM-PKNDV4C" />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+ 
+          gtag('config', 'GTM-PKNDV4C');
+        `}
+      </Script>
       <body className={font.className}>{children}</body>
     </html>
   )

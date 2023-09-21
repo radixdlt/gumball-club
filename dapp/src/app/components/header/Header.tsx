@@ -99,6 +99,7 @@ export const Header = ({
       <div className={`${styles.header} `}>
         <Image src={Logo} height={42} width={139} alt="logo" />
         <div className={`${styles['header-right']}`}>
+          <radix-dapps-dropdown></radix-dapps-dropdown>
           <div className={styles['radix-connect-button']}>
             <radix-connect-button ref={ref} />
             {showConnectHelper ? <ConnectHelper /> : null}
@@ -114,7 +115,6 @@ export const Header = ({
               </Tooltip>
             )}
           </div>
-          <radix-dapps-dropdown></radix-dapps-dropdown>
         </div>
       </div>
       <Hero persona={persona} personaDataName={personaData.fullName} />
