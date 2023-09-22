@@ -126,7 +126,9 @@ export const Header = ({
             insufficientXrdAlertDismissed: true,
           }))
         }}
-        onGetXrd={() => {}}
+        onGetXrd={() => {
+          window.open('http://go.radixdlt.com/xrdflow', '_blank')
+        }}
       />
     </header>
   )
