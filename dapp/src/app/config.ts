@@ -52,6 +52,7 @@ const gumballNetworkConfig = {
     } satisfies Addresses,
   },
   Mainnet: {} as any,
+  Stokenet: {} as any,
 }[network.networkName]
 
 if (!gumballNetworkConfig)
