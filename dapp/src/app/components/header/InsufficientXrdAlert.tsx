@@ -17,7 +17,27 @@ export const InsufficientXrdAlert = ({
       className={styles.alert}
       variant="info"
       title="Uh oh!"
-      text="You don’t have any XRD tokens in any of the accounts you shared. XRD tokens are required to pay the transaction fee for all transactions on the Radix Network."
+      text={
+        <>
+          <span>
+            Gumball club requires about 5 XRD to use each machine once. To find
+            out where to purchase XRD,
+          </span>{' '}
+          <a
+            target="_blank"
+            href="https://www.radixdlt.com/token"
+            style={{ textDecoration: 'underline', fontWeight: 'bold' }}
+          >
+            see here
+          </a>
+          .{' '}
+          <span>
+            To celebrate the Radix Babylon Upgrade, you can claim 5 XRD to try
+            the network by following the steps here while until the promotion
+            ends.
+          </span>
+        </>
+      }
       onClose={onClose}
       button={
         <Button icon="external-link" onClick={onGetXrd}>
