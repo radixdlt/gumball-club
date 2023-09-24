@@ -19,15 +19,17 @@ export const useGetCommittedDetails = () => {
           encodedManifest: res.transaction.raw_hex,
           receipt: res.transaction.receipt,
           events: res.transaction.receipt?.events as {
-            type_name: 'DepositEvent'
-            fields: (
-              | {
-                  type_name: 'ResourceAddress'
-                  kind: 'Reference'
-                  value: string
-                }
-              | { kind: 'Decimal'; type_name: ''; value: string }
-            )[]
+            name: 'DepositEvent'
+            data: {
+              fields: (
+                | {
+                    kind: 'Reference'
+                    type_name: 'ResourceAddress'
+                    value: string
+                  }
+                | { kind: 'Decimal'; type_name: ''; value: string }
+              )[]
+            }
           }[],
           affectedEntities: res.transaction.affected_global_entities || [],
           createdEntities:

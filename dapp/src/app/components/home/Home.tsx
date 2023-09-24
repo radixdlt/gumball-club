@@ -198,17 +198,15 @@ export const Home = () => {
                   refresh()
                   const actualTokenOutput = parseInt(
                     response
-                      .events!.filter(
-                        (event) => event.type_name === 'DepositEvent'
-                      )
+                      .events!.filter((event) => event.name === 'DepositEvent')
                       .filter((event) =>
-                        event.fields.some(
+                        event.data.fields.some(
                           (field) =>
                             field.type_name === 'ResourceAddress' &&
                             field.value === config.addresses.candyTokenResource
                         )
                       )
-                      .map((event) => event.fields)
+                      .map((event) => event.data.fields)
                       .flat()
                       .filter((field) => field.kind === 'Decimal')[0].value
                   )

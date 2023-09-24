@@ -52,7 +52,32 @@ const gumballNetworkConfig = {
     } satisfies Addresses,
   },
   Mainnet: {} as any,
-  Stokenet: {} as any,
+  Stokenet: {
+    dAppDefinitionAddress:
+      'account_tdx_2_129nx5lgkk3fz9gqf3clppeljkezeyyymqqejzp97tpk0r8els7hg3j',
+    addresses: {
+      sugarOraclePackageAddress:
+        'package_tdx_2_1p56309c37y65tvtav6a33dq3hyrmp6r360gmac0ka2346tfpnnunfh',
+      sugarOracleComponent:
+        'component_tdx_2_1cz3cc6hth2lwsm6zv0jp5gevv8a5axg36at7hyq4d29wace3s5xk2c',
+      gumballClubPackage:
+        'package_tdx_2_1php3yzpqqmx6t0v37um4ndzkqzg4vup0hvju0r47x35z5a5x9nwmvl',
+      gumballClubComponent:
+        'component_tdx_2_1cqr6gp7rfzh7w0jzyxlqrxay8ps2j2wjla53sd5v8k8xyx46p8tw87',
+      gumballMachineComponent:
+        'component_tdx_2_1cqzp37r67r68pkp9t76q45zq73umfujdlsjrppklgz2lf2pspdz35y',
+      candyMachineComponent:
+        'component_tdx_2_1czqy5kv828jg682u8u4yknhfust56m53a7zgn5cqw0rzecuf0pw4at',
+      gumballClubTokensResource:
+        'resource_tdx_2_1thnc475y545ptz9j7ldlll5gnfgf0d357qtyaku2r903068ga9l9lv',
+      gumballClubMemberCardResource:
+        'resource_tdx_2_1nfd6vmsjhq8akz39gufvkg87zzxm74ps6mham0h46qy639gas2guhz',
+      gumballResource:
+        'resource_tdx_2_1t5t6wqkw747fv7ssm5qgpgdxryf27a6z5d04mwwu2rhayvjrxm3x3v',
+      candyTokenResource:
+        'resource_tdx_2_1thfkm7durcyxgjajy5e2rggldckqecdpa67lj9ek5h6ymckkpv36zu',
+    },
+  },
 }[network.networkName]
 
 if (!gumballNetworkConfig)
