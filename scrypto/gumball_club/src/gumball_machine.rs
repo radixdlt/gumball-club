@@ -154,12 +154,6 @@ mod gumball_machine {
                 member => rule!(require(member_card_address));
             ))
             .metadata(metadata! (
-                roles {
-                    metadata_setter => OWNER;
-                    metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER;
-                    metadata_locker_updater => OWNER;
-                },
                 init {
                     "name" => "GumballMachine Component", locked;
                     "description" => "Use this component to purchase delicious gumballs!", locked;

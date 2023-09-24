@@ -158,12 +158,6 @@ mod gumball_club {
             .instantiate()
             .prepare_to_globalize(owner_role)
             .metadata(metadata! (
-                roles {
-                    metadata_setter => OWNER;
-                    metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER;
-                    metadata_locker_updater => OWNER;
-                },
                 init {
                     "name" => "GumballClub Component", locked;
                     "description" => "Use this component to dispense Gumball Club tokens and buy membership cards!", locked;

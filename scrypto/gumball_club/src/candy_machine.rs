@@ -148,12 +148,6 @@ mod candy_machine {
                 member => rule!(require(member_card_address));
             ))
             .metadata(metadata! (
-                roles {
-                    metadata_setter => OWNER;
-                    metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER;
-                    metadata_locker_updater => OWNER;
-                },
                 init {
                     "name" => "CandyMachine Component", locked;
                     "description" => "Use this component to purchase sweet candies!", locked;
