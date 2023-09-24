@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       ENVIRONMENT_NAME:
-        description: 'Environment Name'
+        description: "Environment Name"
         required: true
         default: stokenet
         type: choice
@@ -21,11 +21,10 @@ on:
   release:
     types: [published]
 
-
 # Network names are camelcase
 env:
-  active_network: 'Zabanet'
-  release_network: 'Mainnet'
+  active_network: "Stokenet"
+  release_network: "Mainnet"
 
 jobs:
   snyk-scan-deps-licences:
@@ -40,9 +39,9 @@ jobs:
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'gumball-club'
-          step_name: 'snyk-scan-deps-licenses'
-          secret_prefix: 'SNYK'
+          app_name: "gumball-club"
+          step_name: "snyk-scan-deps-licenses"
+          secret_prefix: "SNYK"
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Run Snyk to check for deps vulnerabilities
@@ -62,9 +61,9 @@ jobs:
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'gumball-club'
-          step_name: 'snyk-scan-code'
-          secret_prefix: 'SNYK'
+          app_name: "gumball-club"
+          step_name: "snyk-scan-code"
+          secret_prefix: "SNYK"
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Run Snyk to check for code vulnerabilities
@@ -84,9 +83,9 @@ jobs:
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'gumball-club'
-          step_name: 'snyk-sbom'
-          secret_prefix: 'SNYK'
+          app_name: "gumball-club"
+          step_name: "snyk-sbom"
+          secret_prefix: "SNYK"
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Generate SBOM
@@ -114,7 +113,7 @@ jobs:
         run: |
           echo "This is triggered by: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
       - name: Define network name
-        id: network_name_step 
+        id: network_name_step
         run: |
           if [ "${{ github.event_name}}" = 'workflow_dispatch' ]; then
             echo "network_name="${{ github.event.inputs.ENVIRONMENT_NAME }}"" >> $GITHUB_OUTPUT
@@ -126,7 +125,6 @@ jobs:
             echo "network_name=${{ env.release_network }}" >> $GITHUB_OUTPUT
           fi
 
-  
   push-docker-image:
     name: Docker build
     needs:
@@ -150,7 +148,7 @@ jobs:
       snyk_target_ref: ${{ github.ref_name }}
       build-args: |
         NETWORK_NAME=${{needs.setup-build-args.outputs.network}}
-        
+
   snyk-monitor:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -166,9 +164,9 @@ jobs:
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'gumball-club'
-          step_name: 'snyk-monitor'
-          secret_prefix: 'SNYK'
+          app_name: "gumball-club"
+          step_name: "snyk-monitor"
+          secret_prefix: "SNYK"
           secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
       - name: Enable Snyk online monitoring to check for vulnerabilities
@@ -191,8 +189,8 @@ jobs:
       - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
         with:
           role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: 'gumball-club'
-          step_name: 'snyk-container-monitor'
+          app_name: "gumball-club"
+          step_name: "snyk-container-monitor"
           dockerhub_secret_name: ${{ secrets.AWS_SECRET_NAME_DOCKERHUB }}
           snyk_secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
           parse_json: true
@@ -217,14 +215,14 @@ jobs:
       - name: Setup helmfile and helm
         uses: mamezou-tech/setup-helmfile@55ae2a66c5af4883148b7a50cc6ddc9b61042184
         with:
-          helm-diff-plugin-version: 'v3.1.3'
-          helmfile-version: 'v0.144.0'
-          helm-version: 'v3.11.0'
+          helm-diff-plugin-version: "v3.1.3"
+          helmfile-version: "v0.144.0"
+          helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
         uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8
         with:
-          version: 'v1.25.6'
+          version: "v1.25.6"
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
@@ -274,14 +272,14 @@ jobs:
       - name: Setup helmfile and helm
         uses: mamezou-tech/setup-helmfile@55ae2a66c5af4883148b7a50cc6ddc9b61042184
         with:
-          helm-diff-plugin-version: 'v3.1.3'
-          helmfile-version: 'v0.144.0'
-          helm-version: 'v3.11.0'
+          helm-diff-plugin-version: "v3.1.3"
+          helmfile-version: "v0.144.0"
+          helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
         uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 #v3.2
         with:
-          version: 'v1.25.6'
+          version: "v1.25.6"
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
@@ -321,14 +319,14 @@ jobs:
       - name: Setup helmfile and helm
         uses: mamezou-tech/setup-helmfile@55ae2a66c5af4883148b7a50cc6ddc9b61042184
         with:
-          helm-diff-plugin-version: 'v3.1.3'
-          helmfile-version: 'v0.144.0'
-          helm-version: 'v3.11.0'
+          helm-diff-plugin-version: "v3.1.3"
+          helmfile-version: "v0.144.0"
+          helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
         uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 #v3.2
         with:
-          version: 'v1.25.6'
+          version: "v1.25.6"
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
@@ -382,14 +380,14 @@ jobs:
       - name: Setup helmfile and helm
         uses: mamezou-tech/setup-helmfile@55ae2a66c5af4883148b7a50cc6ddc9b61042184
         with:
-          helm-diff-plugin-version: 'v3.1.3'
-          helmfile-version: 'v0.144.0'
-          helm-version: 'v3.11.0'
+          helm-diff-plugin-version: "v3.1.3"
+          helmfile-version: "v0.144.0"
+          helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
         uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 #v3.2
         with:
-          version: 'v1.25.6'
+          version: "v1.25.6"
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
@@ -429,14 +427,14 @@ jobs:
       - name: Setup helmfile and helm
         uses: mamezou-tech/setup-helmfile@55ae2a66c5af4883148b7a50cc6ddc9b61042184
         with:
-          helm-diff-plugin-version: 'v3.1.3'
-          helmfile-version: 'v0.144.0'
-          helm-version: 'v3.11.0'
+          helm-diff-plugin-version: "v3.1.3"
+          helmfile-version: "v0.144.0"
+          helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
         uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8 #v3.2
         with:
-          version: 'v1.25.6'
+          version: "v1.25.6"
       - name: Configure AWS credentials for deployment
         uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
         with:
