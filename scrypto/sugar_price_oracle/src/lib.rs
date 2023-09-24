@@ -6,13 +6,19 @@ mod sugar_price_oracle {
         starting_time: Instant,
     }
     impl SugarPriceOracle {
-        pub fn instantiate_sugar_price_oracle() -> Global<SugarPriceOracle> {
+        pub fn instantiate_sugar_price_oracle(owner_role: OwnerRole) -> Global<SugarPriceOracle> {
             
             Self {
                 starting_time: Clock::current_time_rounded_to_minutes(),
             }
             .instantiate()
-            .prepare_to_globalize(OwnerRole::None)
+            .prepare_to_globalize(owner_role)
+            .metadata(metadata!(
+                init {
+                    "name" => "SugarPriceOracle Component", locked;
+                    "description" => "Pseudo oracle that provides price of sugar.", locked;
+                }
+            ))
             .globalize()
         }
 
