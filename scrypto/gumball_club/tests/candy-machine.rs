@@ -384,6 +384,15 @@ fn get_price() {
 }
 
 #[test]
+pub fn divisible_gc_should_not_be_possible() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+
+    let receipt = test_environment.buy_candy(dec!("2.5"));
+
+    receipt.expect_commit_success();
+}
+
+#[test]
 pub fn buy_candy() {
     let mut test_environment = TestEnvironment::instantiate_test();
 
