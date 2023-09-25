@@ -138,7 +138,7 @@ export const MachineOptions = ({
                   className={styles.guarantees}
                   style={{ bottom: hasMemberCard ? '-3.5rem' : '-2.5rem' }}
                 >
-                  Set your own guarantees on estimated returns in your Radix
+                  ⚠️ Set your own guarantees on estimated returns in your Radix
                   Wallet!
                 </div>
               ) : null
