@@ -17,6 +17,7 @@ import { useSendTransactionManifest } from '@/app/hooks/useSendTransactionManife
 import { hasFungibleTokens } from '@/app/helpers/getAccountTokens'
 import { config } from '@/app/config'
 import { HomeModule, ModalKind } from './components/HomeModule'
+import { useConnectButtonState } from '@/app/hooks/useConnectButtonState'
 
 export const Home = () => {
   const {
@@ -25,6 +26,10 @@ export const Home = () => {
   } = useAccounts()
   const { dispenseGcTokens, buyGumball, buyCandy, buyMemberCard } =
     useSendTransactionManifest()()
+
+  const connectButtonState = useConnectButtonState()
+
+  const isConnectButtonPending = connectButtonState === 'pending'
 
   const [state, setState] = useState<
     Partial<{
@@ -130,6 +135,7 @@ export const Home = () => {
         />
         <main className={styles.main}>
           <TokenDispenser
+            disableSendButton={isConnectButtonPending}
             hasXrd={hasXrd}
             accounts={accounts}
             onSubmit={(selectedAccountAddress: string) => {
@@ -142,16 +148,25 @@ export const Home = () => {
           />
           <div className={styles.machines}>
             <GumballMachine
+              disableSendButton={isConnectButtonPending}
               accounts={accounts}
               onSubmit={({
                 selectedAccountAddress,
                 inputTokenValue,
                 outputTokenValue,
                 memberCard,
+                change,
               }) => {
                 const shouldShowMemberRevealModal =
                   !hasGumTokens && !hasCandyTokens
-                buyGumball(selectedAccountAddress, inputTokenValue, memberCard)
+
+                buyGumball({
+                  accountAddress: selectedAccountAddress,
+                  inputTokenValue,
+                  outputTokenValue,
+                  memberCard,
+                  change,
+                })
                   .map(refresh)
                   .map(() =>
                     handleShowModal(
@@ -164,6 +179,7 @@ export const Home = () => {
               }}
             />
             <CandyBagMachine
+              disableSendButton={isConnectButtonPending}
               price={2}
               accounts={accounts}
               onSubmit={({
@@ -174,27 +190,49 @@ export const Home = () => {
               }) => {
                 const shouldShowMemberRevealModal =
                   !hasGumTokens && !hasCandyTokens
-                buyCandy(selectedAccountAddress, inputTokenValue, memberCard)
-                  .map(refresh)
-                  .map(() =>
-                    handleShowModal(
-                      'candy',
-                      selectedAccountAddress,
-                      outputTokenValue,
-                      shouldShowMemberRevealModal
-                    )
+                buyCandy({
+                  accountAddress: selectedAccountAddress,
+                  inputTokenValue,
+                  memberCard,
+                }).map((response) => {
+                  refresh()
+                  const actualTokenOutput = parseInt(
+                    response
+                      .events!.filter((event) => event.name === 'DepositEvent')
+                      .filter((event) =>
+                        event.data.fields.some(
+                          (field) =>
+                            field.type_name === 'ResourceAddress' &&
+                            field.value === config.addresses.candyTokenResource
+                        )
+                      )
+                      .map((event) => event.data.fields)
+                      .flat()
+                      .filter((field) => field.kind === 'Decimal')[0].value
                   )
+
+                  return handleShowModal(
+                    'candy',
+                    selectedAccountAddress,
+                    actualTokenOutput,
+                    shouldShowMemberRevealModal
+                  )
+                })
               }}
             />
-            {hasGcTokens && (
+            {(hasCandyTokens || hasGumTokens) && (
               <MembershipMachine
+                disableSendButton={isConnectButtonPending}
                 accounts={accounts}
                 onSubmit={({
                   selectedAccountAddress,
                   inputTokenValue,
                   outputTokenValue,
                 }) =>
-                  buyMemberCard(selectedAccountAddress, inputTokenValue)
+                  buyMemberCard({
+                    accountAddress: selectedAccountAddress,
+                    inputTokenValue,
+                  })
                     .map(refresh)
                     .map(() =>
                       handleShowModal(

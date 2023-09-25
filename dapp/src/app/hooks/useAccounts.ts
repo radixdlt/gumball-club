@@ -23,21 +23,21 @@ const useWithTokens = (stateApi: State) => {
         )
         .then((data) =>
           Promise.all(
-            data.map((item, index) =>
-              transformFungibleTokens(item.fungible_resources, stateApi)
+            data.map((item) =>
+              transformFungibleTokens(item.fungible_resources)
                 .then((fungibleTokens) => ({
-                  ...accounts[index],
+                  ...accounts.find(
+                    (account) => account.address === item.address
+                  )!,
                   fungibleTokens,
                 }))
                 .then((values) =>
-                  transformNonFungibleTokens(
-                    item.non_fungible_resources,
-                    accounts[index].address,
-                    stateApi
-                  ).then((nonFungibleTokens) => ({
-                    ...values,
-                    nonFungibleTokens,
-                  }))
+                  transformNonFungibleTokens(item.non_fungible_resources).then(
+                    (nonFungibleTokens) => ({
+                      ...values,
+                      nonFungibleTokens,
+                    })
+                  )
                 )
             )
           )
@@ -63,8 +63,12 @@ export const useAccounts = () => {
         switchMap((accounts) => {
           setState((prev) => ({ ...prev, status: 'pending' }))
           return withTokens(accounts)
-            .then((accounts: any) => {
-              setState({ accounts, status: 'success', hasLoaded: true })
+            .then((accounts: any[]) => {
+              setState({
+                accounts: accounts.reverse(),
+                status: 'success',
+                hasLoaded: true,
+              })
             })
             .catch(() => {
               setState({ accounts: [], status: 'error', hasLoaded: true })
@@ -76,7 +80,7 @@ export const useAccounts = () => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [dAppToolkit, withTokens])
+  }, [dAppToolkit, withTokens, setState])
 
   return {
     state,

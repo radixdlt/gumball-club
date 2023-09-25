@@ -11,6 +11,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED 1
+ARG NETWORK_NAME
+ENV NEXT_PUBLIC_NETWORK=$NETWORK_NAME
+
+RUN echo "The PUBLIC_NETWORK_NAME variable value is $NEXT_PUBLIC_NETWORK"
 
 RUN npm run build
 

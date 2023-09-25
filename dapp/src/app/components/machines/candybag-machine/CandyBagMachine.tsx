@@ -15,10 +15,11 @@ import CandyMachineImage from '../../../../../public/assets/candy-machine.png'
 export const CandyBagMachine = ({
   accounts,
   onSubmit,
-  price,
+  disableSendButton,
 }: {
   accounts: AccountWithTokens[]
   price: number
+  disableSendButton?: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   const getPrice = useSugarMarketPrice()
@@ -50,8 +51,8 @@ export const CandyBagMachine = ({
   return (
     <Card>
       <MachineHeader
-        header="Candy Bag Machine"
-        subtitle="Use GC Tokens to buy bags of candies! How many you get in each bag depends on the market price of sugar."
+        header="Candy Machine"
+        subtitle="Use GC Tokens to buy candies! How many you get depends on the market price of sugar."
         tags={
           <div
             style={{
@@ -64,7 +65,10 @@ export const CandyBagMachine = ({
             }}
           >
             <Tag color="pink" icon="market">
-              Market price estimate: {candyPrice} candies/GC
+              <div>
+                <div>Market price estimate:</div>
+                <div>1 GC buys {candyPrice} Candies</div>
+              </div>
             </Tag>
             {hasMemberCard && (
               <Tag color="green">50% off with GC Member Card</Tag>
@@ -73,6 +77,7 @@ export const CandyBagMachine = ({
         }
       />
       <MachineOptions
+        disableSendButton={disableSendButton}
         id="candy"
         price={candyPrice}
         image={

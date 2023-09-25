@@ -23,7 +23,7 @@ export const Title: Story = {
 
 export const Subtitle: Story = {
   args: {
-    children: `Get some Gumball Club Tokens, and use them to buy Gumballs or Candies!`,
+    children: `A toy Web3 dApp on the Radix Network where the transactions with the Radix Wallet are real, but the tokens have no value`,
     variant: 'subtitle',
   },
 }

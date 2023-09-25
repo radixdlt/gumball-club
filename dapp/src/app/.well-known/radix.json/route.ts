@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
+import { config } from '../../config'
 
 export async function GET() {
   return NextResponse.json({
     dApps: [
       {
-        dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_DEFINITION_ADDRESS,
+        dAppDefinitionAddress: config.dAppDefinitionAddress,
       },
     ],
   })

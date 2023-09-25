@@ -7,16 +7,16 @@ import styles from './TokenDispenser.module.css'
 import { useEffect, useState } from 'react'
 import { Button } from '../base-components/button'
 import { WalletDataStateAccount } from '@radixdlt/radix-dapp-toolkit'
-import { TokenDispenserModal } from './TokenDispenserModal'
 
 export const TokenDispenser = ({
   accounts,
   onSubmit,
-  hasXrd,
+  disableSendButton,
 }: {
   hasXrd: boolean
   accounts: WalletDataStateAccount[]
   onSubmit: (selectedAccount: string) => void
+  disableSendButton?: boolean
 }) => {
   const [{ selectedAccount }, setState] = useState<{
     selectedAccount?: string
@@ -36,8 +36,9 @@ export const TokenDispenser = ({
   return (
     <Card className={styles.card} outerClassName={styles['outer-card']}>
       <div>
-        <Text variant="header" className="mb-01">
-          Gumball Club Token Dispenser
+        <Text variant="header">Gumball Club Token Dispenser</Text>
+        <Text variant="paragraph" className="mb-1">
+          Start here! Get some GC Tokens and use them to buy Gumballs or Candy!
         </Text>
         <Tag color="blue">Receive 20 GC Tokens</Tag>
       </div>
@@ -50,11 +51,10 @@ export const TokenDispenser = ({
       />
       <Button
         icon="external-link"
-        disabled={isButtonDisabled}
+        disabled={isButtonDisabled || disableSendButton}
         onClick={() => {
           if (selectedAccount) {
             onSubmit(selectedAccount)
-            setState((prev) => ({ ...prev, selectedAccount: undefined }))
           }
         }}
       >

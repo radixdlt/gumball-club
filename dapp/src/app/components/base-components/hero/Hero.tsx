@@ -18,7 +18,7 @@ export const Hero = ({
       </Text>
       <Text variant="subtitle">
         {alias
-          ? 'Get some Gumball Club Tokens, and use them to buy Gumballs or Candies!'
+          ? 'A toy Web3 dApp on the Radix Network where the transactions with the Radix Wallet are real, but the tokens have no value'
           : 'A playground to experience Web3 using the Radix Wallet'}
       </Text>
     </div>
