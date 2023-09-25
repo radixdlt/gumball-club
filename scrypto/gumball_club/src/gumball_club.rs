@@ -204,7 +204,7 @@ mod gumball_club {
 
             self.collected_gc_vault.put(actual_payment);
 
-            let member_card_id_string = String::from("Member_card_no_");
+            let member_card_id_string = String::from("Member_");
 
             let local_id = member_card_id_string + &self.id_counter.to_string();
 

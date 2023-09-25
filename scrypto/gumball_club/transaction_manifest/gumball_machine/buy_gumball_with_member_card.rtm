@@ -3,7 +3,7 @@ CALL_METHOD
     "create_proof_of_non_fungibles"
     Address("resource_sim1ntqp4azwhgymxs57xlv4uje0xk586t0h9rvch8etfpw2lywfsn53q7")
     Array<NonFungibleLocalId>(
-        NonFungibleLocalId("{5bbf7ed683eeabc2-c6dfcd0800a833bb-240fe6bf0e5b2b38-c7e92e5850463c9e}")
+        NonFungibleLocalId("<Member_0>")
     )
 ;
 CALL_METHOD

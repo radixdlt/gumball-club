@@ -33,8 +33,6 @@ impl TestEnvironment {
 
         let package_address = test_runner.compile_and_publish(this_package!());
 
-        println!("package: {}", package_address.display(&AddressBech32Encoder::for_simulator()));
-
         let manifest = ManifestBuilder::new()
             .call_function(
                 package_address, 
