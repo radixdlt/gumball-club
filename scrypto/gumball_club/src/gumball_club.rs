@@ -29,7 +29,6 @@ mod gumball_club {
         member_card_manager: ResourceManager,
         collected_gc_vault: Vault,
         price_per_card: Decimal,
-        gumball_club_member_counter: u64,
     }
 
     impl GumballClub {
@@ -115,7 +114,7 @@ mod gumball_club {
             // --Supply--
             // This resource has no finite supply.
             let member_card_manager: ResourceManager = 
-                ResourceBuilder::new_integer_non_fungible::<GumballClubMember>(owner_role.clone())
+                ResourceBuilder::new_ruid_non_fungible::<GumballClubMember>(owner_role.clone())
                 .metadata(metadata! {
                     init {
                         "name" => "Gumball Club Member Cards", locked;
@@ -153,7 +152,6 @@ mod gumball_club {
                 member_card_manager: member_card_manager,
                 collected_gc_vault: Vault::new(gumball_club_token_manager.address()),
                 price_per_card: price_per_card,
-                gumball_club_member_counter: 0,
             }
             .instantiate()
             .prepare_to_globalize(owner_role)
@@ -204,11 +202,8 @@ mod gumball_club {
 
             self.collected_gc_vault.put(actual_payment);
 
-            self.gumball_club_member_counter += 1;
-
             let member_card = self.member_card_manager
-                .mint_non_fungible(
-                    &NonFungibleLocalId::integer(self.gumball_club_member_counter),
+                .mint_ruid_non_fungible(
                     GumballClubMember {
                         name: String::from("Your GC Member Card"),
                         key_image_url: Url::of(

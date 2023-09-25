@@ -1,11 +1,11 @@
 CALL_METHOD
-    Address("account_sim1cywetnvsd3xuxhrxpa7kn5wvh9ty4z869z3q5f0n4yw3mqsea2ntml")
+    Address("account_sim1c8m6h4yv2x9ca0wx5ddtl0nctqmjt2t740wfjgj9w8sdz82zf8ppcr")
     "create_proof_of_amount"
-    Address("resource_sim1thrc5s709vrvv7m3769tsx4qqj5w4zsgaaeuan46qt3nqkwhxyge02")
+    Address("resource_sim1tk7jxvmrqfyt8e5geyuf9nkz6xvmmytm3f8qrxry54fwram5x9ne7e")
     Decimal("1")
 ;
 CALL_METHOD
-    Address("component_sim1cq5yy6256rj6wxxwgzrcfv6yrwtew9ehs7w4he6x87j86d6xuwcvxj")
+    Address("component_sim1cpqhmas59rjum23q5fvdnz6s68dlg73szs6jhmpme7f9ynndrgzcx0")
     "change_price"
     Decimal("2")
 ;

@@ -6,7 +6,7 @@ use radix_engine::transaction::TransactionReceipt;
 
 pub struct Account {
     public_key: Secp256k1PublicKey,
-    account_address: ComponentAddress,
+    _account_address: ComponentAddress,
 }
 
 pub struct TestEnvironment {
@@ -27,17 +27,13 @@ impl TestEnvironment {
         .build();
 
         // Create an account
-        let (public_key, _private_key, account_address) = test_runner.new_allocated_account();
+        let (public_key, _private_key, _account_address) = test_runner.new_allocated_account();
     
-        let account = Account { public_key, account_address };
+        let account = Account { public_key, _account_address };
 
         let package_address = test_runner.compile_and_publish(this_package!());
 
-        test_runner.create_fungible_resource(
-            dec!(1), 
-            0u8, 
-            account.account_address
-        );
+        println!("package: {}", package_address.display(&AddressBech32Encoder::for_simulator()));
 
         let manifest = ManifestBuilder::new()
             .call_function(

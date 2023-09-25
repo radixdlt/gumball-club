@@ -1,5 +1,5 @@
 CALL_FUNCTION
-    Address("package_sim1pkv87klswwg29hqznsfjtlfc69r2glfjj3dpj0ascm0pjw5e0g75h5")
+    Address("package_sim1phhyaadjcggz9vs26vp5rl52pvsa0mppqkfkt9ld7rqdndxpzcl9j8")
     "SugarPriceOracle"
     "instantiate_sugar_price_oracle"
 ;

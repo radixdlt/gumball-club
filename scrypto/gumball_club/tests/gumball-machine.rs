@@ -232,11 +232,23 @@ impl TestEnvironment {
 
     pub fn buy_gumball_with_member_card(&mut self, gc_token_amount: Decimal) -> TransactionReceipt {
 
+        let vault_id = self.test_runner.get_component_vaults(
+            self.account.account_address, 
+            self.member_card_badge
+        );
+
+        let (_decimal, local_ids) = 
+            self.test_runner.inspect_non_fungible_vault(vault_id[0]).unwrap();
+
+        let mut local_id: Vec<NonFungibleLocalId> = local_ids.collect();
+
         let manifest = ManifestBuilder::new()
-            .create_proof_from_account_of_non_fungibles(
+            .create_proof_from_account_of_non_fungible(
                 self.account.account_address, 
-                self.member_card_badge, 
-                [NonFungibleLocalId::integer(1)]
+                NonFungibleGlobalId::new(
+                    self.member_card_badge, 
+                    local_id.pop().unwrap()
+                )
             )
             .withdraw_from_account(
                 self.account.account_address, 
