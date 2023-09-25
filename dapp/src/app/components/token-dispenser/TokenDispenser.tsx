@@ -36,8 +36,9 @@ export const TokenDispenser = ({
   return (
     <Card className={styles.card} outerClassName={styles['outer-card']}>
       <div>
-        <Text variant="header" className="mb-01">
-          Gumball Club Token Dispenser
+        <Text variant="header">Gumball Club Token Dispenser</Text>
+        <Text variant="paragraph" className="mb-1">
+          Start here! Get some GC Tokens and use them to buy Gumballs or Candy!
         </Text>
         <Tag color="blue">Receive 20 GC Tokens</Tag>
       </div>
