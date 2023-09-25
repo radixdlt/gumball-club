@@ -35,7 +35,7 @@ export const GumballMachine = ({
     <Card>
       <MachineHeader
         header="Gumball Machine"
-        subtitle="Use GC Tokens to buy Gumballs!"
+        subtitle="Use GC Tokens to buy gumballs at a fixed price!"
         tags={
           <div
             style={{
@@ -47,7 +47,7 @@ export const GumballMachine = ({
               marginTop: '0.5rem',
             }}
           >
-            <Tag color="blue">2 GC = 1 Gumball</Tag>
+            <Tag color="blue">2 GC buys 1 Gumball</Tag>
             {hasMemberCard && (
               <Tag color="green">50% off with GC Member Card</Tag>
             )}
