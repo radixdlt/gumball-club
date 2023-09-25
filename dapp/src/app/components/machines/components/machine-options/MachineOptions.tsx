@@ -9,10 +9,7 @@ import { Button } from '../../../base-components/button'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
 import { config } from '@/app/config'
 import BigNumber from 'bignumber.js'
-import {
-  getMemberCard,
-  hasMemberCard as hasMemberCardFn,
-} from '@/app/helpers/hasMemberCard'
+import { getMemberCard } from '@/app/helpers/hasMemberCard'
 import { NonFungibleResource } from '@/app/transformers/addTokens'
 
 export type MachineOptionsProps = {
@@ -26,6 +23,7 @@ export type MachineOptionsProps = {
     inputTokenValue: number
     outputTokenValue: number
     memberCard?: NonFungibleResource
+    change?: number
   }) => void
   price: number
   priceCalculationFn?: (
@@ -35,6 +33,7 @@ export type MachineOptionsProps = {
   ) => number
   disabled?: boolean
   defaultInputTokenValue?: number
+  disableSendButton?: boolean
 }
 
 export const MachineOptions = ({
@@ -48,6 +47,7 @@ export const MachineOptions = ({
   disabled,
   defaultInputTokenValue = 0,
   priceCalculationFn,
+  disableSendButton,
 }: MachineOptionsProps) => {
   const isDisabled = accounts.length === 0
   const [{ selectedAccountAddress, inputTokenValue, isValid }, setState] =
@@ -57,18 +57,18 @@ export const MachineOptions = ({
       isValid: boolean
     }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
 
-  const gcTokens = accounts.find(
-    (account) => selectedAccountAddress === account.address
-  )?.fungibleTokens[config.addresses.gumballClubTokensResource]?.value
-
-  const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
-
   const accountMap = accounts.reduce<Record<string, AccountWithTokens>>(
     (acc, account) => ({ ...acc, [account.address]: account }),
     {}
   )
 
   const selectedAccount = accountMap[selectedAccountAddress || '']
+
+  const gcTokens =
+    selectedAccount?.fungibleTokens[config.addresses.gumballClubTokensResource]
+      ?.value
+
+  const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
   const memberCard = selectedAccount
     ? getMemberCard(selectedAccount)
@@ -138,7 +138,7 @@ export const MachineOptions = ({
                   className={styles.guarantees}
                   style={{ bottom: hasMemberCard ? '-3.5rem' : '-2.5rem' }}
                 >
-                  Set your own guarantees on estimated returns in your Radix
+                  ⚠️ Set your own guarantees on estimated returns in your Radix
                   Wallet!
                 </div>
               ) : null
@@ -158,7 +158,7 @@ export const MachineOptions = ({
         </div>
       </div>
       <Button
-        disabled={!isValid || isDisabled || invalidInput}
+        disabled={!isValid || isDisabled || invalidInput || disableSendButton}
         icon="external-link"
         onClick={() => {
           if (isValid) {
@@ -171,7 +171,6 @@ export const MachineOptions = ({
             setState((prev) => ({
               ...prev,
               inputTokenValue: defaultInputTokenValue,
-              selectedAccountAddress: undefined,
             }))
           }
         }}

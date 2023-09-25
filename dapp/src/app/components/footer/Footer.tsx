@@ -1,4 +1,3 @@
-import { config } from '@/app/config'
 import styles from './Footer.module.css'
 import Image from 'next/image'
 import ExternalLink from '../../../../public/assets/external-link.svg'
@@ -13,7 +12,7 @@ const LearnMore = () => (
   <div className={styles['learn-more']}>
     <div className={styles.header}>Learn more</div>
     <a
-      href={`${config.network.dashboardUrl}`}
+      href="https://dashboard.radixdlt.com/"
       className={styles.link}
       target="_blank"
     >
@@ -111,9 +110,11 @@ const CopyRight = () => (
       Radix Publishing Ltd.
     </div>
     <div className={styles.legal}>
-      <a href="">Privacy Notice</a>
+      <a href="https://www.radixdlt.com/privacy-policy">Privacy Notice</a>
       <div className={styles['separator']}></div>
-      <a href="">Terms and Conditions</a>
+      <a href="http://www.radixdlt.com/terms/gumballEULA">
+        Terms and Conditions
+      </a>
     </div>
   </div>
 )

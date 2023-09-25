@@ -13,19 +13,22 @@ import MemberCardMachine from '@/../public/assets/membership-machine.png'
 export const MembershipMachine = ({
   accounts,
   onSubmit,
+  disableSendButton,
 }: {
   accounts: AccountWithTokens[]
+  disableSendButton?: boolean
   onSubmit: MachineOptionsProps['onSubmit']
 }) => {
   return (
     <Card>
       <MachineHeader
         header="GC Member Card Machine"
-        subtitle="Purchase a member card to automatically get a 50% discount on the sweet machines!"
-        tags={<Tag color="blue">5 GC = 1 Member Card</Tag>}
+        subtitle="Buy a member card to automatically get a 50% discount on gumballs or candies!"
+        tags={<Tag color="blue">5 GC buys 1 Member Card</Tag>}
         textClass={styles.text}
       />
       <MachineOptions
+        disableSendButton={disableSendButton}
         id="member"
         price={5}
         defaultInputTokenValue={5}

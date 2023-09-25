@@ -50,6 +50,11 @@ export const Input = ({
           if (onChange) onChange(ev)
           inputElement.value = Number(ev.target.value).toString()
         }}
+        onKeyDown={(ev) => {
+          if ([',', '.'].includes(ev.key)) {
+            ev.preventDefault()
+          }
+        }}
         onWheel={(ev) => {
           ;(ev.target as HTMLInputElement).blur()
         }}
