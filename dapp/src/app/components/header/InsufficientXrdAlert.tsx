@@ -16,34 +16,38 @@ export const InsufficientXrdAlert = ({
     <Alert
       className={styles.alert}
       variant="info"
-      title="Uh oh!"
+      title="XRD Tokens Required"
       text={
         <>
-          <span>
-            Gumball club requires about 5 XRD to use each machine once. To find
-            out where to purchase XRD,
-          </span>{' '}
-          <a
-            target="_blank"
-            href="https://www.radixdlt.com/token"
-            style={{ textDecoration: 'underline', fontWeight: 'bold' }}
-          >
-            see here
-          </a>
-          .{' '}
-          <span>
-            To celebrate the Radix Babylon Upgrade, you can claim 5 XRD to try
-            the network by following the steps here while until the promotion
-            ends.
-          </span>
+          <div style={{ marginBottom: '1rem' }}>
+            Each transaction on the Radix Network requires you have some XRD to
+            pay a small network fee.{' '}
+            <a
+              target="_blank"
+              href="https://www.radixdlt.com/token"
+              style={{
+                textDecoration: 'underline',
+                fontWeight: 'bold',
+                marginBottom: '1rem',
+              }}
+            >
+              Click here
+            </a>{' '}
+            for some options to buy XRD. Or, to celebrate the Radix Babylon
+            upgrade,{' '}
+            <a
+              target="_blank"
+              href="http://go.radixdlt.com/xrdflow"
+              style={{ textDecoration: 'underline', fontWeight: 'bold' }}
+            >
+              click here and follow a few steps to verify yourself
+            </a>{' '}
+            to claim 5 XRD - just enough to do a few transactions on Gumball
+            Club.
+          </div>
         </>
       }
       onClose={onClose}
-      button={
-        <Button icon="external-link" onClick={onGetXrd}>
-          Get some XRD
-        </Button>
-      }
     />
   )
 }
