@@ -7,8 +7,8 @@ use scrypto::prelude::*;
 mod candy_machine {
     extern_blueprint!(
         // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-        // "package_sim1phfks0k2y4eqsudjv40jwpza6z9jhxvrc9dydkzm4pxn8rstryrcuy",
-        "package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp",
+        "package_sim1phfks0k2y4eqsudjv40jwpza6z9jhxvrc9dydkzm4pxn8rstryrcuy",
+        // "package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -169,8 +169,8 @@ mod candy_machine {
             let sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                // "component_sim1crzhvvzxxwcg3w8yn45mhef64gkwp3afphcwv9367cnx25h9m2fjcq"
-                "component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd"
+                "component_sim1crzhvvzxxwcg3w8yn45mhef64gkwp3afphcwv9367cnx25h9m2fjcq"
+                // "component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd"
             );
 
             sugar_price_oracle.get_price()
@@ -206,7 +206,6 @@ mod candy_machine {
                 "[CandyMachine]: Only {:?} tokens are accepted as payments!", 
                 resource_name_metadata
             );
-            
             
             let price_per_candy = self.get_price();
 
