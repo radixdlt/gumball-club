@@ -130,9 +130,9 @@ mod gumball_machine {
                 .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
-                        "name" => "Gumball".to_owned(), locked;
+                        "name" => "GC Gumballs".to_owned(), locked;
                         "symbol" => "GUM".to_owned(), locked;
-                        "description" => "A delicious gumball".to_owned(), locked;
+                        "description" => "Official Gumball Club gumballs, for those who are all out of bubblegum.".to_owned(), locked;
                     }
                 ))
                 .mint_roles(mint_roles! {

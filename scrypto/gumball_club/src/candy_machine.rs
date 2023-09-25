@@ -126,9 +126,9 @@ mod candy_machine {
                 .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
-                        "name" => "Candy Token".to_owned(), locked;
+                        "name" => "GC Candies".to_owned(), locked;
                         "symbol" => "CANDY".to_owned(), locked;
-                        "description" => "A delicious sugar packed candy!".to_owned(), locked;
+                        "description" => "Official Gumball Club candies, using only the finest sugar from decentralized markets.".to_owned(), locked;
                     }
                 ))
                 .mint_roles(mint_roles! {

@@ -85,8 +85,8 @@ mod gumball_club {
                 .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
-                        "name" => "Gumball Club Tokens", locked;
-                        "description" => "Use GC tokens to purchase gumballs and candies from the sweet machines", locked;
+                        "name" => "GC Tokens", locked;
+                        "description" => "Only for use at the Gumball Club. Not legal tender.", locked;
                         "symbol" => "GC", locked;
                     }
                 ))
@@ -118,8 +118,8 @@ mod gumball_club {
                 ResourceBuilder::new_integer_non_fungible::<GumballClubMember>(owner_role.clone())
                 .metadata(metadata! {
                     init {
-                        "name" => "Gumball Club Member Cards", locked;
-                        "description" => "Use a Gumball Club Member Card to get a 50% discount on purchases from sweet machines.", locked;
+                        "name" => "GC Member Cards", locked;
+                        "description" => "Member Card holders automatically get a 50% discount on purchases at the Gumball Club.", locked;
                         "tags" => vec!["badge"], locked;
                     }
                 })
