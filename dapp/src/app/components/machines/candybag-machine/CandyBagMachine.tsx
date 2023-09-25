@@ -65,7 +65,10 @@ export const CandyBagMachine = ({
             }}
           >
             <Tag color="pink" icon="market">
-              Market price estimate: {candyPrice} candies/GC
+              <div>
+                <div>Market price estimate:</div>
+                <div>1 GC buys {candyPrice} Candies</div>
+              </div>
             </Tag>
             {hasMemberCard && (
               <Tag color="green">50% off with GC Member Card</Tag>
