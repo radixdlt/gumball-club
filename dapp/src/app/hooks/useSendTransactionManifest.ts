@@ -13,28 +13,41 @@ export const useSendTransactionManifest = () => {
   return useCallback(
     () => ({
       dispenseGcTokens: (accountAddress: string) =>
-        sendTransaction(transactionManifests.dispenseGcTokens(accountAddress)),
+        sendTransaction(
+          transactionManifests.dispenseGcTokens(accountAddress),
+          'Have some GC tokens on the house!'
+        ),
       buyGumball: (input: {
         accountAddress: string
         memberCard?: NonFungibleResource
         inputTokenValue: number
         outputTokenValue: number
         change?: number
-      }) => sendTransaction(transactionManifests.buyGumball(input)),
+      }) =>
+        sendTransaction(
+          transactionManifests.buyGumball(input),
+          input.memberCard ? '50% member discount applied!' : undefined
+        ),
       buyCandy: (input: {
         accountAddress: string
         memberCard?: NonFungibleResource
         inputTokenValue: number
       }) =>
-        sendTransaction(transactionManifests.buyCandy(input)).andThen(
-          ({ transactionIntentHash }) =>
-            getCommittedDetails(transactionIntentHash)
+        sendTransaction(
+          transactionManifests.buyCandy(input),
+          input.memberCard ? '50% member discount applied!' : undefined
+        ).andThen(({ transactionIntentHash }) =>
+          getCommittedDetails(transactionIntentHash)
         ),
 
       buyMemberCard: (input: {
         accountAddress: string
         inputTokenValue: number
-      }) => sendTransaction(transactionManifests.buyMemberCard(input)),
+      }) =>
+        sendTransaction(
+          transactionManifests.buyMemberCard(input),
+          'Welcome to Gumball Club membership! Future GC purchases will automatically “present” this badge to access a 50% discount!'
+        ),
     }),
     [sendTransaction, getCommittedDetails, transactionManifests]
   )
