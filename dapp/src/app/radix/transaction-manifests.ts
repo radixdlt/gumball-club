@@ -1,5 +1,5 @@
 import { ResourceAddresses } from '../config'
-import { NonFungibleResource } from '../transformers/addTokens'
+import { AccountWithMemberCard } from '../helpers/hasMemberCard'
 
 export const TransactionManifests = ({
   gumballClubComponent,
@@ -34,23 +34,23 @@ export const TransactionManifests = ({
     accountAddress,
     inputTokenValue,
     outputTokenValue,
-    memberCard,
+    accountWithMemberCard,
     change,
   }: {
     accountAddress: string
     inputTokenValue: number
     outputTokenValue: number
-    memberCard?: NonFungibleResource
+    accountWithMemberCard?: AccountWithMemberCard
     change?: number
   }) => {
-    const transactionManifest = memberCard
+    const transactionManifest = accountWithMemberCard
       ? `
         CALL_METHOD
-            Address("${accountAddress}")
+            Address("${accountWithMemberCard.account.address}")
             "create_proof_of_non_fungibles"
-            Address("${memberCard.address}")
+            Address("${accountWithMemberCard.memberCard.address}")
             Array<NonFungibleLocalId>(
-                NonFungibleLocalId("${memberCard.id}")
+                NonFungibleLocalId("${accountWithMemberCard.memberCard.id}")
             )
         ;
         CALL_METHOD
@@ -133,20 +133,20 @@ export const TransactionManifests = ({
   const buyCandy = ({
     accountAddress,
     inputTokenValue,
-    memberCard,
+    accountWithMemberCard,
   }: {
     accountAddress: string
     inputTokenValue: number
-    memberCard?: NonFungibleResource
+    accountWithMemberCard?: AccountWithMemberCard
   }) =>
-    memberCard
+    accountWithMemberCard
       ? `
         CALL_METHOD
-            Address("${accountAddress}")
+            Address("${accountWithMemberCard.account.address}")
             "create_proof_of_non_fungibles"
-            Address("${memberCard.address}")
+            Address("${accountWithMemberCard.memberCard.address}")
             Array<NonFungibleLocalId>(
-                NonFungibleLocalId("${memberCard.id}")
+                NonFungibleLocalId("${accountWithMemberCard.memberCard.id}")
             )
         ;
         CALL_METHOD

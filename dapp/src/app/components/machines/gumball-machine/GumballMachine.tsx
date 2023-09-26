@@ -66,7 +66,7 @@ export const GumballMachine = ({
         inputTokenName="GC Tokens"
         outputTokenName="Gumballs"
         onSubmit={(value) => {
-          const inputValueWithoutChange = value.memberCard
+          const inputValueWithoutChange = value.accountWithMemberCard
             ? value.inputTokenValue
             : Math.floor(value.inputTokenValue / price) * price
           const change = value.inputTokenValue - value.outputTokenValue * price

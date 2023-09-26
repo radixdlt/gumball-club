@@ -4,6 +4,7 @@ import { config } from '../config'
 import { useSendTransaction } from './useSendTransaction'
 import { NonFungibleResource } from '../transformers/addTokens'
 import { useGetCommittedDetails } from './useGetCommittedDetails'
+import { AccountWithMemberCard } from '../helpers/hasMemberCard'
 
 export const useSendTransactionManifest = () => {
   const transactionManifests = TransactionManifests(config.addresses)
@@ -19,23 +20,27 @@ export const useSendTransactionManifest = () => {
         ),
       buyGumball: (input: {
         accountAddress: string
-        memberCard?: NonFungibleResource
+        accountWithMemberCard?: AccountWithMemberCard
         inputTokenValue: number
         outputTokenValue: number
         change?: number
       }) =>
         sendTransaction(
           transactionManifests.buyGumball(input),
-          input.memberCard ? '50% member discount applied!' : undefined
+          input.accountWithMemberCard
+            ? '50% member discount applied!'
+            : undefined
         ),
       buyCandy: (input: {
         accountAddress: string
-        memberCard?: NonFungibleResource
+        accountWithMemberCard?: AccountWithMemberCard
         inputTokenValue: number
       }) =>
         sendTransaction(
           transactionManifests.buyCandy(input),
-          input.memberCard ? '50% member discount applied!' : undefined
+          input.accountWithMemberCard
+            ? '50% member discount applied!'
+            : undefined
         ).andThen(({ transactionIntentHash }) =>
           getCommittedDetails(transactionIntentHash)
         ),
