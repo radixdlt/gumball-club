@@ -25,32 +25,6 @@ type Addresses = {
 }
 
 const gumballNetworkConfig = {
-  Zabanet: {
-    dAppDefinitionAddress:
-      'account_tdx_e_12x0026vf4yfrk7vzpedf4w8xzmww8g8w6vsmxthf6ex59p6n0slstr',
-    addresses: {
-      sugarOraclePackageAddress:
-        'package_tdx_e_1pknq7sn5agctwrjhclw6a3r9ux65lngdy5s4j8k5penyt3pgp50k8f',
-      sugarOracleComponent:
-        'component_tdx_e_1cpc7u49ehzd5hwwmr565es390rk8m43kvu93l4xjnrl4z99rww60ps',
-      gumballClubPackage:
-        'package_tdx_e_1phc3m9q6kkq0erkqe49e3yg8dgahkj74us566flz3xymju7l4rdm08',
-      gumballClubComponent:
-        'component_tdx_e_1cqen6r8f8te6rn40gxd9tmkj4tjvjzul9e0em45tq6ktsvlm7wh4h8',
-      gumballMachineComponent:
-        'component_tdx_e_1cp7ln9edumktnpqwyfggm5hsv70pgzuuhvzq5u38qp5p4q29j868fj',
-      candyMachineComponent:
-        'component_tdx_e_1cz7llkf275z0gn60vcrfm25sce9v9hx09wyna2hgxl8ydk5sp985ck',
-      gumballClubTokensResource:
-        'resource_tdx_e_1t49apephn08g8wqrs647nxshlm3e9t76maw5agqydjd0d40559lzlv',
-      gumballClubMemberCardResource:
-        'resource_tdx_e_1ngdu84pz6yat2jsqwqukvdhru30u93zmuynkmhnmk2ygxjnf4z3kh2',
-      gumballResource:
-        'resource_tdx_e_1thtnrhchf7eaapr37tupsmxg44qm7hs5wv69efsvkwss57nmvx7hmx',
-      candyTokenResource:
-        'resource_tdx_e_1t45e0q75zln8jk5z3vyxp88hrugj5p7alr8spspv2r79lv0px6rpdg',
-    },
-  },
   Mainnet: {
     dAppDefinitionAddress:
       'account_rdx12xuhw6v30chdkhcu7qznz9vu926vxefr4h4tdvc0mdckg9rq4afx9t',
@@ -72,25 +46,25 @@ const gumballNetworkConfig = {
       'account_tdx_2_129nx5lgkk3fz9gqf3clppeljkezeyyymqqejzp97tpk0r8els7hg3j',
     addresses: {
       sugarOraclePackageAddress:
-        'package_tdx_2_1p56309c37y65tvtav6a33dq3hyrmp6r360gmac0ka2346tfpnnunfh',
+        'package_tdx_2_1p4jtcqcwxmvzdp83uvr57pekt6fam4rruwxj5fms5pvzzmr3ra65fc',
       sugarOracleComponent:
-        'component_tdx_2_1cz3cc6hth2lwsm6zv0jp5gevv8a5axg36at7hyq4d29wace3s5xk2c',
+        'component_tdx_2_1crr5k3lnjq5ndtmexknwgd58tn473r7enf3rst43puklvlm5uff6u7',
       gumballClubPackage:
-        'package_tdx_2_1php3yzpqqmx6t0v37um4ndzkqzg4vup0hvju0r47x35z5a5x9nwmvl',
+        'package_tdx_2_1phjykvhkpyap6fg5433a0akam0lc8vgzd4cnf5slhm0y6p0m0kw4c9',
       gumballClubComponent:
-        'component_tdx_2_1cqr6gp7rfzh7w0jzyxlqrxay8ps2j2wjla53sd5v8k8xyx46p8tw87',
+        'component_tdx_2_1czgve6uw9tnvc4udc3nx6gnhxqjn488yhttpkr3kjhx7f7jzpd8c7t',
       gumballMachineComponent:
-        'component_tdx_2_1cqzp37r67r68pkp9t76q45zq73umfujdlsjrppklgz2lf2pspdz35y',
+        'component_tdx_2_1cpagaqy73p9a7v4cx23ayn5cgfcqxet90sclvluk6mca2rzw38hfd5',
       candyMachineComponent:
-        'component_tdx_2_1czqy5kv828jg682u8u4yknhfust56m53a7zgn5cqw0rzecuf0pw4at',
+        'component_tdx_2_1cze3ujjsymjsetxrgaerhjp7x0zjc4c7wcduwk0g3ytxk9yln0cqvj',
       gumballClubTokensResource:
-        'resource_tdx_2_1thnc475y545ptz9j7ldlll5gnfgf0d357qtyaku2r903068ga9l9lv',
+        'resource_tdx_2_1t4pre2zseqavzsktmhtffkfc8kwqmydj6ejtft0chevyvwrjmmwftq',
       gumballClubMemberCardResource:
-        'resource_tdx_2_1nfd6vmsjhq8akz39gufvkg87zzxm74ps6mham0h46qy639gas2guhz',
+        'resource_tdx_2_1ntps5asnsjrajuef209kdjd779r84dnd473ltxtlga838rp6ez2zk6',
       gumballResource:
-        'resource_tdx_2_1t5t6wqkw747fv7ssm5qgpgdxryf27a6z5d04mwwu2rhayvjrxm3x3v',
+        'resource_tdx_2_1t4e3rx59pfumryng7r6ezm2tsu72lhtl4whj6wjryrquwnhm2yrtwf',
       candyTokenResource:
-        'resource_tdx_2_1thfkm7durcyxgjajy5e2rggldckqecdpa67lj9ek5h6ymckkpv36zu',
+        'resource_tdx_2_1thfegpdrkld3hdf5vlldwz8vhpvtmkkr78u6evguqwstvdv0k6zryd',
     } satisfies Addresses,
   },
 }[network.networkName]
