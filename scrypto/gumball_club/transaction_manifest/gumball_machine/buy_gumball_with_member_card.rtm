@@ -1,28 +1,28 @@
 CALL_METHOD
-    Address("account_sim1cywetnvsd3xuxhrxpa7kn5wvh9ty4z869z3q5f0n4yw3mqsea2ntml")
+    Address("account_sim1c8m6h4yv2x9ca0wx5ddtl0nctqmjt2t740wfjgj9w8sdz82zf8ppcr")
     "create_proof_of_non_fungibles"
-    Address("resource_sim1nt0m7mhdzam7w2za2l2sgnneaxjf46a45fkrsuqeut6xhyjrskuc70")
+    Address("resource_sim1ntqp4azwhgymxs57xlv4uje0xk586t0h9rvch8etfpw2lywfsn53q7")
     Array<NonFungibleLocalId>(
-        NonFungibleLocalId("#1#")
+        NonFungibleLocalId("<Member_0>")
     )
 ;
 CALL_METHOD
-    Address("account_sim1cywetnvsd3xuxhrxpa7kn5wvh9ty4z869z3q5f0n4yw3mqsea2ntml")
+    Address("account_sim1c8m6h4yv2x9ca0wx5ddtl0nctqmjt2t740wfjgj9w8sdz82zf8ppcr")
     "withdraw"
-    Address("resource_sim1thj5e43xd45j0nqyndfah4u2fpclkn5nfqyjqhnr37c5xtu06y7gux")
+    Address("resource_sim1tkaxx4r08ns6shmf4ys086c2jkprnlrmxh06w2k25l3wd39km655dj")
     Decimal("2")
 ;
 TAKE_ALL_FROM_WORKTOP
-    Address("resource_sim1thj5e43xd45j0nqyndfah4u2fpclkn5nfqyjqhnr37c5xtu06y7gux")
+    Address("resource_sim1tkaxx4r08ns6shmf4ys086c2jkprnlrmxh06w2k25l3wd39km655dj")
     Bucket("gumball_club_token_bucket")
 ;
 CALL_METHOD
-    Address("component_sim1cq5yy6256rj6wxxwgzrcfv6yrwtew9ehs7w4he6x87j86d6xuwcvxj")
+    Address("component_sim1cpqhmas59rjum23q5fvdnz6s68dlg73szs6jhmpme7f9ynndrgzcx0")
     "buy_gumball_with_member_card"
     Bucket("gumball_club_token_bucket")
 ;
 CALL_METHOD
-    Address("account_sim1cywetnvsd3xuxhrxpa7kn5wvh9ty4z869z3q5f0n4yw3mqsea2ntml")
+    Address("account_sim1c8m6h4yv2x9ca0wx5ddtl0nctqmjt2t740wfjgj9w8sdz82zf8ppcr")
     "deposit_batch"
     Expression("ENTIRE_WORKTOP")
 ;

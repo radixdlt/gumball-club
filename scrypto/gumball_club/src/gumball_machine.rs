@@ -130,9 +130,9 @@ mod gumball_machine {
                 .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
-                        "name" => "GC Gumballs".to_owned(), locked;
-                        "symbol" => "GUM".to_owned(), locked;
-                        "description" => "Official Gumball Club gumballs, for those who are all out of bubblegum.".to_owned(), locked;
+                        "name" => "GC Gumballs", locked;
+                        "symbol" => "GUM", locked;
+                        "description" => "Official Gumball Club gumballs, for those who are all out of bubblegum.", locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -154,12 +154,6 @@ mod gumball_machine {
                 member => rule!(require(member_card_address));
             ))
             .metadata(metadata! (
-                roles {
-                    metadata_setter => OWNER;
-                    metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER;
-                    metadata_locker_updater => OWNER;
-                },
                 init {
                     "name" => "GumballMachine Component", locked;
                     "description" => "Use this component to purchase delicious gumballs!", locked;

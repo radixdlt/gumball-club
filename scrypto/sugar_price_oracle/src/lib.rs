@@ -13,6 +13,12 @@ mod sugar_price_oracle {
             }
             .instantiate()
             .prepare_to_globalize(OwnerRole::None)
+            .metadata(metadata!(
+                init {
+                    "name" => "SugarPriceOracle Component", locked;
+                    "description" => "Pseudo oracle that provides price of sugar.", locked;
+                }
+            ))
             .globalize()
         }
 

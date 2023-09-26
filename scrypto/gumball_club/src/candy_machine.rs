@@ -7,8 +7,8 @@ use scrypto::prelude::*;
 mod candy_machine {
     extern_blueprint!(
         // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-        // "package_sim1p44ms5qn4dx495qy67z73eg69fmmumjjt2v3nph0ksf03hnud2attn",
-        "package_tdx_2_1p56309c37y65tvtav6a33dq3hyrmp6r360gmac0ka2346tfpnnunfh",
+        // "package_sim1phfks0k2y4eqsudjv40jwpza6z9jhxvrc9dydkzm4pxn8rstryrcuy",
+        "package_tdx_e_1p4uctghdnrj9lg2t8jsz2zqg93ruv6l65rdn722fdu780q8hkcqrgp",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -126,9 +126,9 @@ mod candy_machine {
                 .divisibility(DIVISIBILITY_NONE)
                 .metadata(metadata!(
                     init {
-                        "name" => "GC Candies".to_owned(), locked;
-                        "symbol" => "CANDY".to_owned(), locked;
-                        "description" => "Official Gumball Club candies, using only the finest sugar from decentralized markets.".to_owned(), locked;
+                        "name" => "GC Candies", locked;
+                        "symbol" => "CANDY", locked;
+                        "description" => "Official Gumball Club candies, using only the finest sugar from decentralized markets.", locked;
                     }
                 ))
                 .mint_roles(mint_roles! {
@@ -148,12 +148,6 @@ mod candy_machine {
                 member => rule!(require(member_card_address));
             ))
             .metadata(metadata! (
-                roles {
-                    metadata_setter => OWNER;
-                    metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER;
-                    metadata_locker_updater => OWNER;
-                },
                 init {
                     "name" => "CandyMachine Component", locked;
                     "description" => "Use this component to purchase sweet candies!", locked;
@@ -175,11 +169,12 @@ mod candy_machine {
             let sugar_price_oracle: Global<SugarPriceOracle> = global_component!(
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
-                // "component_sim1crwtvasx7z96s4z8mlv0gpjlqysanlw926sy7885j7ntz8jm2skx8x"
-                "component_tdx_2_1cz3cc6hth2lwsm6zv0jp5gevv8a5axg36at7hyq4d29wace3s5xk2c"
+                // "component_sim1crzhvvzxxwcg3w8yn45mhef64gkwp3afphcwv9367cnx25h9m2fjcq"
+                "component_tdx_e_1cqh2vmmz9d5g4lg2fe4zd3cjqyt4l49wrk4efpevrrc0cn3gelwghd"
             );
 
             sugar_price_oracle.get_price()
+            // dec!(1)
         }
 
         /// * `buy_candy` - Takes in a `Bucket` of resource specified by `payment_token_address` and mints candy 
@@ -211,7 +206,6 @@ mod candy_machine {
                 "[CandyMachine]: Only {:?} tokens are accepted as payments!", 
                 resource_name_metadata
             );
-            
             
             let price_per_candy = self.get_price();
 

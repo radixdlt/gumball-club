@@ -236,11 +236,23 @@ impl TestEnvironment {
 
     pub fn buy_candy_with_member_card(&mut self, amount: Decimal) -> TransactionReceipt {
 
+        let vault_id = self.test_runner.get_component_vaults(
+            self.account.account_address, 
+            self.member_card_badge
+        );
+
+        let (_decimal, local_ids) = 
+            self.test_runner.inspect_non_fungible_vault(vault_id[0]).unwrap();
+
+        let mut local_id: Vec<NonFungibleLocalId> = local_ids.collect();
+
         let manifest = ManifestBuilder::new()
-            .create_proof_from_account_of_non_fungibles(
+            .create_proof_from_account_of_non_fungible(
                 self.account.account_address, 
-                self.member_card_badge, 
-                [NonFungibleLocalId::integer(1)]
+                NonFungibleGlobalId::new(
+                    self.member_card_badge, 
+                    local_id.pop().unwrap()
+                )
             )
             .withdraw_from_account(
                 self.account.account_address, 
@@ -384,6 +396,15 @@ fn get_price() {
 }
 
 #[test]
+pub fn divisible_gc_should_not_be_possible() {
+    let mut test_environment = TestEnvironment::instantiate_test();
+
+    let receipt = test_environment.buy_candy(dec!("2.5"));
+
+    receipt.expect_commit_failure();
+}
+
+#[test]
 pub fn buy_candy() {
     let mut test_environment = TestEnvironment::instantiate_test();
 
@@ -404,29 +425,6 @@ pub fn buy_candy() {
         //
         let commit = receipt.expect_commit_success();
 
-        let price_vec: Vec<Decimal> = 
-            vec![
-                dec!("10"),
-                dec!("16.66"),
-                dec!("13.33"),
-                dec!("20"),
-                dec!("13.33"),
-                dec!("16.66"),
-                dec!("10"),
-                dec!("16.66"),
-                dec!("13.33"),
-                dec!("20"),
-                dec!("13.33"),
-                dec!("16.66"),
-                dec!("10"),
-            ];
-
-        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
-
-        if index >= price_vec.len() {
-            index = 0;
-        }
-
         // Candy amount is hand-calculated by price * payment amount (Rounded to 0 decimal points to zero)
         // Payment amount is assumed to be 5 GC per transaction for this test.
         let candy_amount_vec: Vec<Decimal> = vec![
@@ -445,39 +443,24 @@ pub fn buy_candy() {
             dec!("50"),
         ];
 
+        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
 
-        let candy_amount = 
-            dec!(5) // Payment amount
-            .checked_mul(price_vec[index])
-            .unwrap()
-            .checked_round(0, RoundingMode::ToZero)
-            .unwrap();
-
-        if candy_amount != dec!(0) {
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
-                indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
-                    test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
-                )
-            );
-    
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
-                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
-            );
-
-        } else {
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
-                indexmap!()
-            );
-    
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
-                indexmap!()
-            );
+        if index >= candy_amount_vec.len() {
+            index = 0;
         }
+
+        assert_eq!(
+            test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
+            indexmap!(
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
+                test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
+            )
+        );
+
+        assert_eq!(
+            test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
+            indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
+        );
     
         proposer_timestamp_ms += incremental_proposer_timestamp_ms;
         round += incremental_round;
@@ -506,36 +489,7 @@ pub fn buy_candy_with_member_card() {
         //
         let commit = receipt.expect_commit_success();
 
-        let price_vec: Vec<Decimal> = 
-            vec![
-                dec!("20"),
-                dec!("33.32"),
-                dec!("26.66"),
-                dec!("40"),
-                dec!("26.66"),
-                dec!("33.32"),
-                dec!("20"),
-                dec!("33.32"),
-                dec!("26.66"),
-                dec!("40"),
-                dec!("26.66"),
-                dec!("33.32"),
-                dec!("20"),
-            ];
-
-        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
-    
-        if index >= price_vec.len() {
-            index = 0;
-        }
-
-        let discount_percent = dec!("0.5");
-
-        let discounted_price_per_candy = 
-            price_vec[index]
-            .checked_div(discount_percent)
-            .unwrap();
-
+        // Hand calculated amount received based on 50% discount.
         let candy_amount_vec: Vec<Decimal> = vec![
             dec!("100"),
             dec!("166"),
@@ -552,38 +506,26 @@ pub fn buy_candy_with_member_card() {
             dec!("100"),
         ];
 
-        let candy_amount = 
-            (dec!(5).checked_mul(discounted_price_per_candy))
-            .unwrap()
-            .checked_round(0, RoundingMode::ToZero)
-            .unwrap();
+        let mut index = (proposer_timestamp_ms / 600000).try_into().unwrap();
 
-        if candy_amount != dec!(0) {
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
-                indexmap!(
-                    test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
-                    test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
-                )
-            );
-    
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
-                indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
-            );
-            
-        } else {
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
-                indexmap!()
-            );
-    
-            assert_eq!(
-                test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
-                indexmap!()
-            );
+        if index >= candy_amount_vec.len() {
+            index = 0;
         }
 
+
+        assert_eq!(
+            test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.account.account_address.as_node_id()), 
+            indexmap!(
+                test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5).checked_neg().unwrap()),
+                test_environment.candy_token => BalanceChange::Fungible(candy_amount_vec[index])
+            )
+        );
+
+        assert_eq!(
+            test_environment.test_runner.sum_descendant_balance_changes(commit, test_environment.candy_machine_component.as_node_id()), 
+            indexmap!(test_environment.gumball_club_token => BalanceChange::Fungible(dec!(5)))
+        );
+            
         proposer_timestamp_ms += incremental_proposer_timestamp_ms;
         round += incremental_round;
     }
