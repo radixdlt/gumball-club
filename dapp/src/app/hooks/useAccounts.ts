@@ -65,7 +65,7 @@ export const useAccounts = () => {
           return withTokens(accounts)
             .then((accounts: any[]) => {
               setState({
-                accounts: accounts.reverse(),
+                accounts,
                 status: 'success',
                 hasLoaded: true,
               })

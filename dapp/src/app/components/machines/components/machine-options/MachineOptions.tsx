@@ -9,7 +9,10 @@ import { Button } from '../../../base-components/button'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
 import { config } from '@/app/config'
 import BigNumber from 'bignumber.js'
-import { getMemberCard } from '@/app/helpers/hasMemberCard'
+import {
+  getMemberCard,
+  hasMemberCard as hasMemberCardFn,
+} from '@/app/helpers/hasMemberCard'
 import { NonFungibleResource } from '@/app/transformers/addTokens'
 
 export type MachineOptionsProps = {
@@ -22,7 +25,10 @@ export type MachineOptionsProps = {
     selectedAccountAddress: string
     inputTokenValue: number
     outputTokenValue: number
-    memberCard?: NonFungibleResource
+    accountWithMemberCard?: {
+      account: AccountWithTokens
+      memberCard: NonFungibleResource
+    }
     change?: number
   }) => void
   price: number
@@ -70,11 +76,11 @@ export const MachineOptions = ({
 
   const invalidInput = new BigNumber(inputTokenValue).gt(gcTokens || 0)
 
-  const memberCard = selectedAccount
-    ? getMemberCard(selectedAccount)
+  const accountWithMemberCard = selectedAccount
+    ? getMemberCard(accounts)
     : undefined
 
-  const hasMemberCard = !!memberCard
+  const hasMemberCard = hasMemberCardFn(accounts)
 
   const outputTokenValue = priceCalculationFn
     ? priceCalculationFn(inputTokenValue, price, hasMemberCard)
@@ -115,6 +121,7 @@ export const MachineOptions = ({
             }}
             className="mb-1"
             tokenBalance={gcTokens}
+            showBalance
             error={
               invalidInput && selectedAccountAddress
                 ? 'Not enough GC Tokens in account'
@@ -166,7 +173,7 @@ export const MachineOptions = ({
               selectedAccountAddress: selectedAccountAddress!,
               inputTokenValue,
               outputTokenValue,
-              memberCard,
+              accountWithMemberCard,
             })
             setState((prev) => ({
               ...prev,

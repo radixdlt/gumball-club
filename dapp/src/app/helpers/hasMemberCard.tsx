@@ -12,10 +12,25 @@ export const hasMemberCard = (accounts: AccountWithTokens[]) =>
       ).length > 0
   )
 
-export const getMemberCard = (
+export type AccountWithMemberCard = {
   account: AccountWithTokens
-): NonFungibleResource | undefined => {
-  const memberCards =
-    account.nonFungibleTokens[config.addresses.gumballClubMemberCardResource]
-  return memberCards ? memberCards[0] : undefined
+  memberCard: NonFungibleResource
+}
+
+export const getMemberCard = (
+  accounts: AccountWithTokens[]
+): AccountWithMemberCard | undefined => {
+  const account = accounts.find(
+    (account) =>
+      account.nonFungibleTokens[config.addresses.gumballClubMemberCardResource]
+  )
+  return account
+    ? {
+        account,
+        memberCard:
+          account?.nonFungibleTokens[
+            config.addresses.gumballClubMemberCardResource
+          ][0],
+      }
+    : undefined
 }

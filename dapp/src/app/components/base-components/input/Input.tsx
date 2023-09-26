@@ -11,6 +11,7 @@ export const Input = ({
   tokenBalance,
   hint,
   after = null,
+  showBalance = false,
 }: {
   className?: string
   children: ReactNode
@@ -20,6 +21,7 @@ export const Input = ({
   error?: string
   tokenBalance?: string
   hint?: string
+  showBalance?: boolean
   after?: ReactNode
 }) => {
   const ref = useRef<HTMLInputElement>(null)
@@ -68,9 +70,9 @@ export const Input = ({
       >
         {children}
       </span>
-      {tokenBalance !== undefined && !error ? (
+      {showBalance && !error ? (
         <span className={styles['token-balance']}>
-          Balance: {tokenBalance} {children}
+          Balance: {tokenBalance ?? '0'} {children}
         </span>
       ) : null}
       {error ? <span className={styles['error-message']}>{error}</span> : null}

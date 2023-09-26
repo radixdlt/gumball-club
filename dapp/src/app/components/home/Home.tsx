@@ -154,7 +154,7 @@ export const Home = () => {
                 selectedAccountAddress,
                 inputTokenValue,
                 outputTokenValue,
-                memberCard,
+                accountWithMemberCard,
                 change,
               }) => {
                 const shouldShowMemberRevealModal =
@@ -164,7 +164,7 @@ export const Home = () => {
                   accountAddress: selectedAccountAddress,
                   inputTokenValue,
                   outputTokenValue,
-                  memberCard,
+                  accountWithMemberCard,
                   change,
                 })
                   .map(refresh)
@@ -186,14 +186,14 @@ export const Home = () => {
                 selectedAccountAddress,
                 inputTokenValue,
                 outputTokenValue,
-                memberCard,
+                accountWithMemberCard,
               }) => {
                 const shouldShowMemberRevealModal =
                   !hasGumTokens && !hasCandyTokens
                 buyCandy({
                   accountAddress: selectedAccountAddress,
                   inputTokenValue,
-                  memberCard,
+                  accountWithMemberCard,
                 }).map((response) => {
                   refresh()
                   const actualTokenOutput = parseInt(
