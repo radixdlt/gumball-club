@@ -34,15 +34,17 @@ export default function RootLayout({
         `}
       </Script>
       <Head>
-        <meta
-          property="og:image"
-          content="https://gumball-club.radixdlt.com/assets/og.webp"
-        />
         <meta property="og:title" content="Gumball Club | Try Web3 on Radix" />
         <meta
           property="og:description"
           content="Experience your first transactions with the Radix Wallet in a playful and safe environment."
         />
+        <meta
+          property="og:image"
+          content="https://assets.radixdlt.com/images/dApps/og-gumball-club.webp"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image:type" content="image/webp" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
       </Head>
