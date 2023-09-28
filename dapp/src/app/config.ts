@@ -29,16 +29,26 @@ const gumballNetworkConfig = {
     dAppDefinitionAddress:
       'account_rdx12xuhw6v30chdkhcu7qznz9vu926vxefr4h4tdvc0mdckg9rq4afx9t',
     addresses: {
-      sugarOraclePackageAddress: '',
-      sugarOracleComponent: '',
-      gumballClubPackage: '',
-      gumballClubComponent: '',
-      gumballMachineComponent: '',
-      candyMachineComponent: '',
-      gumballClubTokensResource: '',
-      gumballClubMemberCardResource: '',
-      gumballResource: '',
-      candyTokenResource: '',
+      sugarOraclePackageAddress:
+        'package_rdx1pk5scajc6xaz9xdlhpunj5vula9wt9mjara8a7ck7lrpm770698ygs',
+      sugarOracleComponent:
+        'component_rdx1cp4t3mcnjrpa4aetgvfzd8dc9ax5h5sjm5ezndrj8twf03nmlvdngy',
+      gumballClubPackage:
+        'package_rdx1p589ehmmvqa2dnw0jaky3kesjdjvln94hzunsqse8k52083hfcjh63',
+      gumballMachineComponent:
+        'component_rdx1cq4ugccz6pg89w83ujanqlycw566kd9c9vxxuc9r45p7vues2649t4',
+      gumballClubComponent:
+        'component_rdx1crduuu8q77xkngf88puhumrpqgqk5sy9fvfz6wwjzs3lvx05z3582h',
+      candyMachineComponent:
+        'component_rdx1czu8pr7zwlmjg2pp9ftq3yg2pqz9d3al5tj004uflwrwzgq060708u',
+      gumballClubMemberCardResource:
+        'resource_rdx1nfyg2f68jw7hfdlg5hzvd8ylsa7e0kjl68t5t62v3ttamtejc9wlxa',
+      candyTokenResource:
+        'resource_rdx1t4dy69k6s0gv040xa64cyadyefwtett62ng6xfdnljyydnml7t6g3j',
+      gumballResource:
+        'resource_rdx1t5tsyyh82jxjrg7lrat7y5f7mcuxcch6d3jkc75l8et3n2n6h32kvd',
+      gumballClubTokensResource:
+        'resource_rdx1thlnv2lydu7np9w8guguqslkydv000d7ydn7uq0sestql96hrfml0v',
     },
   },
   Stokenet: {
