@@ -9,9 +9,9 @@ export type FungibleResource = {
 }
 
 export const transformFungibleTokens = async (
-  fungibles: FungibleResourcesVaultCollection
+  fungibles?: FungibleResourcesVaultCollection
 ): Promise<Record<string, FungibleResource>> => {
-  if (fungibles.items.length === 0) {
+  if (!fungibles || fungibles.items.length === 0) {
     return {}
   }
 
@@ -40,9 +40,9 @@ export type NonFungibleResource = {
 }
 
 export const transformNonFungibleTokens = async (
-  nonFungibles: NonFungibleResourcesVaultCollection
+  nonFungibles?: NonFungibleResourcesVaultCollection
 ) => {
-  if (nonFungibles.items.length === 0) {
+  if (!nonFungibles || nonFungibles.items.length === 0) {
     return []
   }
 
