@@ -26,6 +26,10 @@ export default function Page() {
     )
 
     setState(radixDappToolkit)
+
+    return () => {
+      radixDappToolkit.destroy()
+    }
   }, [])
 
   if (!state) return null
