@@ -6,7 +6,7 @@ image:
   tag: ""
 
 imagePullSecrets:
-  - name: docker-hub-dev
+  - name: dockerhub-dev-v2
 
 nameOverride: "gumball-club"
 fullnameOverride: "gumball-club"
