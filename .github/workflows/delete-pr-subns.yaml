@@ -14,16 +14,16 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+      - uses: RDXWorks-actions/checkout@main
       - uses: unfor19/install-aws-cli-action@v1
         with:
           version: 2
       - name: Install kubectl
-        uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8
+        uses: RDXWorks-actions/setup-kubectl@main
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
-        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
+        uses: RDXWorks-actions/configure-aws-credentials@main
         with:
           role-to-assume: ${{ secrets.DEPLOY_PR_IAM_ROLE }}
           aws-region: eu-west-2
@@ -44,16 +44,16 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-    - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
+    - uses: RDXWorks-actions/checkout@main
     - uses: unfor19/install-aws-cli-action@v1
       with:
         version: 2
     - name: Install kubectl
-      uses: azure/setup-kubectl@901a10e89ea615cf61f57ac05cecdf23e7de06d8
+      uses: RDXWorks-actions/setup-kubectl@main
       with:
         version: "v1.25.6"
     - name: Configure AWS credentials for deployment
-      uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355
+      uses: RDXWorks-actions/configure-aws-credentials@main
       with:
         role-to-assume: ${{ secrets.DEPLOY_RELEASES_IAM_ROLE }}
         aws-region: eu-west-2
