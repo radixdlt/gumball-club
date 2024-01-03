@@ -11,6 +11,7 @@ import { usePersona } from '@/app/hooks/usePersona'
 import { usePersonaData } from '@/app/hooks/usePersonaData'
 import ConnectArrow from '../../../../public/assets/connect-arrow.svg'
 import Logo from '../../../../public/assets/logo.svg'
+import { config } from '@/app/config'
 
 declare global {
   namespace JSX {
@@ -22,7 +23,7 @@ declare global {
       'radix-dapps-dropdown': React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
-      >
+      > & { networkName: string }
     }
   }
 }
@@ -99,7 +100,9 @@ export const Header = ({
       <div className={`${styles.header} `}>
         <Image src={Logo} height={42} width={139} alt="logo" />
         <div className={`${styles['header-right']}`}>
-          <radix-dapps-dropdown></radix-dapps-dropdown>
+          <radix-dapps-dropdown
+            networkName={config.network.networkName}
+          ></radix-dapps-dropdown>
           <div className={styles['radix-connect-button']}>
             <radix-connect-button ref={ref} />
             {showConnectHelper ? <ConnectHelper /> : null}
