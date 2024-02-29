@@ -137,6 +137,7 @@ jobs:
       pull-requests: write
       contents: read
       deployments: write
+      packages: write
     with:
       runs_on: ubuntu-latest
       image_registry: "docker.io"
