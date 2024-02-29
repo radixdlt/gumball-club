@@ -72,6 +72,7 @@ export const Header = ({
     connectButtonState === 'pending'
 
   const showInsufficientXrdAlert =
+    false && // Note: temporary solution to hide the alert
     !!persona &&
     !accountsLoading &&
     !state.insufficientXrdAlertDismissed &&
