@@ -132,6 +132,11 @@ jobs:
       - snyk-scan-code
       - setup-build-args
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/docker-build.yml@main
+    permissions:
+      id-token: write
+      pull-requests: write
+      contents: read
+      deployments: write
     with:
       runs_on: ubuntu-latest
       image_registry: "docker.io"
