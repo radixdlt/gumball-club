@@ -283,7 +283,7 @@ jobs:
           helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@main
+        uses: RDXWorks-actions/setup-kubectl@v3.2
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
@@ -330,7 +330,7 @@ jobs:
           helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@main
+        uses: RDXWorks-actions/setup-kubectl@v3.2
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
@@ -391,7 +391,7 @@ jobs:
           helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@main
+        uses: RDXWorks-actions/setup-kubectl@v3.2
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
@@ -438,7 +438,7 @@ jobs:
           helm-version: "v3.11.0"
           install-kubectl: no
       - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@main
+        uses: RDXWorks-actions/setup-kubectl@v3.2
         with:
           version: "v1.25.6"
       - name: Configure AWS credentials for deployment
