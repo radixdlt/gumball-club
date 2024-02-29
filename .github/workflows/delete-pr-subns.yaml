@@ -15,7 +15,7 @@ jobs:
       pull-requests: read
     steps:
       - uses: RDXWorks-actions/checkout@main
-      - uses: unfor19/install-aws-cli-action@v1
+      - uses: RDXWorks-actions/install-aws-cli-action@master
         with:
           version: 2
       - name: Install kubectl
@@ -45,7 +45,7 @@ jobs:
       pull-requests: read
     steps:
     - uses: RDXWorks-actions/checkout@main
-    - uses: unfor19/install-aws-cli-action@v1
+    - uses: RDXWorks-actions/install-aws-cli-action@master
       with:
         version: 2
     - name: Install kubectl
