@@ -106,6 +106,7 @@ jobs:
     name: Setup build argument values for docker
     outputs:
       network: ${{ steps.network_name_step.outputs.network_name }}
+      tag-with-network: ${{steps.tag-with-network.outputs.tag-with-network}}
     steps:
       - name: Dump context
         uses: RDXWorks-actions/ghaction-dump-context@master
@@ -124,6 +125,9 @@ jobs:
           elif [ "${{ github.ref }}" =~ "refs/heads/release".* -a "${{ github.event_name }}" = 'push' ]; then
             echo "network_name=${{ env.release_network }}" >> $GITHUB_OUTPUT
           fi
+      - id: tag-with-network
+        run: |
+          echo "tag-with-network=${{github.sha}}-${{ env.network_name }}" >> $GITHUB_OUTPUT
 
   push-docker-image:
     name: Docker build
@@ -143,10 +147,7 @@ jobs:
       image_registry: "docker.io"
       image_organization: "radixdlt"
       image_name: "private-gumball-club"
-      tags: |
-        type=sha,event=branch
-        type=sha,event=pr
-        type=semver,pattern={{version}}
+      tag: ${{ needs.setup-build-args.outputs.tag-with-network }}
       context: "./dapp/"
       dockerfile: "./dapp/Dockerfile"
       platforms: "linux/amd64"
@@ -209,6 +210,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       contents: read
@@ -256,7 +258,7 @@ jobs:
                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
                    apply
         env:
-          CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
           INGRESS_DOMAIN: gumball-club-pr-${{ github.event.number}}.${{ secrets.INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
@@ -266,6 +268,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       contents: read
@@ -303,7 +306,7 @@ jobs:
                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
                    apply
         env:
-          CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
           INGRESS_DOMAIN: gumball-club-dev.${{ secrets.INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
@@ -313,6 +316,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       contents: read
@@ -363,7 +367,7 @@ jobs:
                    --state-values-set "ci.ingressDomain=gumball-club-${NORMALIZED_BRANCH_NAME}.${{ env.INGRESS_DOMAIN }}" \
                    apply
         env:
-          CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
           INGRESS_DOMAIN: ${{ secrets.INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
@@ -374,6 +378,7 @@ jobs:
     environment: stokenet
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       contents: read
@@ -411,7 +416,7 @@ jobs:
                     --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
                     apply
         env:
-          CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
           INGRESS_DOMAIN: ${{ secrets.STOKENET_INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
@@ -421,6 +426,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       contents: read
@@ -458,7 +464,7 @@ jobs:
                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
                    apply
         env:
-          CI_TAG: ${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
           INGRESS_DOMAIN: ${{ secrets.MAINNET_INGRESS_DOMAIN }}
           HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
           HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
