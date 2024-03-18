@@ -1,7 +1,17 @@
+project: gumball-club
+
+docker:
+  secrets:
+    region: eu-west-1
+    name: docker.io/radixdlt
+
+image:
+  tag: {{ .StateValues.ci.tag }}
+
 ingress:
   enabled: true
   hosts:
-    - host: {{ .StateValues.ci.ingressDomain }}
+    - host: gumball-club-pr-{{ .StateValues.ci.prNumber }}.rdx-works-main.extratools.works
       paths:
         - path: /
           pathType: Prefix
