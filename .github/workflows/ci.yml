@@ -117,14 +117,17 @@ jobs:
         id: network_name_step
         run: |
           if [ "${{ github.event_name}}" = 'workflow_dispatch' ]; then
-            echo "network_name="${{ github.event.inputs.ENVIRONMENT_NAME }}"" >> $GITHUB_OUTPUT
+            echo "network_name="${{ github.event.inputs.ENVIRONMENT_NAME }}"" >> $GITHUB_ENV
           elif [ "${{ github.event.action }}" = "published" ]; then
-            echo "network_name=${{ env.release_network }}" >> $GITHUB_OUTPUT
+            echo "network_name=${{ env.release_network }}" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" = "refs/heads/main" -a "${{ github.event_name }}" = 'push' ] || [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "network_name=${{ env.active_network }}" >> $GITHUB_OUTPUT
+            echo "network_name=${{ env.active_network }}" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" =~ "refs/heads/release".* -a "${{ github.event_name }}" = 'push' ]; then
-            echo "network_name=${{ env.release_network }}" >> $GITHUB_OUTPUT
+            echo "network_name=${{ env.release_network }}" >> $GITHUB_ENV
           fi
+      - id: network
+        run: |
+          echo "network=${{ env.network_name }}" >> $GITHUB_OUTPUT
       - id: tag-with-network
         run: |
           echo "tag-with-network=${{github.sha}}-${{ env.network_name }}" >> $GITHUB_OUTPUT
