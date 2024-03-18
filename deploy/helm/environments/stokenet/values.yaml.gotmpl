@@ -1,9 +1,20 @@
+project: gumball-club
+
+docker:
+  secrets:
+    region: eu-west-1
+    name: docker.io/radixdlt
+
+image:
+  tag: {{ .StateValues.ci.tag }}
+
 autoscaling:
   enabled: true
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
   targetMemoryUtilizationPercentage: 70
+
 resources:
   limits:
     memory: 512Mi
@@ -14,7 +25,7 @@ resources:
 ingress:
   enabled: true
   hosts:
-    - host: {{ .StateValues.ci.ingressDomain }}
+    - host: stokenet-gumball-club.radixdlt.com
       paths:
         - path: /
           pathType: Prefix

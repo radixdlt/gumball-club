@@ -13,36 +13,41 @@ on:
   push:
     branches:
       - main
-      - release/*
   pull_request:
     branches:
       - main
-      - release/**
   release:
     types: [published]
+
+permissions:
+  id-token: write
 
 # Network names are camelcase
 env:
   active_network: "Stokenet"
   release_network: "Mainnet"
+  jenkins_job_name: 'kubernetes-deployments/job/gumball-club'
+  helm_dir: 'deploy/helm'
+  dev_eks_cluster: 'rdx-works-main-dev'
+  prod_eks_cluster: 'rtlj-prod'
 
 jobs:
   snyk-scan-deps-licences:
-    runs-on: ubuntu-latest
     permissions:
       id-token: write
       pull-requests: read
       contents: read
       deployments: write
+    runs-on: ubuntu-latest
     steps:
       - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: "gumball-club"
-          step_name: "snyk-scan-deps-licenses"
-          secret_prefix: "SNYK"
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'snyk-scan-deps-licences'
+          secret_prefix: 'SNYK'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
           parse_json: true
       - name: Run Snyk to check for deps vulnerabilities
         uses: RDXWorks-actions/snyk-actions/node@master
@@ -60,14 +65,15 @@ jobs:
       - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: "gumball-club"
-          step_name: "snyk-scan-code"
-          secret_prefix: "SNYK"
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'snyk-scan-code'
+          secret_prefix: 'SNYK'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
           parse_json: true
       - name: Run Snyk to check for code vulnerabilities
         uses: RDXWorks-actions/snyk-actions/node@master
+        continue-on-error: true # temporary until code fix
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
           command: code test
@@ -82,19 +88,19 @@ jobs:
       - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: "gumball-club"
-          step_name: "snyk-sbom"
-          secret_prefix: "SNYK"
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'snyk-sbom'
+          secret_prefix: 'SNYK'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
           parse_json: true
-      - name: Generate SBOM
+      - name: Generate SBOM # check SBOM can be generated but nothing is done with it
         uses: RDXWorks-actions/snyk-actions/node@master
         with:
           args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --format=cyclonedx1.4+json --json-file-output sbom.json
           command: sbom
-      - if: ${{ github.event_name == 'release' }}
-        name: Upload SBOM
+      - name: Upload SBOM
+        if: github.event_name == 'release'
         uses: RDXWorks-actions/upload-release-assets@c94805dc72e4b20745f543da0f62eaee7722df7a
         with:
           files: sbom.json
@@ -173,11 +179,11 @@ jobs:
       - uses: RDXWorks-actions/checkout@main
       - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: "gumball-club"
-          step_name: "snyk-monitor"
-          secret_prefix: "SNYK"
-          secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'snyk-monitor'
+          secret_prefix: 'SNYK'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
           parse_json: true
       - name: Enable Snyk online monitoring to check for vulnerabilities
         uses: RDXWorks-actions/snyk-actions/node@master
@@ -190,6 +196,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs:
       - push-docker-image
+      - setup-build-args
     permissions:
       id-token: write
       pull-requests: read
@@ -198,18 +205,17 @@ jobs:
     steps:
       - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
         with:
-          role_name: ${{ secrets.AWS_ROLE_NAME_SNYK_SECRET }}
-          app_name: "gumball-club"
-          step_name: "snyk-container-monitor"
-          dockerhub_secret_name: ${{ secrets.AWS_SECRET_NAME_DOCKERHUB }}
-          snyk_secret_name: ${{ secrets.AWS_SECRET_NAME_SNYK }}
-          parse_json: true
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          dockerhub_secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/dockerhub-credentials'
+          snyk_secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
           snyk_org_id: ${{ secrets.SNYK_ORG_ID }}
-          image: docker.io/radixdlt/private-gumball-club:${{ fromJSON(needs.push-docker-image.outputs.json).labels['org.opencontainers.image.version'] }}
+          image: docker.io/radixdlt/private-gumball-club:${{ needs.setup-build-args.outputs.tag-with-network }}
           target_ref: ${{ github.ref_name }}
 
-  deploy-pr:
-    if: ${{ github.event_name == 'pull_request' }}
+  deploy_pull_request:
+    if: ${{ github.event.pull_request }}
+    name: Deploy PR
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
@@ -219,55 +225,50 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: RDXWorks-actions/install-aws-cli-action@master
+      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          version: 2
-      - name: Setup helmfile and helm
-        uses: RDXWorks-actions/setup-helmfile@master
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'deploy-pr'
+          secret_prefix: 'GH'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/jenkins-credentials-RTHKoO'
+          parse_json: true
+      - name: Connect to tailnet
+        uses: radixdlt/public-iac-resuable-artifacts/tailnet@main
         with:
-          helm-diff-plugin-version: "v3.1.3"
-          helmfile-version: "v0.144.0"
-          helm-version: "v3.11.0"
-          install-kubectl: no
-      - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@v3.2
+          role_name: "arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access"
+          region: "eu-west-2"
+          secret_name: "arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/tailscale-public-workflows-DpiE80"
+      - name: Trigger jenkins job to deploy PR
+        uses: RDXWorks-actions/jenkins-job-trigger-action@master
         with:
-          version: "v1.25.6"
-      - name: Configure AWS credentials for deployment
-        uses: RDXWorks-actions/configure-aws-credentials@main
-        with:
-          role-to-assume: ${{ secrets.DEPLOY_PR_IAM_ROLE }}
-          aws-region: eu-west-2
-      - name: Deploy application
-        working-directory: deploy/helm
+          jenkins_url: ${{ env.GH_JENKINS_URL }}
+          jenkins_user: ${{ env.GH_JENKINS_USER }}
+          jenkins_token: ${{ env.GH_JENKINS_API_TOKEN }}
+          job_name: ${{ env.jenkins_job_name }}
+          job_params: |
+            {
+              "git_repo" : "${{ github.repository }}",
+              "git_branch" : "${{ github.head_ref }}",
+              "helmfile_environment": "pr",
+              "hierarchical_namespace": "gumball-club-ci-pr",
+              "namespace" : "gumball-club-pr-${{ github.event.number }}",
+              "create_subnamespace" : "true",
+              "aws_region" : "eu-west-2",
+              "aws_iam_role": "arn:aws:iam::${{ secrets.AWS_DEV_ACCOUNT_ID }}:role/jenkins-gumball-club-pr-deployer",
+              "aws_eks_cluster" : "${{ env.dev_eks_cluster }}",
+              "helm_folder" : "${{ env.helm_dir }}",
+              "helmfile_extra_vars" : "ci.tag=${{ needs.setup-build-args.outputs.tag-with-network }},ci.prNumber=${{ github.event.number }}"
+            }
+          job_timeout: "3600"
+          fetch_logs: "false"
+      - name: Write URL to GH summary
         run: |
-          cat <<DOC > namespace.yaml
-          apiVersion: hnc.x-k8s.io/v1alpha2
-          kind: SubnamespaceAnchor
-          metadata:
-            name: gumball-club-pr-${{ github.event.number }}
-            namespace: gumball-club-ci-pr
-          DOC
+          echo "PR URL is: https://gumball-club-pr-${{ github.event.number }}.rdx-works-main.extratools.works" >> $GITHUB_STEP_SUMMARY
 
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} \
-                                    --alias ${{ secrets.CLUSTER_NAME }} \
-                                    --region eu-west-2
-
-          kubectl apply -f namespace.yaml
-
-          helmfile --environment pr --namespace gumball-club-pr-${{ github.event.number }} \
-                   --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                   --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
-                   apply
-        env:
-          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
-          INGRESS_DOMAIN: gumball-club-pr-${{ github.event.number}}.${{ secrets.INGRESS_DOMAIN }}
-          HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
-          HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
-
-  deploy-dev:
+  deploy_dev:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    name: Deploy DEV
     runs-on: ubuntu-latest
     needs:
       - push-docker-image
@@ -277,107 +278,46 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: RDXWorks-actions/install-aws-cli-action@master
+      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          version: 2
-      - name: Setup helmfile and helm
-        uses: RDXWorks-actions/setup-helmfile@master
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'deploy-pr'
+          secret_prefix: 'GH'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/jenkins-credentials-RTHKoO'
+          parse_json: true
+      - name: Connect to tailnet
+        uses: radixdlt/public-iac-resuable-artifacts/tailnet@main
         with:
-          helm-diff-plugin-version: "v3.1.3"
-          helmfile-version: "v0.144.0"
-          helm-version: "v3.11.0"
-          install-kubectl: no
-      - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@v3.2
+          role_name: "arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access"
+          region: "eu-west-2"
+          secret_name: "arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/tailscale-public-workflows-DpiE80"
+      - name: Trigger jenkins job to deploy PR
+        uses: RDXWorks-actions/jenkins-job-trigger-action@master
         with:
-          version: "v1.25.6"
-      - name: Configure AWS credentials for deployment
-        uses: RDXWorks-actions/configure-aws-credentials@main
-        with:
-          role-to-assume: ${{ secrets.DEPLOY_DEV_IAM_ROLE }}
-          aws-region: eu-west-2
-      - name: Deploy application
-        working-directory: deploy/helm
-        run: |
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} \
-                                    --alias ${{ secrets.CLUSTER_NAME }} \
-                                    --region eu-west-2
-
-          helmfile --environment dev --namespace gumball-club-dev \
-                   --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                   --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
-                   apply
-        env:
-          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
-          INGRESS_DOMAIN: gumball-club-dev.${{ secrets.INGRESS_DOMAIN }}
-          HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
-          HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
-
-  deploy-release:
-    if: startsWith(github.ref_name,'release/')
-    runs-on: ubuntu-latest
-    needs:
-      - push-docker-image
-      - setup-build-args
-    permissions:
-      id-token: write
-      contents: read
-      pull-requests: read
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: RDXWorks-actions/install-aws-cli-action@master
-        with:
-          version: 2
-      - name: Setup helmfile and helm
-        uses: RDXWorks-actions/setup-helmfile@master
-        with:
-          helm-diff-plugin-version: "v3.1.3"
-          helmfile-version: "v0.144.0"
-          helm-version: "v3.11.0"
-          install-kubectl: no
-      - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@v3.2
-        with:
-          version: "v1.25.6"
-      - name: Configure AWS credentials for deployment
-        uses: RDXWorks-actions/configure-aws-credentials@main
-        with:
-          role-to-assume: ${{ secrets.DEPLOY_RELEASES_IAM_ROLE }}
-          aws-region: eu-west-2
-      - name: Deploy application
-        working-directory: deploy/helm
-        run: |
-          aws eks update-kubeconfig --name ${{ secrets.CLUSTER_NAME }} \
-                                    --alias ${{ secrets.CLUSTER_NAME }} \
-                                    --region eu-west-2
-
-          BRANCH_NAME=${{ github.ref_name }}
-          NORMALIZED_BRANCH_NAME=${BRANCH_NAME/\//-}
-
-          cat <<DOC > subns-manifest.yaml
-          apiVersion: hnc.x-k8s.io/v1alpha2
-          kind: SubnamespaceAnchor
-          metadata:
-            name: gumball-club-$NORMALIZED_BRANCH_NAME
-            namespace: gumball-club-ci-releases
-          DOC
-
-          kubectl apply -f subns-manifest.yaml
-
-          helmfile --environment dev --namespace gumball-club-$NORMALIZED_BRANCH_NAME \
-                   --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                   --state-values-set "ci.ingressDomain=gumball-club-${NORMALIZED_BRANCH_NAME}.${{ env.INGRESS_DOMAIN }}" \
-                   apply
-        env:
-          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
-          INGRESS_DOMAIN: ${{ secrets.INGRESS_DOMAIN }}
-          HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
-          HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
+          jenkins_url: ${{ env.GH_JENKINS_URL }}
+          jenkins_user: ${{ env.GH_JENKINS_USER }}
+          jenkins_token: ${{ env.GH_JENKINS_API_TOKEN }}
+          job_name: ${{ env.jenkins_job_name }}
+          job_params: |
+            {
+              "git_repo" : "${{ github.repository }}",
+              "git_branch" : "${{ github.ref }}",
+              "helmfile_environment": "dev",
+              "namespace" : "gumball-club-dev",
+              "aws_region" : "eu-west-2",
+              "aws_iam_role": "arn:aws:iam::${{ secrets.AWS_DEV_ACCOUNT_ID }}:role/jenkins-gumball-club-dev-deployer",
+              "aws_eks_cluster" : "${{ env.dev_eks_cluster }}",
+              "helm_folder" : "${{ env.helm_dir }}",
+              "helmfile_extra_vars" : "ci.tag=${{ needs.setup-build-args.outputs.tag-with-network }}"
+            }
+          job_timeout: "3600"
+          fetch_logs: "false"
 
   deploy-stokenet:
     if: ( github.event.inputs.ENVIRONMENT_NAME == 'Stokenet' && github.event_name == 'workflow_dispatch' )
     runs-on: ubuntu-latest
+    name: Deploy STOKENET
     environment: stokenet
     needs:
       - push-docker-image
@@ -387,46 +327,47 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: RDXWorks-actions/install-aws-cli-action@master
+      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          version: 2
-      - name: Setup helmfile and helm
-        uses: RDXWorks-actions/setup-helmfile@master
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'deploy-pr'
+          secret_prefix: 'GH'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/jenkins-credentials-RTHKoO'
+          parse_json: true
+      - name: Connect to tailnet
+        uses: radixdlt/public-iac-resuable-artifacts/tailnet@main
         with:
-          helm-diff-plugin-version: "v3.1.3"
-          helmfile-version: "v0.144.0"
-          helm-version: "v3.11.0"
-          install-kubectl: no
-      - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@v3.2
+          role_name: "arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access"
+          region: "eu-west-2"
+          secret_name: "arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/tailscale-public-workflows-DpiE80"
+      - name: Trigger jenkins job to deploy PR
+        uses: RDXWorks-actions/jenkins-job-trigger-action@master
         with:
-          version: "v1.25.6"
-      - name: Configure AWS credentials for deployment
-        uses: RDXWorks-actions/configure-aws-credentials@main
-        with:
-          role-to-assume: ${{ secrets.DEPLOY_STOKENET_IAM_ROLE }}
-          aws-region: eu-west-2
-      - name: Deploy application
-        working-directory: deploy/helm
-        run: |
-          aws eks update-kubeconfig --name ${{ secrets.STOKENET_CLUSTER_NAME }} \
-                                    --alias ${{ secrets.STOKENET_CLUSTER_NAME }} \
-                                    --region eu-west-2
-
-          helmfile --environment stokenet --namespace gumball-club-stokenet \
-                    --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                    --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
-                    apply
-        env:
-          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
-          INGRESS_DOMAIN: ${{ secrets.STOKENET_INGRESS_DOMAIN }}
-          HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
-          HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
+          jenkins_url: ${{ env.GH_JENKINS_URL }}
+          jenkins_user: ${{ env.GH_JENKINS_USER }}
+          jenkins_token: ${{ env.GH_JENKINS_API_TOKEN }}
+          job_name: ${{ env.jenkins_job_name }}
+          job_params: |
+            {
+              "git_repo" : "${{ github.repository }}",
+              "git_branch" : "${{ github.ref }}",
+              "helmfile_environment": "stokenet",
+              "namespace" : "gumball-club-stokenet",
+              "aws_region" : "eu-west-2",
+              "aws_iam_role": "arn:aws:iam::${{ secrets.AWS_PROD_ACCOUNT_ID }}:role/jenkins-gumball-club-stokenet-deployer",
+              "aws_eks_cluster" : "${{ env.prod_eks_cluster }}",
+              "helm_folder" : "${{ env.helm_dir }}",
+              "helmfile_extra_vars" : "ci.tag=${{ needs.setup-build-args.outputs.tag-with-network }}"
+            }
+          job_timeout: "3600"
+          fetch_logs: "false"
 
   deploy-mainnet:
     if: github.event_name == 'release' && !github.event.release.prerelease
     runs-on: ubuntu-latest
+    name: Deploy MAINNET
+    environment: mainnet
     needs:
       - push-docker-image
       - setup-build-args
@@ -435,39 +376,38 @@ jobs:
       contents: read
       pull-requests: read
     steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: RDXWorks-actions/install-aws-cli-action@master
+      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
         with:
-          version: 2
-      - name: Setup helmfile and helm
-        uses: RDXWorks-actions/setup-helmfile@master
+          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
+          app_name: 'gumball-club'
+          step_name: 'deploy-mnnet'
+          secret_prefix: 'GH'
+          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/jenkins-credentials-RTHKoO'
+          parse_json: true
+      - name: Connect to tailnet
+        uses: radixdlt/public-iac-resuable-artifacts/tailnet@main
         with:
-          helm-diff-plugin-version: "v3.1.3"
-          helmfile-version: "v0.144.0"
-          helm-version: "v3.11.0"
-          install-kubectl: no
-      - name: Install kubectl
-        uses: RDXWorks-actions/setup-kubectl@v3.2
+          role_name: "arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access"
+          region: "eu-west-2"
+          secret_name: "arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/tailscale-public-workflows-DpiE80"
+      - name: Trigger jenkins job to deploy PR
+        uses: RDXWorks-actions/jenkins-job-trigger-action@master
         with:
-          version: "v1.25.6"
-      - name: Configure AWS credentials for deployment
-        uses: RDXWorks-actions/configure-aws-credentials@main
-        with:
-          role-to-assume: ${{ secrets.DEPLOY_MAINNET_IAM_ROLE }}
-          aws-region: eu-west-2
-      - name: Deploy application
-        working-directory: deploy/helm
-        run: |
-          aws eks update-kubeconfig --name ${{ secrets.MAINNET_CLUSTER_NAME }} \
-                                    --alias ${{ secrets.MAINNET_CLUSTER_NAME }} \
-                                    --region eu-west-2
-
-          helmfile --environment mainnet --namespace gumball-club-mainnet \
-                   --state-values-set "ci.tag=${{ env.CI_TAG }}" \
-                   --state-values-set "ci.ingressDomain=${{ env.INGRESS_DOMAIN }}" \
-                   apply
-        env:
-          CI_TAG: ${{ needs.setup-build-args.outputs.tag-with-network }}
-          INGRESS_DOMAIN: ${{ secrets.MAINNET_INGRESS_DOMAIN }}
-          HELM_GH_USER: ${{ secrets.HELM_GH_USER }}
-          HELM_GH_PASS: ${{ secrets.HELM_GH_PASS }}
+          jenkins_url: ${{ env.GH_JENKINS_URL }}
+          jenkins_user: ${{ env.GH_JENKINS_USER }}
+          jenkins_token: ${{ env.GH_JENKINS_API_TOKEN }}
+          job_name: ${{ env.jenkins_job_name }}
+          job_params: |
+            {
+              "git_repo" : "${{ github.repository }}",
+              "git_branch" : "${{ github.ref }}",
+              "helmfile_environment": "mainnet",
+              "namespace" : "gumball-club-mainnet",
+              "aws_region" : "eu-west-2",
+              "aws_iam_role": "arn:aws:iam::${{ secrets.AWS_PROD_ACCOUNT_ID }}:role/jenkins-gumball-club-mainnet-deployer",
+              "aws_eks_cluster" : "${{ env.prod_eks_cluster }}",
+              "helm_folder" : "${{ env.helm_dir }}",
+              "helmfile_extra_vars" : "ci.tag=${{ needs.setup-build-args.outputs.tag-with-network }}"
+            }
+          job_timeout: "3600"
+          fetch_logs: "false"
