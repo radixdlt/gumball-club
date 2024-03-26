@@ -97,7 +97,7 @@ jobs:
       - name: Generate SBOM # check SBOM can be generated but nothing is done with it
         uses: RDXWorks-actions/snyk-actions/node@master
         with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --format=cyclonedx1.4+json --json-file-output sbom.json
+          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --format=cyclonedx1.4+json > sbom.json
           command: sbom
       - name: Upload SBOM
         if: github.event_name == 'release'
