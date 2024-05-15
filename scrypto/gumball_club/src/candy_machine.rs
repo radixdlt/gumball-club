@@ -8,7 +8,7 @@ mod candy_machine {
     extern_blueprint!(
         // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
         // "package_sim1phfks0k2y4eqsudjv40jwpza6z9jhxvrc9dydkzm4pxn8rstryrcuy",
-        "package_rdx1pk5scajc6xaz9xdlhpunj5vula9wt9mjara8a7ck7lrpm770698ygs",
+        "package_tdx_2_1phzetyhgy4e59kgw0h4zqv9t290x9dyu8qq6m7g62h0qa9w3qq9q2t",
         SugarPriceOracle {
             fn get_price(&self) -> Decimal;
         }
@@ -170,7 +170,7 @@ mod candy_machine {
                 SugarPriceOracle,
                 // This is currently a resim component, will need to re-hardcode to rcnet/Babylon ComponentAddress
                 // "component_sim1crzhvvzxxwcg3w8yn45mhef64gkwp3afphcwv9367cnx25h9m2fjcq"
-                "component_rdx1cp4t3mcnjrpa4aetgvfzd8dc9ax5h5sjm5ezndrj8twf03nmlvdngy"
+                "component_tdx_2_1crwz8ut32jugfp8nuzjrurt5pv7f3q4jrppqd37e48qdx3xguq3nuh"
             );
 
             sugar_price_oracle.get_price()

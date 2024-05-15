@@ -56,25 +56,25 @@ const gumballNetworkConfig = {
       'account_tdx_2_129nx5lgkk3fz9gqf3clppeljkezeyyymqqejzp97tpk0r8els7hg3j',
     addresses: {
       sugarOraclePackageAddress:
-        'package_tdx_2_1p4lftg7zjtmvyw5dwv3fg9cxyumlrya03p5uecqdge9thje4nm5qtk',
+        'package_tdx_2_1phzetyhgy4e59kgw0h4zqv9t290x9dyu8qq6m7g62h0qa9w3qq9q2t',
       sugarOracleComponent:
-        'component_tdx_2_1cptzmfxvdwdy90euq98rldtsghk7pj549kukzfgl6xmlthmaw8262m',
+        'component_tdx_2_1crwz8ut32jugfp8nuzjrurt5pv7f3q4jrppqd37e48qdx3xguq3nuh',
       gumballClubPackage:
-        'package_tdx_2_1pkaw4m82c89hy0gk4dwqtqlln6md8anr2ysnrvegxar53mr6nvn5ay',
+        'package_tdx_2_1p4p2ggdexj478wqcznk248mw4mgcxnagkpdk2urepgma8ht85r03fw',
       gumballClubComponent:
-        'component_tdx_2_1czg6rq9vms7t402fedtpzkjah25hh7snyu3ysgxk3pwlz4d3tugm7j',
+        'component_tdx_2_1cpd3cgy9kaxvxlptkkgxkm3qvfyqkrsl03kyz532p7e2gk0ygs4xrd',
       gumballMachineComponent:
-        'component_tdx_2_1cq64nku32ypaytze8nys60y2zjvsmquxxe02v6ksh4exqkkqpxgrqq',
+        'component_tdx_2_1cprwxfvtfa5j3rrzgklfp23pal7llvruxcdmkw0zdr3sk4as230var',
       candyMachineComponent:
-        'component_tdx_2_1crje3en7zsrna9t5vyywn3z3t9ht34l9udxjcpjvdhpcw9v6vlzru8',
+        'component_tdx_2_1cr4pa9ex9xhwzfjzclv8vjnfylw93wvhkwcwc0xlahpkel0krxqedw',
       gumballClubTokensResource:
-        'resource_tdx_2_1thqcgjw37fjgycpvqr52nx4jcsdeuq75mf2nywme07kzsuds9a4psp',
+        'resource_tdx_2_1t5dapa24l4xvwqtqe2jrdphtn7ga46gw67wr9fwn4gp532myfjqpck',
       gumballClubMemberCardResource:
-        'resource_tdx_2_1ng88qk08hrgmad30rzdxpyx779yuta4cwcjc3gstk60jhachsv94g9',
+        'resource_tdx_2_1nfmxggm4plrrmc9ft9qn79g7uehqlhjaszv02dnuk85s0h9xnh3xue',
       gumballResource:
-        'resource_tdx_2_1t4kep9ldg9t0cszj78z6fcr2zvfxfq7muetq7pyvhdtctwxum90scq',
+        'resource_tdx_2_1tkd957yt3rwqze7elmzlphfjnmfyzkf9l5rau5ccsx9h2vs9nq3tzp',
       candyTokenResource:
-        'resource_tdx_2_1tk30vj4ene95e3vhymtf2p35fzl29rv4us36capu2rz0vretw9gzr3',
+        'resource_tdx_2_1thcmn5q5ww3fm0mx55zs9cj0n36qc0jtx956q7vh9ycxk3vh8553qc',
     } satisfies Addresses,
   },
 }[network.networkName]
