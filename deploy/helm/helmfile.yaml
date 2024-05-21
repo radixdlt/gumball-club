@@ -1,7 +1,13 @@
+environments:
+  dev: {}
+  pr: {}
+  mainnet: {}
+  stokenet: {}
+---
 helmDefaults:
   verify: false
   wait: false
-  timeout: 600
+  timeout: 300
   recreatePods: false
   force: false
   createNamespace: false
@@ -10,11 +16,6 @@ repositories:
     url: https://raw.githubusercontent.com/radixdlt/helm-charts/master/
     username: {{ requiredEnv "HELM_GH_USER" }}
     password: {{ requiredEnv "HELM_GH_PASS" }}
-environments:
-  dev: {}
-  pr: {}
-  mainnet: {}
-  stokenet: {}
 releases:
   - name: gumball-club
     chart: ./gumball-club
