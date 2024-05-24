@@ -223,7 +223,7 @@ jobs:
     needs:
       - push-docker-image
       - setup-build-args
-    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@DO-2133-reusable-trigger-jenkins-action
+    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
       application_name: "gumball-club"
@@ -244,7 +244,7 @@ jobs:
     needs:
       - push-docker-image
       - setup-build-args
-    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@DO-2133-reusable-trigger-jenkins-action
+    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "dev"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
@@ -264,7 +264,7 @@ jobs:
     needs:
       - push-docker-image
       - setup-build-args
-    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@DO-2133-reusable-trigger-jenkins-action
+    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "stokenet"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
@@ -284,7 +284,7 @@ jobs:
     needs:
       - push-docker-image
       - setup-build-args
-    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@DO-2133-reusable-trigger-jenkins-action
+    uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "mainnet"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
