@@ -1,0 +1,11 @@
+id: 5ad2d13c-c0d4-4a3a-986c-018960083583
+name: gumball-club
+created_at: 2024-06-03T08:16:23.642850+02:00
+group_name: dApp-engineering
+depfiles:
+- path: ./dapp/package-lock.json
+  type: npm
+- path: ./scrypto/gumball_club/Cargo.lock
+  type: cargo
+- path: ./scrypto/sugar_price_oracle/Cargo.lock
+  type: cargo
