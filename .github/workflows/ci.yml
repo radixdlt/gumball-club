@@ -226,6 +226,7 @@ jobs:
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
+      github_branch: "${{ github.head_ref }}"
       application_name: "gumball-club"
       hierarchical_namespace: "gumball-club-ci-pr"
       create_subnamespace: "true"
@@ -247,6 +248,7 @@ jobs:
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "dev"
+      github_branch: "${{ github.ref }}"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
       application_name: "gumball-club"
       kubernetes_namespace: "gumball-club-dev"
@@ -267,6 +269,7 @@ jobs:
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "stokenet"
+      github_branch: "${{ github.ref }}"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
       application_name: "gumball-club"
       kubernetes_namespace: "gumball-club-stokenet"
@@ -287,6 +290,7 @@ jobs:
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/jenkins-deployment.yml@main
     with:
       github_environment: "mainnet"
+      github_branch: "${{ github.ref }}"
       jenkins_job_name: "kubernetes-deployments/job/gumball-club"
       application_name: "gumball-club"
       kubernetes_namespace: "gumball-club-mainnet"
