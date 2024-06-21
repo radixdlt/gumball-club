@@ -1,4 +1,4 @@
 import { useContext } from 'react'
-import { RadixContext } from '../radix/radix-context'
+import { DappToolkitContext } from '../radix/radix-context'
 
-export const useDappToolkit = () => useContext(RadixContext)!
+export const useDappToolkit = () => useContext(DappToolkitContext)!

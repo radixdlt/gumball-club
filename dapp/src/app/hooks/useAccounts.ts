@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useDappToolkit } from './useDappToolkit'
-import { Account, State } from '@radixdlt/radix-dapp-toolkit'
+import { Account } from '@radixdlt/radix-dapp-toolkit'
 import { switchMap, map } from 'rxjs'
 import {
   FungibleResource,
@@ -8,6 +8,8 @@ import {
   transformFungibleTokens,
   transformNonFungibleTokens,
 } from '../transformers/addTokens'
+import { useGateway } from './useGateway'
+import { State } from '@radixdlt/babylon-gateway-api-sdk'
 
 export type AccountWithTokens = Account &
   Account & { fungibleTokens: Record<string, FungibleResource> } & {
@@ -48,13 +50,14 @@ const useWithTokens = (stateApi: State) => {
 
 export const useAccounts = () => {
   const dAppToolkit = useDappToolkit()
+  const gateway = useGateway()
   const [state, setState] = useState<{
     accounts: AccountWithTokens[]
     status: 'pending' | 'success' | 'error'
     hasLoaded: boolean
   }>({ accounts: [], status: 'pending', hasLoaded: false })
 
-  const withTokens = useWithTokens(dAppToolkit.gatewayApi.state)
+  const withTokens = useWithTokens(gateway.state)
 
   useEffect(() => {
     const subscription = dAppToolkit.walletApi.walletData$

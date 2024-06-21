@@ -1,10 +1,25 @@
 import React, { ReactNode } from 'react'
-import { RadixContext, Radix } from './radix-context'
+import {
+  DappToolkitContext,
+  GatewayContext,
+  DappToolkit,
+  Gateway,
+} from './radix-context'
 
 export const RadixProvider = ({
-  value,
+  dAppToolkit,
+  gateway,
   children,
 }: {
-  value: Radix
+  dAppToolkit: DappToolkit
+  gateway: Gateway
   children: ReactNode
-}) => <RadixContext.Provider value={value}>{children}</RadixContext.Provider>
+}) => {
+  return (
+    <GatewayContext.Provider value={gateway}>
+      <DappToolkitContext.Provider value={dAppToolkit}>
+        {children}
+      </DappToolkitContext.Provider>
+    </GatewayContext.Provider>
+  )
+}

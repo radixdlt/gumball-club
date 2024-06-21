@@ -3,39 +3,46 @@
 import {
   DataRequestBuilder,
   RadixDappToolkit,
-  createLogger,
+  Logger,
 } from '@radixdlt/radix-dapp-toolkit'
 import { Home } from './components/home/Home'
 import { RadixProvider } from './radix/RadixProvider'
 import { useEffect, useState } from 'react'
 import { config } from './config'
+import { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk'
 
 export default function Page() {
-  const [state, setState] = useState<RadixDappToolkit | undefined>()
+  const [state, setState] = useState<
+    { dAppToolkit: RadixDappToolkit; gateway: GatewayApiClient } | undefined
+  >()
 
   // Initialize Radix Dapp Toolkit in the client
   useEffect(() => {
-    const radixDappToolkit = RadixDappToolkit({
+    const dAppToolkit = RadixDappToolkit({
       networkId: config.network.networkId,
       dAppDefinitionAddress: config.dAppDefinitionAddress,
-      logger: createLogger(2),
+      logger: Logger(2),
     })
 
-    radixDappToolkit.walletApi.setRequestData(
+    dAppToolkit.walletApi.setRequestData(
       DataRequestBuilder.accounts().atLeast(1)
     )
 
-    setState(radixDappToolkit)
+    const gateway = GatewayApiClient.initialize(
+      dAppToolkit.gatewayApi.clientConfig
+    )
+
+    setState({ dAppToolkit, gateway })
 
     return () => {
-      radixDappToolkit.destroy()
+      dAppToolkit.destroy()
     }
   }, [])
 
   if (!state) return null
 
   return (
-    <RadixProvider value={state}>
+    <RadixProvider dAppToolkit={state.dAppToolkit} gateway={state.gateway}>
       <Home />
     </RadixProvider>
   )
