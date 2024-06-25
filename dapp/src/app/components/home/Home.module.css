@@ -17,6 +17,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+  max-width: 100%;
 }
 
 @media screen and (max-width: 1330px) {

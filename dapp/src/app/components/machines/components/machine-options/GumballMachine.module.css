@@ -11,6 +11,11 @@
   margin-bottom: 1.3rem;
 }
 
+@media screen and (max-width: 600px) {
+  .content {
+    flex-wrap: wrap;
+  }
+}
 .options {
   width: 100%;
   height: 17.625rem;
