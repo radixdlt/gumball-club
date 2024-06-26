@@ -21,6 +21,11 @@
   border-color: var(--blue) transparent transparent transparent;
 }
 
+@media screen and (max-width: 600px) {
+  .tooltip::after {
+    right: 0.7em
+  }
+}
 .close {
   width: 1rem;
   height: 1rem;
