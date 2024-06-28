@@ -6,8 +6,6 @@ html {
   --font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
-  padding: 1rem;
-
   /* colors */
   --blue: #1b2b8a;
   --blue-100: #f3f6ff;
@@ -38,6 +36,11 @@ html {
   background: var(--background);
 }
 
+@media screen and (min-width: 600px) {
+  html {
+    padding: 1rem;
+  }
+}
 h1 {
   font-size: 1.88rem;
   color: var(--blue);
