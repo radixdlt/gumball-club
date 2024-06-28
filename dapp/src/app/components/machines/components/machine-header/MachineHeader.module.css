@@ -3,9 +3,15 @@
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 1rem;
-  height: 6.25rem;
 }
 
 .text {
   width: 14rem;
+
+}
+
+@media screen and (min-width: 600px) {
+  .header {
+    height: 6.25rem;
+  }
 }

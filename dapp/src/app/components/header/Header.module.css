@@ -21,6 +21,11 @@
   justify-content: center;
   gap: 1rem;
 }
+@media screen and (max-width: 400px) {
+  .header-right {
+    --radix-connect-button-width: 30px;
+  }
+}
 .connect-arrow {
   position: absolute;
   top: calc(100% + 1rem);
@@ -41,6 +46,7 @@
 .tooltip {
   position: absolute;
   width: 26rem;
+  max-width: 70vw;
   top: 3.4rem;
   z-index: 1;
   right: 0;

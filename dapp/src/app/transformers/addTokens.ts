@@ -1,5 +1,7 @@
-import { FungibleResourcesVaultCollection } from '@radixdlt/babylon-gateway-api-sdk'
-import { NonFungibleResourcesVaultCollection } from '@radixdlt/radix-dapp-toolkit'
+import {
+  FungibleResourcesVaultCollection,
+  NonFungibleResourcesVaultCollection,
+} from '@radixdlt/babylon-gateway-api-sdk'
 import { BigNumber } from 'bignumber.js'
 
 export type FungibleResource = {

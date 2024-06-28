@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react'
-import { useDappToolkit } from './useDappToolkit'
 import { useFetch } from './useFetch'
+import { useGateway } from './useGateway'
 
 export const useWellKnownAddresses = () => {
-  const dAppToolkit = useDappToolkit()
+  const gatewayApi = useGateway()
   const [state, setState] = useState<{ xrd: string } | undefined>()
   const { fetch } = useFetch()
 
   useEffect(() => {
     fetch(
-      dAppToolkit.gatewayApi.status
-        .getNetworkConfiguration()
-        .then((response) => {
-          setState(response.well_known_addresses)
-        })
+      gatewayApi.status.getNetworkConfiguration().then((response) => {
+        setState(response.well_known_addresses)
+      })
     )
-  }, [dAppToolkit, fetch])
+  }, [gatewayApi, fetch])
 
   return state
 }

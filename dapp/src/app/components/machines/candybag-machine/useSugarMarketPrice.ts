@@ -1,13 +1,13 @@
 import { config } from '@/app/config'
-import { useDappToolkit } from '@/app/hooks/useDappToolkit'
+import { useGateway } from '@/app/hooks/useGateway'
 import { useCallback, useEffect, useState } from 'react'
 
 export const useSugarMarketPrice = () => {
-  const dAppToolkit = useDappToolkit()
+  const gatewayApi = useGateway()
   const [startingTime, setStartingTime] = useState('0')
 
   useEffect(() => {
-    dAppToolkit.gatewayApi.state.innerClient
+    gatewayApi.state.innerClient
       .stateEntityDetails({
         stateEntityDetailsRequest: {
           addresses: [config.addresses.sugarOracleComponent],
@@ -23,7 +23,7 @@ export const useSugarMarketPrice = () => {
         return sugarOracleStartingTime
       })
       .then(setStartingTime)
-  }, [setStartingTime, dAppToolkit])
+  }, [setStartingTime, gatewayApi])
 
   return useCallback(async () => {
     const getRoundedDate = (minutes: number, d = new Date()) => {
@@ -49,14 +49,14 @@ export const useSugarMarketPrice = () => {
       if (normalized_time < half_period)
         price = (normalized_time / half_period) * max_value
       else
-        price = 
+        price =
           max_value -
-          (((normalized_time - half_period) / half_period) * max_value) 
+          ((normalized_time - half_period) / half_period) * max_value
 
       if (price < epsilon) {
-          price += epsilon;
+        price += epsilon
       }
-        
+
       return Math.floor(price * 100) / 100
     }
 

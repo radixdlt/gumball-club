@@ -13,3 +13,7 @@
     width: 33.375rem;
   }
 }
+
+.outer-card {
+  max-width: 100%;
+}
