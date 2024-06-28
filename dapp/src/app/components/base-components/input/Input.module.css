@@ -74,6 +74,10 @@ input.error {
   position: absolute;
   bottom: -1.5rem;
   font-size: 0.75rem;
+  max-width: 100%;
   left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   user-select: none;
+  white-space: nowrap;
 }
