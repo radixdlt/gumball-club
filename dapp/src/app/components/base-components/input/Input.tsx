@@ -15,7 +15,7 @@ export const Input = ({
 }: {
   className?: string
   children: ReactNode
-  value: number
+  value: number | string
   disabled?: boolean
   onChange?: (ev: ChangeEvent<HTMLInputElement>) => void
   error?: string
@@ -50,7 +50,7 @@ export const Input = ({
         disabled={isDisabled}
         onChange={(ev) => {
           if (onChange) onChange(ev)
-          inputElement.value = Number(ev.target.value).toString()
+          inputElement.value = ev.target.value !== '' ? Number(ev.target.value).toString() : ''
         }}
         onKeyDown={(ev) => {
           if ([',', '.'].includes(ev.key)) {
