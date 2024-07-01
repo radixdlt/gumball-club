@@ -56,12 +56,19 @@ export const MachineOptions = ({
   disableSendButton,
 }: MachineOptionsProps) => {
   const isDisabled = accounts.length === 0
-  const [{ selectedAccountAddress, inputTokenValue, isValid }, setState] =
-    useState<{
-      selectedAccountAddress?: string
-      inputTokenValue: number
-      isValid: boolean
-    }>({ inputTokenValue: defaultInputTokenValue, isValid: false })
+  const [
+    { selectedAccountAddress, inputTokenValue, isValid, inputTokenValueString },
+    setState,
+  ] = useState<{
+    selectedAccountAddress?: string
+    inputTokenValue: number
+    inputTokenValueString: string | number
+    isValid: boolean
+  }>({
+    inputTokenValue: defaultInputTokenValue,
+    inputTokenValueString: defaultInputTokenValue,
+    isValid: false,
+  })
 
   const accountMap = accounts.reduce<Record<string, AccountWithTokens>>(
     (acc, account) => ({ ...acc, [account.address]: account }),
@@ -111,12 +118,14 @@ export const MachineOptions = ({
             }
           />
           <Input
-            value={inputTokenValue}
+            value={inputTokenValueString}
             disabled={isDisabled || disabled}
             onChange={(ev) => {
               setState((prev) => ({
                 ...prev,
                 inputTokenValue: Number(ev.target.value),
+                inputTokenValueString:
+                  ev.target.value === '' ? '' : Number(ev.target.value),
               }))
             }}
             className="mb-1"
