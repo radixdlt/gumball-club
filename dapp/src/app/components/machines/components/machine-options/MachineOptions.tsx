@@ -102,7 +102,15 @@ export const MachineOptions = ({
 
   return (
     <>
-      <div className={styles.content}>
+      <div
+        className={
+          id === 'candy'
+            ? styles.candyMachineContent
+            : id === 'member'
+            ? styles.memberMachineContent
+            : styles.content
+        }
+      >
         {image}
         <div className={styles.options}>
           <AccountPicker
