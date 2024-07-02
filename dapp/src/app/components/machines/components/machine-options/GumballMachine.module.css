@@ -5,17 +5,30 @@
   margin-bottom: 1rem;
 }
 
-.content {
+.content,
+.candyMachineContent,
+.memberMachineContent {
   display: flex;
   gap: 3rem;
   margin-bottom: 1.3rem;
 }
 
+.candyMachineContent {
+  margin-bottom: 2.3rem;
+}
+
 @media screen and (max-width: 600px) {
-  .content {
+  .content,
+  .candyMachineContent,
+  .memberMachineContent {
     flex-wrap: wrap;
   }
+
+  .memberMachineContent {
+    margin-bottom: 0rem;
+  }
 }
+
 .options {
   width: 100%;
   height: 17.625rem;
