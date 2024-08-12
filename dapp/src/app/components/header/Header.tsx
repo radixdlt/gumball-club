@@ -3,7 +3,6 @@ import '@radixdlt/dapps-dropdown'
 import styles from './Header.module.css'
 import { Hero } from '../base-components/hero/Hero'
 import { AccountWithTokens } from '@/app/hooks/useAccounts'
-import { InsufficientXrdAlert } from './InsufficientXrdAlert'
 import React, { useEffect, useRef } from 'react'
 import { useConnectButtonState } from '@/app/hooks/useConnectButtonState'
 import { Tooltip } from '../base-components/tooltip/Tooltip'
@@ -71,12 +70,6 @@ export const Header = ({
     !state.isPopoverOpen &&
     connectButtonState === 'pending'
 
-  const showInsufficientXrdAlert =
-    !!persona &&
-    !accountsLoading &&
-    !state.insufficientXrdAlertDismissed &&
-    !hasXrd
-
   useEffect(() => {
     if (state.hideTooltip && connectButtonState !== 'pending') {
       setState((prev) => ({ ...prev, hideTooltip: false, popoverOpen: false }))
@@ -121,16 +114,6 @@ export const Header = ({
         </div>
       </div>
       <Hero persona={persona} personaDataName={personaData.fullName} />
-      <InsufficientXrdAlert
-        show={showInsufficientXrdAlert}
-        onClose={() => {
-          setState((prev) => ({
-            ...prev,
-            insufficientXrdAlertDismissed: true,
-          }))
-        }}
-        onGetXrd={() => {}}
-      />
     </header>
   )
 }
