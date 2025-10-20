@@ -10,17 +10,17 @@ image:
 
 autoscaling:
   enabled: true
-  minReplicas: 3
-  maxReplicas: 15
-  targetCPUUtilizationPercentage: 70
-  targetMemoryUtilizationPercentage: 70
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
 
 resources:
   limits:
-    memory: 512Mi
+    memory: 384Mi
   requests:
-    cpu: 150m
-    memory: 256Mi
+    cpu: 50m
+    memory: 192Mi
 
 ingress:
   enabled: true
