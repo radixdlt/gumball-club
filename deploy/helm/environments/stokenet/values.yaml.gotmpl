@@ -9,7 +9,7 @@ image:
   tag: {{ .StateValues.ci.tag }}
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
@@ -17,10 +17,10 @@ autoscaling:
 
 resources:
   limits:
-    memory: 512Mi
+    memory: 384Mi
   requests:
-    cpu: 150m
-    memory: 256Mi
+    cpu: 50m
+    memory: 192Mi
 
 ingress:
   enabled: true
