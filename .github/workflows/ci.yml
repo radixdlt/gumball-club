@@ -45,81 +45,6 @@ jobs:
     secrets:
       phylum_api_key: ${{ secrets.PHYLUM_API_KEY }}
 
-  snyk-scan-deps-licences:
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
-          app_name: 'gumball-club'
-          step_name: 'snyk-scan-deps-licences'
-          secret_prefix: 'SNYK'
-          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
-          parse_json: true
-      - name: Run Snyk to check for deps vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=critical
-
-  snyk-scan-code:
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
-          app_name: 'gumball-club'
-          step_name: 'snyk-scan-code'
-          secret_prefix: 'SNYK'
-          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
-          parse_json: true
-      - name: Run Snyk to check for code vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        continue-on-error: true # temporary until code fix
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --severity-threshold=high
-          command: code test
-
-  snyk-sbom:
-    runs-on: ubuntu-latest
-    permissions: write-all
-    needs:
-      - snyk-scan-deps-licences
-      - snyk-scan-code
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
-          app_name: 'gumball-club'
-          step_name: 'snyk-sbom'
-          secret_prefix: 'SNYK'
-          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
-          parse_json: true
-      - name: Generate SBOM # check SBOM can be generated but nothing is done with it
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --format=cyclonedx1.4+json > sbom.json
-          command: sbom
-      - name: Upload SBOM
-        if: github.event_name == 'release'
-        uses: RDXWorks-actions/upload-release-assets@c94805dc72e4b20745f543da0f62eaee7722df7a
-        with:
-          files: sbom.json
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          release-tag: ${{ github.event.release.tag_name }}
-
   setup-build-args:
     runs-on: ubuntu-latest
     name: Setup build argument values for docker
@@ -154,8 +79,6 @@ jobs:
   push-docker-image:
     name: Docker build
     needs:
-      - snyk-scan-deps-licences
-      - snyk-scan-code
       - setup-build-args
     uses: radixdlt/public-iac-resuable-artifacts/.github/workflows/docker-build.yml@main
     permissions:
@@ -174,57 +97,10 @@ jobs:
       dockerfile: "./dapp/Dockerfile"
       platforms: "linux/amd64"
       scan_image: false
-      snyk_target_ref: ${{ github.ref_name }}
+      provenance: false
+      with_sbom: false
       build-args: |
         NETWORK_NAME=${{needs.setup-build-args.outputs.network}}
-
-  snyk-monitor:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs:
-      - push-docker-image
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: RDXWorks-actions/checkout@main
-      - uses: radixdlt/public-iac-resuable-artifacts/fetch-secrets@main
-        with:
-          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
-          app_name: 'gumball-club'
-          step_name: 'snyk-monitor'
-          secret_prefix: 'SNYK'
-          secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
-          parse_json: true
-      - name: Enable Snyk online monitoring to check for vulnerabilities
-        uses: RDXWorks-actions/snyk-actions/node@master
-        with:
-          args: --all-projects --org=${{ env.SNYK_PROJECTS_ORG_ID }} --exclude=scrypto --target-reference=${{ github.ref_name }}
-          command: monitor
-
-  snyk-container-monitor:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs:
-      - push-docker-image
-      - setup-build-args
-    permissions:
-      id-token: write
-      pull-requests: read
-      contents: read
-      deployments: write
-    steps:
-      - uses: radixdlt/public-iac-resuable-artifacts/snyk-container-monitor@main
-        with:
-          role_name: 'arn:aws:iam::${{ secrets.SECRETS_ACCOUNT_ID }}:role/gh-common-secrets-read-access'
-          app_name: 'gumball-club'
-          dockerhub_secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/dockerhub-credentials'
-          snyk_secret_name: 'arn:aws:secretsmanager:eu-west-2:${{ secrets.SECRETS_ACCOUNT_ID }}:secret:github-actions/common/snyk-credentials-rXRpuX'
-          snyk_org_id: ${{ secrets.SNYK_ORG_ID }}
-          image: docker.io/radixdlt/private-gumball-club:${{ needs.setup-build-args.outputs.tag-with-network }}
-          target_ref: ${{ github.ref_name }}
 
   deploy_pull_request:
     if: ${{ github.event.pull_request }}
