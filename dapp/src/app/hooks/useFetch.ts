@@ -21,7 +21,7 @@ export const useFetch = <T = any>() => {
       } catch (error: any) {
         setState({
           error: true,
-          errorMessage: parseJson(error.message),
+          errorMessage: parseJson(error?.message ?? 'An unknown error occurred'),
         })
       }
     }, []),
